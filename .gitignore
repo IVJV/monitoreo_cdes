@@ -1,0 +1,23 @@
+# RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# renv
+renv/library/
+renv/staging/
+
+# targets
+_targets/
+
+# Temporary files
+*.tmp
+*.log
+
+# Data
+data/raw/
+data/reference/
+
+# Generated outputs
+output/
