@@ -21,3 +21,5 @@ data/reference/
 
 # Generated outputs
 output/
+/.quarto/
+**/*.quarto_ipynb
