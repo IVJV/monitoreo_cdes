@@ -1,0 +1,78 @@
+project:
+  type: website
+  execute-dir: project
+  output-dir: output/reports
+
+  render:
+    - reporting/reporte_tecnico_resultados.qmd
+    - reporting/reporte_controles_internos.qmd
+
+  resources:
+    - reporting/report_navigation.js
+
+
+lang: es
+
+
+website:
+  bread-crumbs: false
+  page-navigation: false
+
+  sidebar:
+    style: docked
+
+    # Unified white background; visual treatment is completed in report_style.css
+    background: "#ffffff"
+    foreground: "#506675"
+
+    border: true
+    search: false
+    collapse-level: 1
+
+    contents:
+
+      - section: "Etapa 01 — Ingesta ENEMDU"
+        contents:
+
+          - text: "Resumen de la base importada"
+            href: reporting/reporte_tecnico_resultados.qmd#resumen-de-la-base-importada
+
+          - text: "Variables requeridas para el procesamiento"
+            href: reporting/reporte_tecnico_resultados.qmd#variables-requeridas-para-el-procesamiento
+
+
+      - section: "Etapa 02 — Identificadores ENEMDU"
+        contents:
+
+          - text: "Resumen de identificadores construidos"
+            href: reporting/reporte_tecnico_resultados.qmd#resumen-de-identificadores-construidos
+
+          - text: "Distribución por dominio de estudio"
+            href: reporting/reporte_tecnico_resultados.qmd#distribucion-por-dominio-de-estudio
+
+
+format:
+  html:
+    theme: default
+    css: reporting/report_style.css
+
+    # The website sidebar is the navigation layer.
+    toc: false
+
+    page-layout: full
+
+    grid:
+      sidebar-width: 270px
+      body-width: 1150px
+      margin-width: 0px
+      gutter-width: 28px
+
+    embed-resources: true
+    smooth-scroll: true
+
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  error: false
