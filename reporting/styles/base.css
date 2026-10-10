@@ -1,0 +1,153 @@
+/* =============================================================================
+   ENEMDU technical reports
+   Base styles
+   ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   1. Global typography and background
+   ----------------------------------------------------------------------------- */
+
+html {
+  scroll-behavior: smooth;
+  background: #ffffff;
+}
+
+
+body {
+  margin: 0;
+
+  background: #ffffff !important;
+  color: #2b2f33;
+
+  font-family:
+    "Source Sans 3",
+    "Source Sans Pro",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  font-size: 16px;
+  line-height: 1.55;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Entire Quarto page uses one background */
+
+#quarto-content,
+#quarto-document-content,
+.quarto-container,
+.page-columns {
+  background: #ffffff !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. Main report layout
+   ----------------------------------------------------------------------------- */
+
+main.content {
+  min-width: 0;
+
+  padding-top: 30px;
+  padding-bottom: 70px;
+
+  background: #ffffff !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   3. Report title
+   ----------------------------------------------------------------------------- */
+
+#title-block-header {
+  margin: 0 0 26px 0;
+  padding: 0 0 17px 0;
+
+  border-bottom: 1px solid #e1e4e6;
+}
+
+
+.quarto-title h1.title {
+  margin: 0;
+
+  color: #252b30;
+
+  font-family:
+    "Source Sans 3",
+    "Source Sans Pro",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  font-size: 31px;
+  line-height: 1.18;
+  font-weight: 600;
+
+  letter-spacing: -0.35px;
+}
+
+
+/* -----------------------------------------------------------------------------
+   4. Scrollbar
+   ----------------------------------------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: #cfd4d7;
+
+  border: 2px solid #ffffff;
+  border-radius: 8px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background: #adb6bb;
+}
+
+
+/* -----------------------------------------------------------------------------
+   5. Responsive base layout
+   ----------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+
+  main.content {
+    padding-top: 24px;
+    padding-bottom: 50px;
+  }
+
+  .quarto-title h1.title {
+    font-size: 28px;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  body {
+    font-size: 15px;
+  }
+
+  main.content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .quarto-title h1.title {
+    font-size: 25px;
+  }
+}

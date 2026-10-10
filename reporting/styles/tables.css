@@ -1,0 +1,380 @@
+/* =============================================================================
+   ENEMDU technical reports
+   Tables
+   ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   1. GT tables
+   Professional statistical / publication style
+   ----------------------------------------------------------------------------- */
+
+.gt_table {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  margin: 0 !important;
+
+  border: none !important;
+  border-collapse: collapse !important;
+
+  background: #ffffff !important;
+
+  font-family:
+    "Source Sans 3",
+    "Source Sans Pro",
+    "Segoe UI",
+    Arial,
+    sans-serif !important;
+
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. Decorative GT containers
+   ----------------------------------------------------------------------------- */
+
+.gt_table .gt_heading,
+.gt_table .gt_stubhead {
+  background: #ffffff !important;
+
+  border: none !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   3. Standard table header
+   ----------------------------------------------------------------------------- */
+
+.gt_table thead,
+.gt_table .gt_col_headings {
+  border: none !important;
+}
+
+
+/*
+   Standard column headings.
+
+   The rule targets ordinary GT column headings instead of every <th> inside
+   <thead>. This keeps standard headers independent from grouped or hierarchical
+   header structures.
+*/
+
+.gt_table .gt_col_heading {
+  padding: 8px 9px !important;
+
+  background: #ffffff !important;
+  color: #30383d !important;
+
+  font-weight: 630 !important;
+
+  text-align: center !important;
+  vertical-align: bottom !important;
+
+  border-left: none !important;
+  border-right: none !important;
+
+  border-top: 1.25px solid #59646a !important;
+  border-bottom: 1px solid #8a9398 !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   4. Summary tables with stub column
+   ----------------------------------------------------------------------------- */
+
+/*
+   Optional presentation variant for tables whose first visible column is a GT
+   stub and whose totals are generated through summary/grand-summary rows.
+
+   Apply this variant from the report by wrapping the corresponding table in:
+
+   ::: {.table-summary-stub}
+   ...
+   :::
+
+   The report defines the semantic table structure. Visual treatment remains
+   centralized in this stylesheet.
+*/
+
+.table-summary-stub .gt_table .gt_stubhead {
+  padding: 8px 9px !important;
+
+  background: #ffffff !important;
+  color: #30383d !important;
+
+  font-weight: 630 !important;
+
+  text-align: center !important;
+  vertical-align: bottom !important;
+
+  border-left: none !important;
+  border-right: none !important;
+
+  border-top: 1.25px solid #59646a !important;
+  border-bottom: 1px solid #8a9398 !important;
+}
+
+
+/* Keep explanatory text visually attached to the summary table. */
+
+.table-summary-stub {
+  margin-bottom: 0 !important;
+}
+
+.table-summary-stub .cell-output-display {
+  margin-bottom: 0 !important;
+}
+
+.table-note {
+  margin-top: 10px !important;
+  margin-bottom: 0 !important;
+}
+
+.table-note p {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   5. Grouped / hierarchical table headers
+   ----------------------------------------------------------------------------- */
+
+/*
+   Optional presentation variant for tables with grouped column headings.
+
+   Example:
+
+                     Etapa 01              Etapa 03
+   Universo       Muestra  Población    Muestra  Población
+   verificado
+
+   Apply this variant from the report by wrapping the corresponding table in:
+
+   ::: {.table-grouped-header}
+   ...
+   :::
+
+   The report defines the semantic table structure. All visual treatment remains
+   centralized in this stylesheet.
+*/
+
+
+/* First header level: grouped headings such as Etapa 01 / Etapa 03 */
+
+.table-grouped-header .gt_table .gt_column_spanner_outer {
+  padding: 8px 9px !important;
+
+  background: #ffffff !important;
+  color: #30383d !important;
+
+  font-weight: 630 !important;
+
+  text-align: center !important;
+  vertical-align: middle !important;
+
+  border-left: none !important;
+  border-right: none !important;
+
+  border-top: 1.25px solid #59646a !important;
+  border-bottom: 1px solid #8a9398 !important;
+}
+
+
+/*
+   Remove GT's internal decorative underline because the separation between
+   header levels is already defined on the complete spanner cell above.
+*/
+
+.table-grouped-header .gt_table .gt_column_spanner {
+  border-bottom: none !important;
+}
+
+
+/* Second header level: Muestra / Población */
+
+.table-grouped-header .gt_table .gt_col_heading {
+  border-top: none !important;
+  border-bottom: 1px solid #8a9398 !important;
+}
+
+
+/*
+   Unspanned heading that occupies both header levels.
+
+   In the current comparative structure this is "Universo verificado".
+   GT represents this heading with rowspan, so it receives the complete
+   upper and lower rules and is centered in both directions.
+*/
+
+.table-grouped-header .gt_table .gt_col_heading[rowspan] {
+  text-align: center !important;
+  vertical-align: middle !important;
+
+  border-top: 1.25px solid #59646a !important;
+  border-bottom: 1px solid #8a9398 !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   6. Table body
+   ----------------------------------------------------------------------------- */
+
+.gt_table tbody,
+.gt_table .gt_table_body {
+  border: none !important;
+}
+
+
+.gt_table tbody th,
+.gt_table tbody td,
+.gt_table .gt_row {
+  padding: 8px 9px !important;
+
+  background: #ffffff !important;
+  color: #30363a !important;
+
+  vertical-align: middle !important;
+
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+
+  border-bottom: 1px solid #e1e3e5 !important;
+
+  box-shadow: none !important;
+}
+
+
+/* No zebra striping.
+   Quarto/Bootstrap can apply striping through table variables and an inset
+   box-shadow even when the cell background itself is white. Neutralize both
+   mechanisms for all body cells, including the GT stub column. */
+
+.gt_table.table-striped > tbody > tr:nth-of-type(odd) > *,
+.gt_table.table-striped > tbody > tr:nth-of-type(even) > *,
+.gt_table tbody > tr > * {
+  --bs-table-bg-type: transparent !important;
+  --bs-table-accent-bg: transparent !important;
+  --bs-table-striped-bg: transparent !important;
+
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+
+/* Final rule */
+
+.gt_table tbody tr:last-child > * {
+  border-bottom: 1.25px solid #59646a !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   7. Remove external visual boxes
+   ----------------------------------------------------------------------------- */
+
+.gt_table,
+.gt_table table,
+.gt_table .gt_table_body,
+.gt_table .gt_inside_row {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   8. Text wrapping
+   ----------------------------------------------------------------------------- */
+
+.gt_table td {
+  white-space: normal !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   9. Total rows
+   ----------------------------------------------------------------------------- */
+
+.gt_table .gt_summary_row,
+.gt_table .gt_grand_summary_row,
+.gt_table tr.gt_summary_row > *,
+.gt_table tr.gt_grand_summary_row > * {
+  background: #ffffff !important;
+
+  font-weight: 650 !important;
+
+  border-top: 1.25px solid #59646a !important;
+  border-bottom: 1.25px solid #59646a !important;
+}
+
+
+/* In GT grand summaries, the summary classes are attached to the cells,
+   while the containing <tr> remains unclassified. With collapsed borders,
+   drawing the separator as the bottom border of the preceding body row is
+   more reliable and produces exactly the same rule as the bottom of Total. */
+
+.table-summary-stub .gt_table tbody > tr:has(+ tr > .gt_first_grand_summary_row) > * {
+  border-bottom: 1.25px solid #59646a !important;
+}
+
+
+/* Total row presentation. */
+
+.table-summary-stub .gt_table .gt_grand_summary_row {
+  background: #ffffff !important;
+  font-weight: 650 !important;
+
+  border-top: none !important;
+  border-bottom: 1.25px solid #59646a !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   10. Responsive tables
+   ----------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+
+  .gt_table {
+    font-size: 13.5px !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  .gt_table {
+    font-size: 12.5px !important;
+  }
+
+  .gt_table .gt_col_heading,
+  .gt_table .gt_stubhead,
+  .gt_table .gt_column_spanner_outer,
+  .gt_table tbody td,
+  .gt_table .gt_row {
+    padding: 7px 6px !important;
+  }
+}
+
+
+/* -----------------------------------------------------------------------------
+   11. Validation status
+   ----------------------------------------------------------------------------- */
+
+/* Status colors reinforce the textual result; they do not replace it.
+   The corresponding class must be assigned from the actual execution result. */
+
+.gt_table .status-ok {
+  color: #237a3b !important;
+  font-weight: 600 !important;
+}
+
+
+.gt_table .status-fail {
+  color: #a33a3a !important;
+  font-weight: 600 !important;
+}

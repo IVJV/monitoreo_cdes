@@ -1,0 +1,54 @@
+# Etapa 01 — Ingesta ENEMDU {#etapa-01}
+
+::: {.method-reference}
+**Referencia metodológica:** Punto 1 — Load database, script `1.2 ENEMDU_200812_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-01-audit-context
+
+stage_01 <- report_context$stage_01
+```
+
+## Universo de ingreso per cápita {#universo-de-ingreso-per-capita}
+
+::: {.output-intro}
+Referencias de muestra y población asociadas a `ingpc`, preservadas en la Etapa 01 para validar la selección del universo analítico en la Etapa 03 y la población utilizada para el cálculo de deciles en la Etapa 04.
+:::
+
+```{r}
+#| label: stage-01-ingpc-universe-audit
+
+render_ingpc_universe_table(
+  stage_01$ingpc_universe_summary
+)
+```
+
+::: {.table-note}
+*Nota:* Los valores de población se presentan redondeados a unidades. Por esta razón, la suma visible de los componentes puede diferir en una unidad respecto del total. Las validaciones utilizan los valores analíticos exactos no redondeados.
+:::
+
+## Controles de integridad {#controles-de-integridad}
+
+::: {.output-intro}
+Controles de integridad ejecutados durante la Etapa 01 para verificar que la estructura requerida de la base y el factor de expansión `fexp` cumplen las condiciones necesarias antes de continuar el procesamiento. La evidencia generada por los controles individuales se agrupa en diagnósticos de auditoría para mantener la trazabilidad sin exponer cada comprobación interna por separado.
+:::
+
+```{r}
+#| label: stage-01-integrity-controls
+
+render_audit_diagnostics(
+  stage_01$audit_diagnostics
+)
+```
+
+### Estado de la etapa
+
+```{r}
+#| label: stage-01-status
+#| results: asis
+
+render_stage_status(
+  stage_01$stage_passed
+)
+```

@@ -1,0 +1,35 @@
+project:
+  output-dir: output/reports/technical
+
+  render:
+    - reporting/reporte_tecnico_resultados.qmd
+
+
+website:
+  sidebar:
+    contents:
+
+      - section: "Etapa 01 — Ingesta ENEMDU"
+        contents:
+
+          - text: "Resumen de la base importada"
+            href: reporting/reporte_tecnico_resultados.qmd#resumen-de-la-base-importada
+
+          - text: "Variables requeridas para el procesamiento"
+            href: reporting/reporte_tecnico_resultados.qmd#variables-requeridas-para-el-procesamiento
+
+      - section: "Etapa 02 — Identificadores ENEMDU"
+        contents:
+
+          - text: "Resumen de identificadores construidos"
+            href: reporting/reporte_tecnico_resultados.qmd#resumen-de-identificadores-construidos
+
+          - text: "Distribución por dominio de estudio"
+            href: reporting/reporte_tecnico_resultados.qmd#distribucion-por-dominio-de-estudio
+
+      - section: "Etapa 03 — Tratamiento de ingpc"
+        contents:
+
+          - text: "Tratamiento del universo de ingpc"
+            href: reporting/reporte_tecnico_resultados.qmd#tratamiento-del-universo-de-ingpc
+

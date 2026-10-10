@@ -1,0 +1,131 @@
+# Etapa 03 — Tratamiento de `ingpc` {#etapa-03}
+
+::: {.method-reference}
+**Referencia metodológica:** Punto 3 — `ingpc` treatment, script `1.2 ENEMDU_200812_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-03-audit-context
+
+stage_03 <- report_context$stage_03
+```
+
+## Construcción y consistencia del universo analítico de `ingpc` {#construccion-consistencia-universo-analitico-ingpc}
+
+::: {.output-intro}
+La Etapa 03 verifica que la regla metodológica de selección del universo analítico de `ingpc` se aplique correctamente y que el universo resultante reproduzca las referencias de muestra y población preservadas en la Etapa 01. La evidencia de los controles atómicos se agrupa en un diagnóstico de auditoría para conservar la trazabilidad sin exponer cada comprobación interna por separado.
+:::
+
+### Evidencia comparativa
+
+::: {.table-grouped-header}
+
+```{r}
+#| label: stage-03-ingpc-comparison
+
+ingpc_consistency_comparison_report <-
+  stage_03$ingpc_universe_comparison
+
+ingpc_consistency_comparison_report$Universo <-
+  unname(
+    ingpc_universe_labels[
+      ingpc_consistency_comparison_report$universe_id
+    ]
+  )
+
+ingpc_consistency_comparison_report$Reference_Sample_N <-
+  format_integer_es(
+    ingpc_consistency_comparison_report$Reference_Sample_N
+  )
+
+ingpc_consistency_comparison_report$Reference_Expanded_N <-
+  format_integer_es(
+    ingpc_consistency_comparison_report$Reference_Expanded_N
+  )
+
+ingpc_consistency_comparison_report$Observed_Sample_N <-
+  format_integer_es(
+    ingpc_consistency_comparison_report$Observed_Sample_N
+  )
+
+ingpc_consistency_comparison_report$Observed_Expanded_N <-
+  format_integer_es(
+    ingpc_consistency_comparison_report$Observed_Expanded_N
+  )
+
+ingpc_consistency_comparison_report <-
+  ingpc_consistency_comparison_report[
+    ,
+    c(
+      "Universo",
+      "Reference_Sample_N",
+      "Reference_Expanded_N",
+      "Observed_Sample_N",
+      "Observed_Expanded_N"
+    ),
+    drop = FALSE
+  ]
+
+ingpc_consistency_comparison_report |>
+  gt::gt() |>
+  gt::fmt_markdown(
+    columns = Universo
+  ) |>
+  gt::cols_label(
+    Universo = "Universo verificado",
+    Reference_Sample_N = "Muestra",
+    Reference_Expanded_N = "Población",
+    Observed_Sample_N = "Muestra",
+    Observed_Expanded_N = "Población"
+  ) |>
+  gt::tab_spanner(
+    label = "Referencia — Etapa 01",
+    columns = c(
+      Reference_Sample_N,
+      Reference_Expanded_N
+    )
+  ) |>
+  gt::tab_spanner(
+    label = "Resultado — Etapa 03",
+    columns = c(
+      Observed_Sample_N,
+      Observed_Expanded_N
+    )
+  ) |>
+  gt::cols_align(
+    align = "left",
+    columns = Universo
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      Reference_Sample_N,
+      Reference_Expanded_N,
+      Observed_Sample_N,
+      Observed_Expanded_N
+    )
+  )
+```
+
+:::
+
+### Diagnóstico de auditoría
+
+```{r}
+#| label: stage-03-ingpc-controls
+
+render_audit_diagnostics(
+  stage_03$audit_diagnostics
+)
+```
+
+### Estado de la etapa
+
+```{r}
+#| label: stage-03-status
+#| results: asis
+
+render_stage_status(
+  stage_03$stage_passed
+)
+```

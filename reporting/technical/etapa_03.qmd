@@ -1,0 +1,26 @@
+# Etapa 03 — Tratamiento de `ingpc` {#etapa-03}
+
+::: {.method-reference}
+**Referencia metodológica:** Punto 3 — `ingpc` treatment, script `1.2 ENEMDU_200812_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-03-context
+
+stage_01 <- report_context$stage_01
+stage_03 <- report_context$stage_03
+```
+
+## Tratamiento del universo de `ingpc` {#tratamiento-del-universo-de-ingpc}
+
+::: {.output-intro}
+La Etapa 03 conserva los registros con `ingpc` válido para conformar el universo analítico utilizado en el cálculo posterior de deciles. La tabla reutiliza la referencia canónica del universo de `ingpc` preservada en la Etapa 01; no reconstruye una segunda versión del mismo resumen.
+:::
+
+```{r}
+#| label: stage-03-ingpc-treatment-summary
+
+render_ingpc_universe_table(
+  stage_01$ingpc_universe_summary
+)
+```

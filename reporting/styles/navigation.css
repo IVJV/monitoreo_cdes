@@ -1,0 +1,163 @@
+/* =============================================================================
+   ENEMDU technical reports
+   Sidebar navigation
+   ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   1. Documentation sidebar
+   ----------------------------------------------------------------------------- */
+
+#quarto-sidebar,
+.sidebar,
+.sidebar-navigation,
+.sidebar-menu-container,
+.sidebar-menu-container > ul {
+  background: #ffffff !important;
+}
+
+
+/* No visual divider between sidebar and report body */
+
+#quarto-sidebar {
+  border-right: none !important;
+}
+
+
+/* Sidebar general text */
+
+.sidebar-navigation {
+  padding-top: 22px;
+  padding-left: 10px;
+  padding-right: 14px;
+
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+
+/* Every sidebar item */
+
+.sidebar-navigation .sidebar-item {
+  margin: 1px 0;
+}
+
+
+/* Main stage labels */
+
+.sidebar-navigation .sidebar-item-container > a,
+.sidebar-navigation .sidebar-section-container > a {
+  color: #4d5f6b !important;
+  text-decoration: none !important;
+
+  border-radius: 5px;
+
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+
+/* Stage labels */
+
+.sidebar-navigation
+.sidebar-item-section
+> .sidebar-item-container
+> a {
+  color: #3f5562 !important;
+  font-weight: 600;
+}
+
+
+/* Nested outputs */
+
+.sidebar-navigation
+.sidebar-item-container
+.sidebar-link {
+  color: #5a6871 !important;
+  font-weight: 400;
+}
+
+
+/* Hover */
+
+.sidebar-navigation a:hover {
+  color: #2f6f8f !important;
+  background: #f6f8f9 !important;
+
+  text-decoration: none !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. Dynamic navigation state
+   Applied by reporting/report_navigation.js
+   ----------------------------------------------------------------------------- */
+
+
+/* Current stage */
+
+.sidebar-navigation .report-nav-stage-active,
+.sidebar-navigation .report-nav-stage-active > a,
+.sidebar-navigation .report-nav-stage-active .sidebar-link,
+.sidebar-navigation .report-nav-stage-active .menu-text,
+.sidebar-navigation .report-nav-stage-active .sidebar-item-text {
+  color: #2f6f8f !important;
+}
+
+
+/* Stage container */
+
+.sidebar-navigation
+.sidebar-item-container.report-nav-stage-active {
+  background: #f1f3f4 !important;
+  border-radius: 5px !important;
+}
+
+
+/* Stronger stage label */
+
+.sidebar-navigation
+.report-nav-stage-active
+.menu-text {
+  color: #2f6f8f !important;
+  font-weight: 600 !important;
+}
+
+
+/* Current technical output */
+
+.sidebar-navigation .report-nav-item-active,
+.sidebar-navigation a.report-nav-item-active,
+.sidebar-navigation .report-nav-item-active .menu-text {
+  color: #2f6f8f !important;
+  font-weight: 600 !important;
+}
+
+
+/* Keep subsection active state subtle */
+
+.sidebar-navigation a.report-nav-item-active {
+  background: transparent !important;
+}
+
+
+/* Neutralize Quarto page-level active styling.
+   JavaScript controls the active stage and output inside the report. */
+
+.sidebar-navigation .active:not(.report-nav-item-active),
+.sidebar-navigation .sidebar-link.active:not(.report-nav-item-active),
+.sidebar-navigation a.active:not(.report-nav-item-active) {
+  color: inherit !important;
+  background: transparent !important;
+  font-weight: inherit !important;
+  border-left: none !important;
+}
+
+
+/* Expand/collapse chevrons */
+
+.sidebar-navigation .bi-chevron-right,
+.sidebar-navigation .bi-chevron-down,
+.sidebar-navigation .sidebar-section-toggle {
+  color: #7d8990 !important;
+}

@@ -1,0 +1,111 @@
+# Etapa 01 — Ingesta ENEMDU {#etapa-01}
+
+::: {.method-reference}
+**Referencia metodológica:** Punto 1 — Load database, script `1.2 ENEMDU_200812_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-01-context
+
+stage_01 <- report_context$stage_01
+```
+
+## Resumen de la base importada {#resumen-de-la-base-importada}
+
+::: {.output-intro}
+Características generales de la base importada.
+:::
+
+```{r}
+#| label: stage-01-database-overview
+
+database_overview_report <- stage_01$database_overview
+
+integer_indicators <- c(
+  "Observaciones",
+  "Variables",
+  "Variables con etiqueta",
+  "Variables con etiquetas de valor"
+)
+
+database_overview_report$Valor[
+  database_overview_report$Indicador %in% integer_indicators
+] <- format_integer_es(
+  database_overview_report$Valor[
+    database_overview_report$Indicador %in% integer_indicators
+  ]
+)
+
+database_overview_report$Valor[
+  database_overview_report$Indicador == "Tamaño (MB)"
+] <- format_decimal_es(
+  database_overview_report$Valor[
+    database_overview_report$Indicador == "Tamaño (MB)"
+  ],
+  digits = 2
+)
+
+database_overview_report |>
+  gt::gt() |>
+  gt::cols_align(
+    align = "left",
+    columns = Indicador
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = Valor
+  )
+```
+
+## Variables requeridas para el procesamiento {#variables-requeridas-para-el-procesamiento}
+
+::: {.output-intro}
+Estructura de las variables requeridas y distribución de valores válidos y perdidos en muestra y población.
+:::
+
+```{r}
+#| label: stage-01-required-variables
+
+required_variables_report <- stage_01$required_variables_overview
+
+required_variables_report$Valid_N <-
+  format_integer_es(required_variables_report$Valid_N)
+
+required_variables_report$Missing_N <-
+  format_integer_es(required_variables_report$Missing_N)
+
+required_variables_report$Valid_Expanded <-
+  format_integer_es(required_variables_report$Valid_Expanded)
+
+required_variables_report$Missing_Expanded <-
+  format_integer_es(required_variables_report$Missing_Expanded)
+
+required_variables_report |>
+  gt::gt() |>
+  gt::cols_label(
+    Variable = "Variable",
+    Class = "Clase",
+    Valid_N = unname(reporting_labels[["valid_sample"]]),
+    Missing_N = unname(reporting_labels[["missing_sample"]]),
+    Valid_Expanded = unname(reporting_labels[["valid_population"]]),
+    Missing_Expanded = unname(reporting_labels[["missing_population"]]),
+    Label = "Etiqueta"
+  ) |>
+  gt::cols_align(
+    align = "left",
+    columns = c(
+      Variable,
+      Class,
+      Label
+    )
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      Valid_N,
+      Missing_N,
+      Valid_Expanded,
+      Missing_Expanded
+    )
+  )
+```

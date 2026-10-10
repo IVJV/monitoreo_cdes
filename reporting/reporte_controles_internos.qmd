@@ -1,0 +1,75 @@
+---
+title: "Reporte de auditoría"
+params:
+  context_file: null
+  review_date: null
+---
+
+```{r}
+#| label: report-setup
+
+source("R/reporting_helpers.R")
+
+# The report consumes a prebuilt reporting context. Processing and control
+# execution are performed outside the QMD by the reporting runner.
+if (
+  is.null(params$context_file) ||
+  length(params$context_file) != 1L ||
+  !nzchar(params$context_file) ||
+  !file.exists(params$context_file)
+) {
+  stop(
+    paste(
+      "No se encontró un contexto de reporting válido.",
+      "Genere el reporte mediante scripts/reporting/render_reports.R."
+    )
+  )
+}
+
+report_context <- readRDS(params$context_file)
+
+if (is.null(report_context$stage_01))
+  stop("El contexto de reporting no contiene la Etapa 01.")
+
+if (is.null(report_context$stage_02))
+  stop("El contexto de reporting no contiene la Etapa 02.")
+
+if (is.null(report_context$stage_03))
+  stop("El contexto de reporting no contiene la Etapa 03.")
+
+period_metadata <- report_context$stage_01$period_metadata
+
+review_date <- params$review_date
+
+if (
+  is.null(review_date) ||
+  length(review_date) != 1L ||
+  !nzchar(review_date)
+) {
+  review_date <- format(Sys.Date(), "%d/%m/%Y")
+}
+```
+
+::: {.report-metadata}
+<div class="metadata-label">Archivo fuente</div>
+<div>`r period_metadata$input_name`</div>
+
+<div class="metadata-label">Período</div>
+<div>`r period_metadata$period_code`</div>
+
+<div class="metadata-label">Fecha de revisión</div>
+<div>`r review_date`</div>
+:::
+
+{{< include audit/etapa_01.qmd >}}
+
+{{< include audit/etapa_02.qmd >}}
+
+{{< include audit/etapa_03.qmd >}}
+
+
+<!--
+Common report navigation:
+tracks the visible stage / section and updates the Quarto sidebar.
+-->
+<script src="report_navigation.js"></script>

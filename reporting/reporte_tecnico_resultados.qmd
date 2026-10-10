@@ -1,64 +1,53 @@
 ---
-title: "Reporte técnico de resultados y trazabilidad"
+title: "Reporte técnico"
 params:
-  input_file: "data/raw/ENEMDU_2008_12.sav"
+  context_file: null
+  review_date: null
 ---
 
 ```{r}
-# ==============================================================================
-# Report setup
-# ==============================================================================
+#| label: report-setup
 
 source("R/reporting_helpers.R")
-source("R/01_ingesta_enemdu.R")
-source("R/02_identificadores_enemdu.R")
 
+# The report consumes a prebuilt reporting context. Processing and control
+# execution are performed outside the QMD by the reporting runner.
+if (
+  is.null(params$context_file) ||
+  length(params$context_file) != 1L ||
+  !nzchar(params$context_file) ||
+  !file.exists(params$context_file)
+) {
+  stop(
+    paste(
+      "No se encontró un contexto de reporting válido.",
+      "Genere el reporte mediante scripts/reporting/render_reports.R."
+    )
+  )
+}
 
-# ==============================================================================
-# Stage 01 — ENEMDU ingestion
-# ==============================================================================
+report_context <- readRDS(params$context_file)
 
-input_file <- params$input_file
+if (is.null(report_context$stage_01))
+  stop("El contexto de reporting no contiene la Etapa 01.")
 
-period_metadata <- get_period_metadata(input_file)
+if (is.null(report_context$stage_02))
+  stop("El contexto de reporting no contiene la Etapa 02.")
 
-ENEMDU_base <- read_validate_enemdu(input_file)
+if (is.null(report_context$stage_03))
+  stop("El contexto de reporting no contiene la Etapa 03.")
 
-input_profile <- build_input_profile(
-  ENEMDU_base,
-  period_metadata
-)
+period_metadata <- report_context$stage_01$period_metadata
 
-# Preserve the exact Stage 01 state before subsequent transformations.
-# Later stages must not modify the technical outputs reported for ingestion.
-ENEMDU_base_stage01 <- ENEMDU_base
+review_date <- params$review_date
 
-
-# ==============================================================================
-# Stage 02 — ENEMDU identifiers
-# ==============================================================================
-
-ENEMDU_base_stage02 <- ENEMDU_base_stage01
-
-ENEMDU_base_stage02 <- create_province(
-  ENEMDU_base_stage02
-)
-
-ENEMDU_base_stage02 <- create_natural_region(
-  ENEMDU_base_stage02
-)
-
-ENEMDU_base_stage02 <- create_psu(
-  ENEMDU_base_stage02
-)
-
-ENEMDU_base_stage02 <- create_study_domain(
-  ENEMDU_base_stage02
-)
-
-identifiers_profile <- build_identifiers_profile(
-  ENEMDU_base_stage02
-)
+if (
+  is.null(review_date) ||
+  length(review_date) != 1L ||
+  !nzchar(review_date)
+) {
+  review_date <- format(Sys.Date(), "%d/%m/%Y")
+}
 ```
 
 ::: {.report-metadata}
@@ -67,312 +56,20 @@ identifiers_profile <- build_identifiers_profile(
 
 <div class="metadata-label">Período</div>
 <div>`r period_metadata$period_code`</div>
+
+<div class="metadata-label">Fecha de revisión</div>
+<div>`r review_date`</div>
 :::
 
+{{< include technical/etapa_01.qmd >}}
 
-# Etapa 01 — Ingesta ENEMDU {#etapa-01}
+{{< include technical/etapa_02.qmd >}}
 
-::: {.method-reference}
-**Referencia metodológica:** Punto 1 — Load database, script 1.2 ENEMDU_200812_Deciles.R validado.
-:::
-
-
-## Resumen de la base importada {#resumen-de-la-base-importada}
-
-Características generales de la base obtenida después de ejecutar la ingesta.
-
-```{r}
-database_overview_report <- input_profile$database_overview
-
-database_overview_report$Valor[
-  database_overview_report$Indicador == "Observaciones"
-] <- format_integer_es(
-  input_profile$references$input_sample_n
-)
-
-database_overview_report$Valor[
-  database_overview_report$Indicador == "Variables"
-] <- format_integer_es(
-  ncol(ENEMDU_base_stage01)
-)
-
-database_overview_report$Valor[
-  database_overview_report$Indicador == "Tamaño (MB)"
-] <- format_decimal_es(
-  as.numeric(object.size(ENEMDU_base_stage01)) / 1024^2,
-  digits = 2
-)
-
-database_overview_report$Valor[
-  database_overview_report$Indicador == "Variables con etiqueta"
-] <- format_integer_es(
-  sum(
-    vapply(
-      ENEMDU_base_stage01,
-      function(x) {
-        !is.null(attr(x, "label"))
-      },
-      logical(1)
-    )
-  )
-)
-
-database_overview_report$Valor[
-  database_overview_report$Indicador == "Variables con etiquetas de valor"
-] <- format_integer_es(
-  sum(
-    vapply(
-      ENEMDU_base_stage01,
-      function(x) {
-        labels <- attr(x, "labels")
-        !is.null(labels) && length(labels) > 0L
-      },
-      logical(1)
-    )
-  )
-)
-
-database_overview_report |>
-  gt::gt() |>
-  gt::cols_align(
-    align = "left",
-    columns = Indicador
-  ) |>
-  gt::cols_align(
-    align = "right",
-    columns = Valor
-  )
-```
-
-
-## Variables requeridas para el procesamiento {#variables-requeridas-para-el-procesamiento}
-
-Estructura de las variables requeridas y distribución de valores válidos y perdidos en muestra y población.
-
-```{r}
-required_variables_report <-
-  input_profile$required_variables_overview
-
-required_variables_report$Valid_N <-
-  format_integer_es(
-    required_variables_report$Valid_N
-  )
-
-required_variables_report$Missing_N <-
-  format_integer_es(
-    required_variables_report$Missing_N
-  )
-
-required_variables_report$Valid_Expanded <-
-  format_integer_es(
-    required_variables_report$Valid_Expanded
-  )
-
-required_variables_report$Missing_Expanded <-
-  format_integer_es(
-    required_variables_report$Missing_Expanded
-  )
-
-names(required_variables_report) <- c(
-  "Variable",
-  "Clase",
-  "Muestra válida",
-  "Muestra perdida",
-  "Población válida",
-  "Población perdida",
-  "Etiqueta"
-)
-
-required_variables_report |>
-  gt::gt() |>
-  gt::cols_align(
-    align = "left",
-    columns = c(
-      Variable,
-      Clase,
-      Etiqueta
-    )
-  ) |>
-  gt::cols_align(
-    align = "right",
-    columns = c(
-      `Muestra válida`,
-      `Muestra perdida`,
-      `Población válida`,
-      `Población perdida`
-    )
-  )
-```
-
-
-# Etapa 02 — Identificadores ENEMDU {#etapa-02}
-
-::: {.method-reference}
-**Referencia metodológica:** Punto 2 — Create identifiers: Province, natural region, PSU, and study domains, script 1.2 ENEMDU_200812_Deciles.R validado.
-:::
-
-
-## Resumen de identificadores construidos {#resumen-de-identificadores-construidos}
-
-Síntesis de los identificadores generados, su cobertura en muestra y población y el número de valores distintos obtenidos.
-
-```{r}
-identifier_variables <- c(
-  "provin",
-  "rnatura",
-  "identif",
-  "dominio"
-)
-
-identifier_descriptions <- c(
-  "Provincia reconstruida",
-  "Región natural reconstruida",
-  "Identificador PSU/UPM",
-  "Dominio de estudio"
-)
-
-identifier_summary_report <- data.frame(
-  Variable = identifier_variables,
-
-  Descripción = identifier_descriptions,
-
-  Sample_Valid = vapply(
-    identifier_variables,
-    function(variable) {
-      sum(
-        !is.na(
-          ENEMDU_base_stage02[[variable]]
-        )
-      )
-    },
-    integer(1)
-  ),
-
-  Population_Valid = vapply(
-    identifier_variables,
-    function(variable) {
-      sum(
-        ENEMDU_base_stage02$fexp[
-          !is.na(
-            ENEMDU_base_stage02[[variable]]
-          )
-        ]
-      )
-    },
-    numeric(1)
-  ),
-
-  Distinct_Values = vapply(
-    identifier_variables,
-    function(variable) {
-      dplyr::n_distinct(
-        ENEMDU_base_stage02[[variable]],
-        na.rm = TRUE
-      )
-    },
-    integer(1)
-  ),
-
-  stringsAsFactors = FALSE
-)
-
-identifier_summary_report$Sample_Valid <-
-  format_integer_es(
-    identifier_summary_report$Sample_Valid
-  )
-
-identifier_summary_report$Population_Valid <-
-  format_integer_es(
-    identifier_summary_report$Population_Valid
-  )
-
-identifier_summary_report$Distinct_Values <-
-  format_integer_es(
-    identifier_summary_report$Distinct_Values
-  )
-
-names(identifier_summary_report) <- c(
-  "Variable",
-  "Descripción",
-  "Muestra válida",
-  "Población válida",
-  "Valores distintos"
-)
-
-identifier_summary_report |>
-  gt::gt() |>
-  gt::cols_align(
-    align = "left",
-    columns = c(
-      Variable,
-      Descripción
-    )
-  ) |>
-  gt::cols_align(
-    align = "right",
-    columns = c(
-      `Muestra válida`,
-      `Población válida`,
-      `Valores distintos`
-    )
-  )
-```
-
-
-## Distribución por dominio de estudio {#distribucion-por-dominio-de-estudio}
-
-Distribución de la muestra y de la población por dominio y área, junto con el número de PSU/UPM únicas identificadas.
-
-```{r}
-domain_distribution_report <-
-  identifiers_profile$domain_distribution
-
-domain_distribution_report$Sample_N <-
-  format_integer_es(
-    domain_distribution_report$Sample_N
-  )
-
-domain_distribution_report$Expanded_N <-
-  format_integer_es(
-    domain_distribution_report$Expanded_N
-  )
-
-domain_distribution_report$Unique_PSUs <-
-  format_integer_es(
-    domain_distribution_report$Unique_PSUs
-  )
-
-names(domain_distribution_report) <- c(
-  "Dominio",
-  "Área",
-  "Muestra",
-  "Población",
-  "PSU/UPM únicas"
-)
-
-domain_distribution_report |>
-  gt::gt() |>
-  gt::cols_align(
-    align = "center",
-    columns = c(
-      Dominio,
-      Área
-    )
-  ) |>
-  gt::cols_align(
-    align = "right",
-    columns = c(
-      Muestra,
-      Población,
-      `PSU/UPM únicas`
-    )
-  )
-```
+{{< include technical/etapa_03.qmd >}}
 
 
 <!--
-Navigation script:
-tracks the section currently visible and updates the left documentation sidebar.
+Common report navigation:
+tracks the visible stage / section and updates the Quarto sidebar.
 -->
-
 <script src="report_navigation.js"></script>

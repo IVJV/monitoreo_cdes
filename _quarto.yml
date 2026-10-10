@@ -1,27 +1,32 @@
 project:
   type: website
   execute-dir: project
-  output-dir: output/reports
-
-  render:
-    - reporting/reporte_tecnico_resultados.qmd
-    - reporting/reporte_controles_internos.qmd
 
   resources:
     - reporting/report_navigation.js
+    - "!output/**"
+
+
+# If Quarto is rendered without an explicit --profile,
+# use the technical report configuration by default.
+profile:
+  default: technical
 
 
 lang: es
 
 
 website:
+  # Common website behavior for technical and audit reports.
+  search: false
+
   bread-crumbs: false
   page-navigation: false
 
   sidebar:
     style: docked
 
-    # Unified white background; visual treatment is completed in report_style.css
+    # Unified white background; visual treatment is completed by reporting/styles/.
     background: "#ffffff"
     foreground: "#506675"
 
@@ -29,32 +34,16 @@ website:
     search: false
     collapse-level: 1
 
-    contents:
-
-      - section: "Etapa 01 — Ingesta ENEMDU"
-        contents:
-
-          - text: "Resumen de la base importada"
-            href: reporting/reporte_tecnico_resultados.qmd#resumen-de-la-base-importada
-
-          - text: "Variables requeridas para el procesamiento"
-            href: reporting/reporte_tecnico_resultados.qmd#variables-requeridas-para-el-procesamiento
-
-
-      - section: "Etapa 02 — Identificadores ENEMDU"
-        contents:
-
-          - text: "Resumen de identificadores construidos"
-            href: reporting/reporte_tecnico_resultados.qmd#resumen-de-identificadores-construidos
-
-          - text: "Distribución por dominio de estudio"
-            href: reporting/reporte_tecnico_resultados.qmd#distribucion-por-dominio-de-estudio
-
 
 format:
   html:
     theme: default
-    css: reporting/report_style.css
+
+    css:
+      - reporting/styles/base.css
+      - reporting/styles/navigation.css
+      - reporting/styles/report_components.css
+      - reporting/styles/tables.css
 
     # The website sidebar is the navigation layer.
     toc: false

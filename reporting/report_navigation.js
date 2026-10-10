@@ -1,81 +1,37 @@
 // =============================================================================
-// ENEMDU technical report navigation
-// Active stage / section tracking for the documentation sidebar
+// Common report navigation
+// Active stage / section tracking for accumulated Quarto reports
 // =============================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
   // ---------------------------------------------------------------------------
-  // 1. Navigation map
-  //
-  // Keep this map synchronized with the explicit IDs used in the QMD report.
-  // New stages can be added here as the technical report grows.
+  // 1. Base elements and configuration
   // ---------------------------------------------------------------------------
 
-  const navigationMap = [
-    {
-      stageId: "etapa-01",
-      stageLabel: "Etapa 01 — Ingesta ENEMDU",
-      sections: [
-        "resumen-de-la-base-importada",
-        "variables-requeridas-para-el-procesamiento"
-      ]
-    },
-    {
-      stageId: "etapa-02",
-      stageLabel: "Etapa 02 — Identificadores ENEMDU",
-      sections: [
-        "resumen-de-identificadores-construidos",
-        "distribucion-por-dominio-de-estudio"
-      ]
-    }
-  ];
+  const sidebar = document.querySelector(".sidebar-navigation");
+  const reportMain = document.querySelector("main.content");
 
+  if (!sidebar || !reportMain) {
+    return;
+  }
 
-  // ---------------------------------------------------------------------------
-  // 2. Configuration
-  //
   // A heading is considered active shortly before reaching the top of the
-  // viewport. This produces a more natural reading / navigation behavior.
-  // ---------------------------------------------------------------------------
-
+  // viewport. This keeps navigation behavior stable while scrolling.
   const activationOffset = 140;
 
 
   // ---------------------------------------------------------------------------
-  // 3. Utility functions
+  // 2. Resolve sidebar links from report section IDs
   // ---------------------------------------------------------------------------
 
-  const normalizeText = (text) => {
-    return (text || "")
-      .replace(/\s+/g, " ")
-      .trim();
-  };
-
-
-  const getSidebar = () => {
-    return document.querySelector(".sidebar-navigation");
-  };
-
-
-  const getHeading = (id) => {
-    return document.getElementById(id);
-  };
-
+  const sidebarLinks = Array.from(
+    sidebar.querySelectorAll("a[href]")
+  );
 
   const getLinkByHash = (id) => {
 
-    const sidebar = getSidebar();
-
-    if (!sidebar) {
-      return null;
-    }
-
-    const links = Array.from(
-      sidebar.querySelectorAll("a[href]")
-    );
-
-    return links.find((link) => {
+    return sidebarLinks.find((link) => {
 
       try {
 
@@ -84,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href
         );
 
-        return url.hash === `#${id}`;
+        return decodeURIComponent(url.hash) === `#${id}`;
 
       } catch {
 
@@ -94,38 +50,61 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 
-  const getStageLabelElement = (label) => {
+  // ---------------------------------------------------------------------------
+  // 3. Build navigation map dynamically from the rendered report
+  // ---------------------------------------------------------------------------
+  // No stage IDs, labels, or subsection IDs are hardcoded here.
+  //
+  // A stage is a level-1 report section. Its navigable subsections are the
+  // direct level-2 children that also have a link in the Quarto sidebar.
+  // Therefore, adding a new stage only requires adding it to the report and
+  // profile; this script discovers it automatically.
 
-    const sidebar = getSidebar();
+  const navigationMap = Array.from(
+    reportMain.querySelectorAll("section.level1[id]")
+  )
+    .map((stageElement) => {
 
-    if (!sidebar) {
-      return null;
-    }
+      const sections = Array.from(stageElement.children)
+        .filter((element) => {
+          return element.matches("section.level2[id]");
+        })
+        .map((sectionElement) => {
 
-    const candidates = Array.from(
-      sidebar.querySelectorAll(
-        ".menu-text, .sidebar-item-text, a, span"
-      )
-    );
+          const link = getLinkByHash(sectionElement.id);
 
-    return candidates.find((element) => {
-      return normalizeText(element.textContent) === normalizeText(label);
-    }) || null;
-  };
+          return {
+            id: sectionElement.id,
+            element: sectionElement,
+            link: link
+          };
+        })
+        .filter((section) => section.link !== null);
 
 
-  const getStageContainer = (labelElement) => {
+      const firstSectionLink =
+        sections.length > 0 ? sections[0].link : null;
 
-    if (!labelElement) {
-      return null;
-    }
+      const sidebarStageItem = firstSectionLink
+        ? firstSectionLink.closest(".sidebar-item-section")
+        : null;
 
-    return (
-      labelElement.closest(".sidebar-item-container") ||
-      labelElement.closest(".sidebar-item-section") ||
-      labelElement.parentElement
-    );
-  };
+
+      return {
+        stageId: stageElement.id,
+        element: stageElement,
+        sections: sections,
+        sidebarStageItem: sidebarStageItem
+      };
+    })
+    .filter((stage) => {
+      return stage.sidebarStageItem !== null;
+    });
+
+
+  if (navigationMap.length === 0) {
+    return;
+  }
 
 
   // ---------------------------------------------------------------------------
@@ -148,48 +127,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ---------------------------------------------------------------------------
-  // 5. Determine current stage and technical output
+  // 5. Determine current stage and visible report output
   // ---------------------------------------------------------------------------
 
   const getCurrentNavigationState = () => {
 
     const headings = [];
 
+
     navigationMap.forEach((stage) => {
 
-      const stageHeading = getHeading(stage.stageId);
+      headings.push({
+        id: stage.stageId,
+        stage: stage,
+        type: "stage",
+        element: stage.element,
+        link: null
+      });
 
-      if (stageHeading) {
+
+      stage.sections.forEach((section) => {
+
         headings.push({
-          id: stage.stageId,
-          stageId: stage.stageId,
-          type: "stage",
-          element: stageHeading
+          id: section.id,
+          stage: stage,
+          type: "section",
+          element: section.element,
+          link: section.link
         });
-      }
-
-      stage.sections.forEach((sectionId) => {
-
-        const sectionHeading = getHeading(sectionId);
-
-        if (sectionHeading) {
-          headings.push({
-            id: sectionId,
-            stageId: stage.stageId,
-            type: "section",
-            element: sectionHeading
-          });
-        }
       });
     });
 
 
-    if (headings.length === 0) {
-      return null;
-    }
-
-
-    // Preserve document order.
+    // Preserve document order independently of the order declared in the
+    // Quarto sidebar.
     headings.sort((a, b) => {
 
       const position =
@@ -213,7 +184,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // Default to Stage 01 while the reader is still above its heading.
+    // While the reader is above the first stage heading, keep the first stage
+    // as the current navigation context.
     let current = headings[0];
 
 
@@ -250,34 +222,28 @@ document.addEventListener("DOMContentLoaded", () => {
     clearReportNavigationState();
 
 
-    const stageDefinition = navigationMap.find(
-      (stage) => stage.stageId === current.stageId
-    );
+    // Highlight current stage using the sidebar group that contains its first
+    // navigable subsection. No stage label comparison is required.
+    const stageItem = current.stage.sidebarStageItem;
 
-
-    // Highlight current stage.
-    if (stageDefinition) {
-
-      const stageLabelElement =
-        getStageLabelElement(
-          stageDefinition.stageLabel
-        );
+    if (stageItem) {
 
       const stageContainer =
-        getStageContainer(
-          stageLabelElement
-        );
+        stageItem.querySelector(":scope > .sidebar-item-container") ||
+        stageItem;
+
+      const stageLabel =
+        stageContainer.querySelector(".menu-text") ||
+        stageContainer.querySelector(".sidebar-item-text");
 
 
-      if (stageLabelElement) {
-        stageLabelElement.classList.add(
-          "report-nav-stage-active"
-        );
-      }
+      stageContainer.classList.add(
+        "report-nav-stage-active"
+      );
 
 
-      if (stageContainer) {
-        stageContainer.classList.add(
+      if (stageLabel) {
+        stageLabel.classList.add(
           "report-nav-stage-active"
         );
       }
@@ -285,28 +251,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // Highlight current subsection when applicable.
-    if (current.type === "section") {
+    if (
+      current.type === "section" &&
+      current.link
+    ) {
 
-      const sectionLink =
-        getLinkByHash(current.id);
+      current.link.classList.add(
+        "report-nav-item-active"
+      );
 
 
-      if (sectionLink) {
+      const menuText =
+        current.link.querySelector(".menu-text");
 
-        sectionLink.classList.add(
+
+      if (menuText) {
+        menuText.classList.add(
           "report-nav-item-active"
         );
-
-
-        const menuText =
-          sectionLink.querySelector(".menu-text");
-
-
-        if (menuText) {
-          menuText.classList.add(
-            "report-nav-item-active"
-          );
-        }
       }
     }
   };
@@ -331,7 +293,6 @@ document.addEventListener("DOMContentLoaded", () => {
       updateNavigation();
 
       ticking = false;
-
     });
 
 

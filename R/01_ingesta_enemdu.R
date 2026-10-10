@@ -4,6 +4,17 @@
 
 
 # ==============================================================================
+# 0. Canonical input schema
+# ==============================================================================
+
+# Required variables for Stage 01.
+# These definitions are declared once and reused by validation and profiling.
+ENEMDU_REQUIRED_VARS <- c(
+  "prov", "ciudad", "zona", "sector", "rn", "area",
+  "fexp", "ingpc", "pobreza", "epobreza", "CONDACTN"
+)
+
+# ==============================================================================
 # 1. Extract and validate period metadata
 # ==============================================================================
 # Production naming convention: ENEMDU_YYYY_MM.sav.
@@ -38,7 +49,10 @@ get_period_metadata <- function(input_file) {
 # 2. Import and validate ENEMDU source database
 # ==============================================================================
 
-read_validate_enemdu <- function(input_file) {
+read_validate_enemdu <- function(
+  input_file,
+  return_evidence = FALSE
+) {
 
   # Define source file and verify that it exists before import
   if (!file.exists(input_file))
@@ -57,17 +71,15 @@ read_validate_enemdu <- function(input_file) {
     stop("La base ENEMDU_base está vacía.")
 
   # Essential input validation
-  required_vars <- c(
-    "prov", "ciudad", "zona", "sector", "rn", "area",
-    "fexp", "ingpc", "pobreza", "epobreza", "CONDACTN"
-  )
-
   missing_required_vars <- setdiff(
-    required_vars,
+    ENEMDU_REQUIRED_VARS,
     names(ENEMDU_base)
   )
 
-  if (length(missing_required_vars) > 0L)
+  required_variables_present <-
+    length(missing_required_vars) == 0L
+
+  if (!required_variables_present)
     stop(paste(
       "Faltan variables requeridas:",
       paste(missing_required_vars, collapse = ", ")
@@ -85,7 +97,10 @@ read_validate_enemdu <- function(input_file) {
     )
   ]
 
-  if (length(non_numeric_required_vars) > 0L)
+  required_numeric_types_valid <-
+    length(non_numeric_required_vars) == 0L
+
+  if (!required_numeric_types_valid)
     stop(paste(
       "Las siguientes variables requeridas no son numéricas:",
       paste(non_numeric_required_vars, collapse = ", ")
@@ -93,14 +108,68 @@ read_validate_enemdu <- function(input_file) {
 
   # fexp is a positive, finite survey expansion factor; these are
   # input-integrity controls
-  if (anyNA(ENEMDU_base$fexp))
+  fexp_no_missing <-
+    !anyNA(ENEMDU_base$fexp)
+
+  if (!fexp_no_missing)
     stop("El factor de expansión fexp contiene valores perdidos.")
 
-  if (any(!is.finite(ENEMDU_base$fexp)))
+  fexp_finite <-
+    !any(!is.finite(ENEMDU_base$fexp))
+
+  if (!fexp_finite)
     stop("El factor de expansión fexp contiene valores no finitos.")
 
-  if (any(ENEMDU_base$fexp <= 0))
+  fexp_positive <-
+    !any(ENEMDU_base$fexp <= 0)
+
+  if (!fexp_positive)
     stop("El factor de expansión fexp contiene valores no positivos.")
+
+  # Structured evidence of substantive controls actually executed above.
+  #
+  # check_id is the stable internal identifier used to link execution evidence
+  # with the control catalogue and, subsequently, the reporting layer.
+  #
+  # Operational prerequisites remain enforced by stop() but are not duplicated
+  # here because the current audit policy keeps them implicit.
+  #
+  # Classification, audit grouping, visible labels, and descriptions belong to
+  # the control catalogue rather than to the execution evidence itself.
+  validation_evidence <- data.frame(
+    stage_id = rep(
+      "01_ingestion",
+      5
+    ),
+    check_id = c(
+      "required_variables_present",
+      "required_numeric_types_valid",
+      "fexp_no_missing",
+      "fexp_finite",
+      "fexp_positive"
+    ),
+    passed = c(
+      required_variables_present,
+      required_numeric_types_valid,
+      fexp_no_missing,
+      fexp_finite,
+      fexp_positive
+    ),
+    stringsAsFactors = FALSE
+  )
+
+  # Preserve the existing function contract by default:
+  # read_validate_enemdu(input_file) continues returning only ENEMDU_base.
+  #
+  # Structured evidence is exposed explicitly only when required by the
+  # pipeline or reporting layer; ENEMDU_base itself is never modified to
+  # transport audit metadata.
+  if (isTRUE(return_evidence)) {
+    return(list(
+      data = ENEMDU_base,
+      validation_evidence = validation_evidence
+    ))
+  }
 
   ENEMDU_base
 }
@@ -115,28 +184,22 @@ build_input_profile <- function(
   period_metadata
 ) {
 
-  # Required variables used throughout the validated processing workflow
-  required_vars <- c(
-    "prov", "ciudad", "zona", "sector", "rn", "area",
-    "fexp", "ingpc", "pobreza", "epobreza", "CONDACTN"
-  )
-
   # Count valid and missing observations for each required variable
   valid_n <- vapply(
-    ENEMDU_base[required_vars],
+    ENEMDU_base[ENEMDU_REQUIRED_VARS],
     function(x) sum(!is.na(x)),
     integer(1)
   )
 
   missing_n <- vapply(
-    ENEMDU_base[required_vars],
+    ENEMDU_base[ENEMDU_REQUIRED_VARS],
     function(x) sum(is.na(x)),
     integer(1)
   )
 
   # Expanded population associated with valid and missing observations
   valid_expanded <- vapply(
-    required_vars,
+    ENEMDU_REQUIRED_VARS,
     function(variable)
       sum(
         ENEMDU_base$fexp[
@@ -147,7 +210,7 @@ build_input_profile <- function(
   )
 
   missing_expanded <- vapply(
-    required_vars,
+    ENEMDU_REQUIRED_VARS,
     function(variable)
       sum(
         ENEMDU_base$fexp[
@@ -167,6 +230,28 @@ build_input_profile <- function(
     input_ingpc_missing_n = unname(missing_n["ingpc"]),
     input_ingpc_valid_expanded = unname(valid_expanded["ingpc"]),
     input_ingpc_missing_expanded = unname(missing_expanded["ingpc"])
+  )
+
+  # Canonical INGPC universe summary.
+  # Exact values are preserved here; labels and visible numeric formatting
+  # belong to the reporting layer.
+  ingpc_universe_summary <- data.frame(
+    universe_id = c(
+      "ingpc_valid",
+      "ingpc_missing",
+      "input_total"
+    ),
+    Sample_N = c(
+      references$input_ingpc_valid_n,
+      references$input_ingpc_missing_n,
+      references$input_sample_n
+    ),
+    Expanded_N = c(
+      references$input_ingpc_valid_expanded,
+      references$input_ingpc_missing_expanded,
+      references$input_expanded_n
+    ),
+    stringsAsFactors = FALSE
   )
 
   # General database overview for technical traceability
@@ -209,18 +294,18 @@ build_input_profile <- function(
 
   # Required-variable diagnostic overview
   required_variables_overview <- data.frame(
-    Variable = required_vars,
+    Variable = ENEMDU_REQUIRED_VARS,
     Class = vapply(
-      ENEMDU_base[required_vars],
+      ENEMDU_base[ENEMDU_REQUIRED_VARS],
       function(x) class(x)[1],
       character(1)
     ),
     Valid_N = valid_n,
     Missing_N = missing_n,
-    Valid_Expanded = round(valid_expanded, 0),
-    Missing_Expanded = round(missing_expanded, 0),
+    Valid_Expanded = valid_expanded,
+    Missing_Expanded = missing_expanded,
     Label = vapply(
-      ENEMDU_base[required_vars],
+      ENEMDU_base[ENEMDU_REQUIRED_VARS],
       function(x) {
         variable_label <- attr(x, "label")
         if (is.null(variable_label)) "" else as.character(variable_label)
@@ -233,6 +318,7 @@ build_input_profile <- function(
   list(
     references = references,
     database_overview = database_overview,
-    required_variables_overview = required_variables_overview
+    required_variables_overview = required_variables_overview,
+    ingpc_universe_summary = ingpc_universe_summary
   )
 }
