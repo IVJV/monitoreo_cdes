@@ -61,11 +61,11 @@ if (
 <div>`r review_date`</div>
 :::
 
-{{< include audit/etapa_01.qmd >}}
+{{< include audit/etapa_01A_RA.qmd >}}
 
-{{< include audit/etapa_02.qmd >}}
+{{< include audit/etapa_02A_RA.qmd >}}
 
-{{< include audit/etapa_03.qmd >}}
+{{< include audit/etapa_03A_RA.qmd >}}
 
 
 <!--

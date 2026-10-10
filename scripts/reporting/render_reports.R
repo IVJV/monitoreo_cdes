@@ -51,9 +51,9 @@ selected_report <- report_config[[report_set]]
 # 2. Load current production and reporting-context dependencies
 # ==============================================================================
 
-source("R/01_ingesta_enemdu.R")
-source("R/02_identificadores_enemdu.R")
-source("R/03_tratamiento_ingpc.R")
+source("R/01A_ingesta_enemdu.R")
+source("R/02A_identificadores_enemdu.R")
+source("R/03A_tratamiento_ingpc.R")
 source("R/control_catalog.R")
 source("R/report_context.R")
 
