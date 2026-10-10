@@ -86,7 +86,7 @@ read_validate_enemdu <- function(
     ))
 
   required_numeric_vars <- c(
-    "prov", "ciudad", "rn", "area", "ingpc", "fexp"
+    "prov", "ciudad", "rn", "area", "ingpc", "fexp", "CONDACTN"
   )
 
   non_numeric_required_vars <- required_numeric_vars[
