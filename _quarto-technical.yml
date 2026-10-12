@@ -9,14 +9,14 @@ website:
   sidebar:
     contents:
 
-      - section: "Etapa 01 — Ingesta ENEMDU"
+      - section: "Etapa 01A — Ingesta ENEMDU"
         contents:
 
           - text: "Resumen de la base importada"
-            href: reporting/reporte_tecnico_resultados.qmd#resumen-de-la-base-importada
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-01a-resumen-base
 
           - text: "Variables requeridas para el procesamiento"
-            href: reporting/reporte_tecnico_resultados.qmd#variables-requeridas-para-el-procesamiento
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-01a-variables-requeridas
 
       - section: "Etapa 02 — Identificadores ENEMDU"
         contents:

@@ -1,23 +1,23 @@
-# Etapa 01 — Ingesta ENEMDU {#etapa-01}
+# Etapa 01A — Ingesta ENEMDU {#etapa-01a}
 
 ::: {.method-reference}
-**Referencia metodológica:** Punto 1 — Load database, script `1.2 ENEMDU_200812_Deciles.R` validado.
+**Referencia metodológica:** P1A — Load database, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}
-#| label: stage-01-context
+#| label: stage-01a-context
 
 stage_01 <- report_context$stage_01
 ```
 
-## Resumen de la base importada {#resumen-de-la-base-importada}
+## Resumen de la base importada {#etapa-01a-resumen-base}
 
 ::: {.output-intro}
 Características generales de la base importada.
 :::
 
 ```{r}
-#| label: stage-01-database-overview
+#| label: stage-01a-database-overview
 
 database_overview_report <- stage_01$database_overview
 
@@ -57,14 +57,14 @@ database_overview_report |>
   )
 ```
 
-## Variables requeridas para el procesamiento {#variables-requeridas-para-el-procesamiento}
+## Variables requeridas para el procesamiento {#etapa-01a-variables-requeridas}
 
 ::: {.output-intro}
 Estructura de las variables requeridas y distribución de valores válidos y perdidos en muestra y población.
 :::
 
 ```{r}
-#| label: stage-01-required-variables
+#| label: stage-01a-required-variables
 
 required_variables_report <- stage_01$required_variables_overview
 

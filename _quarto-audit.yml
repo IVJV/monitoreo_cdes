@@ -9,14 +9,11 @@ website:
   sidebar:
     contents:
 
-      - section: "Etapa 01 — Ingesta ENEMDU"
+      - section: "Etapa 01A — Ingesta ENEMDU"
         contents:
 
-          - text: "Universo de ingreso per cápita"
-            href: reporting/reporte_controles_internos.qmd#universo-de-ingreso-per-capita
-
           - text: "Controles de integridad"
-            href: reporting/reporte_controles_internos.qmd#controles-de-integridad
+            href: reporting/reporte_controles_internos.qmd#etapa-01a-controles-integridad
 
       - section: "Etapa 02 — Identificadores ENEMDU"
         contents:

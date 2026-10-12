@@ -1,51 +1,33 @@
-# Etapa 01 — Ingesta ENEMDU {#etapa-01}
+# Etapa 01A — Ingesta ENEMDU {#etapa-01a}
 
 ::: {.method-reference}
-**Referencia metodológica:** Punto 1 — Load database, script `1.2 ENEMDU_200812_Deciles.R` validado.
+**Referencia metodológica:** P1A — Load database, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}
-#| label: stage-01-audit-context
+#| label: stage-01a-audit-context
 
 stage_01 <- report_context$stage_01
 ```
 
-## Universo de ingreso per cápita {#universo-de-ingreso-per-capita}
+## Controles de integridad {#etapa-01a-controles-integridad}
 
 ::: {.output-intro}
-Referencias de muestra y población asociadas a `ingpc`, preservadas en la Etapa 01 para validar la selección del universo analítico en la Etapa 03 y la población utilizada para el cálculo de deciles en la Etapa 04.
+En la Etapa 01A se comprueba la presencia y compatibilidad de tipos de las variables requeridas, así como la ausencia de valores perdidos, la finitud y la positividad del factor de expansión `fexp`. Los controles se ejecutan individualmente y sus resultados se presentan en diagnósticos agrupados; la evidencia estructurada de cada comprobación se conserva para asegurar la trazabilidad.
 :::
 
 ```{r}
-#| label: stage-01-ingpc-universe-audit
-
-render_ingpc_universe_table(
-  stage_01$ingpc_universe_summary
-)
-```
-
-::: {.table-note}
-*Nota:* Los valores de población se presentan redondeados a unidades. Por esta razón, la suma visible de los componentes puede diferir en una unidad respecto del total. Las validaciones utilizan los valores analíticos exactos no redondeados.
-:::
-
-## Controles de integridad {#controles-de-integridad}
-
-::: {.output-intro}
-Controles de integridad ejecutados durante la Etapa 01 para verificar que la estructura requerida de la base y el factor de expansión `fexp` cumplen las condiciones necesarias antes de continuar el procesamiento. La evidencia generada por los controles individuales se agrupa en diagnósticos de auditoría para mantener la trazabilidad sin exponer cada comprobación interna por separado.
-:::
-
-```{r}
-#| label: stage-01-integrity-controls
+#| label: stage-01a-integrity-controls
 
 render_audit_diagnostics(
   stage_01$audit_diagnostics
 )
 ```
 
-### Estado de la etapa
+### Estado de la etapa {#etapa-01a-estado}
 
 ```{r}
-#| label: stage-01-status
+#| label: stage-01a-status
 #| results: asis
 
 render_stage_status(
