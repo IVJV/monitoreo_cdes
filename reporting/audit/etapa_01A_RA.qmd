@@ -7,7 +7,7 @@
 ```{r}
 #| label: stage-01a-audit-context
 
-stage_01 <- report_context$stage_01
+stage_01a <- report_context$stage_01a
 ```
 
 ## Controles de integridad {#etapa-01a-controles-integridad}
@@ -20,7 +20,7 @@ En la Etapa 01A se comprueba la presencia y compatibilidad de tipos de las varia
 #| label: stage-01a-integrity-controls
 
 render_audit_diagnostics(
-  stage_01$audit_diagnostics
+  stage_01a$audit_diagnostics
 )
 ```
 
@@ -31,6 +31,6 @@ render_audit_diagnostics(
 #| results: asis
 
 render_stage_status(
-  stage_01$stage_passed
+  stage_01a$stage_passed
 )
 ```

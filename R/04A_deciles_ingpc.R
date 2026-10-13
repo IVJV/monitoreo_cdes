@@ -108,7 +108,7 @@ build_decile_frequency_table <- function(
   # Expanded population in the valid INGPC analytical universe
   total_expanded_valid <- sum(ENEMDU_decile$fexp)
 
-  # Validate against the Stage 01 reference
+  # Validate against the Stage 01A reference
   if (
     !isTRUE(all.equal(
       total_expanded_valid,
@@ -119,7 +119,7 @@ build_decile_frequency_table <- function(
     stop(
       paste(
         "La población expandida de la tabla de frecuencias por decil",
-        "difiere de la población con INGPC válido registrada en la Etapa 01."
+        "difiere de la población con INGPC válido registrada en la Etapa 01A."
       )
     )
 
@@ -191,7 +191,7 @@ build_decile_report_table <- function(ENEMDU_decile) {
 
   rownames(decile_report_table) <- NULL
 
-  # Preserve exact unrounded means for Stage 06 validation
+  # Preserve exact unrounded means for Stage 06A validation
   point4_ingpc_mean_reference <-
     decile_report_table[
       ,

@@ -7,7 +7,7 @@
 # 0. Canonical input schema
 # ==============================================================================
 
-# Required variables for Stage 01.
+# Required variables for Stage 01A.
 # These definitions are declared once and reused by validation and profiling.
 ENEMDU_REQUIRED_VARS <- c(
   "prov", "ciudad", "zona", "sector", "rn", "area",
@@ -138,7 +138,7 @@ read_validate_enemdu <- function(
   # the control catalogue rather than to the execution evidence itself.
   validation_evidence <- data.frame(
     stage_id = rep(
-      "01_ingestion",
+      "01a_ingestion",
       5
     ),
     check_id = c(

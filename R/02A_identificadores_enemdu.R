@@ -67,7 +67,7 @@ create_province <- function(
 
   # Preserve evidence from the controls actually executed above.
   validation_evidence <- data.frame(
-    stage_id = rep("02_identifiers", 3),
+    stage_id = rep("02a_identifiers", 3),
     check_id = c(
       "province_no_missing",
       "province_codes_valid",
@@ -163,7 +163,7 @@ create_natural_region <- function(
 
   # Preserve evidence from the controls actually executed above.
   validation_evidence <- data.frame(
-    stage_id = rep("02_identifiers", 3),
+    stage_id = rep("02a_identifiers", 3),
     check_id = c(
       "natural_region_no_missing",
       "natural_region_codes_valid",
@@ -228,7 +228,7 @@ create_psu <- function(
 
   # Preserve evidence from the control actually executed above.
   validation_evidence <- data.frame(
-    stage_id = "02_identifiers",
+    stage_id = "02a_identifiers",
     check_id = "psu_structure_valid",
     passed = psu_structure_valid,
     stringsAsFactors = FALSE
@@ -338,7 +338,7 @@ create_study_domain <- function(
 
   # Preserve evidence from the controls actually executed above.
   validation_evidence <- data.frame(
-    stage_id = rep("02_identifiers", 3),
+    stage_id = rep("02a_identifiers", 3),
     check_id = c(
       "study_domain_assigned",
       "study_domain_codes_valid",
@@ -422,7 +422,7 @@ create_identifiers <- function(
 
 build_identifiers_profile <- function(ENEMDU_base) {
 
-  # Technical summary of the identifiers constructed in Stage 02.
+  # Technical summary of the identifiers constructed in Stage 02A.
   # The reporting layer consumes these computed results and is responsible only
   # for presentation formatting; it does not recompute analytical quantities.
   identifier_variables <- c(

@@ -1,36 +1,36 @@
-# Etapa 02 — Identificadores ENEMDU {#etapa-02}
+# Etapa 02A — Identificadores ENEMDU {#etapa-02a}
 
 ::: {.method-reference}
 **Referencia metodológica:** Punto 2 — Create identifiers: Province, natural region, PSU, and study domains, script `1.2 ENEMDU_200812_Deciles.R` validado.
 :::
 
 ```{r}
-#| label: stage-02-audit-context
+#| label: stage-02a-audit-context
 
-stage_02 <- report_context$stage_02
+stage_02a <- report_context$stage_02a
 ```
 
-## Controles de validación de identificadores {#controles-validacion-identificadores}
+## Controles de validación de identificadores {#etapa-02a-controles-identificadores}
 
 ::: {.output-intro}
-Controles ejecutados durante la Etapa 02 para verificar la construcción de `provin`, `rnatura`, `identif` y `dominio` conforme a las reglas de identificación definidas en la metodología validada. La evidencia de los controles atómicos se agrupa en diagnósticos de auditoría para conservar la trazabilidad sin exponer cada comprobación interna por separado.
+Controles ejecutados durante la Etapa 02A para verificar la construcción de `provin`, `rnatura`, `identif` y `dominio` conforme a las reglas de identificación definidas en la metodología validada. La evidencia de los controles atómicos se agrupa en diagnósticos de auditoría para conservar la trazabilidad sin exponer cada comprobación interna por separado.
 :::
 
 ```{r}
-#| label: stage-02-identifier-controls
+#| label: stage-02a-identifier-controls
 
 render_audit_diagnostics(
-  stage_02$audit_diagnostics
+  stage_02a$audit_diagnostics
 )
 ```
 
 ### Estado de la etapa
 
 ```{r}
-#| label: stage-02-status
+#| label: stage-02a-status
 #| results: asis
 
 render_stage_status(
-  stage_02$stage_passed
+  stage_02a$stage_passed
 )
 ```

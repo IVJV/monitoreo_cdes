@@ -16,7 +16,7 @@
 build_report_context <- function(input_file) {
 
   # ---------------------------------------------------------------------------
-  # Stage 01 — ENEMDU ingestion
+  # Stage 01A — ENEMDU ingestion
   # ---------------------------------------------------------------------------
 
   period_metadata <- get_period_metadata(input_file)
@@ -31,16 +31,16 @@ build_report_context <- function(input_file) {
     period_metadata
   )
 
-  stage_01_audit <- build_stage_audit_diagnostics(
+  stage_01a_audit <- build_stage_audit_diagnostics(
     validation_evidence = ingestion_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "01_ingestion"
+    stage_id = "01a_ingestion"
   )
 
 
   # ---------------------------------------------------------------------------
-  # Stage 02 — ENEMDU identifiers
+  # Stage 02A — ENEMDU identifiers
   # ---------------------------------------------------------------------------
 
   identifiers_result <- create_identifiers(
@@ -52,16 +52,16 @@ build_report_context <- function(input_file) {
     identifiers_result$data
   )
 
-  stage_02_audit <- build_stage_audit_diagnostics(
+  stage_02a_audit <- build_stage_audit_diagnostics(
     validation_evidence = identifiers_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "02_identifiers"
+    stage_id = "02a_identifiers"
   )
 
 
   # ---------------------------------------------------------------------------
-  # Stage 03 — INGPC treatment
+  # Stage 03A — INGPC treatment
   # ---------------------------------------------------------------------------
 
   ingpc_treatment_result <- create_ingpc_analytical_base(
@@ -70,11 +70,11 @@ build_report_context <- function(input_file) {
     return_evidence = TRUE
   )
 
-  stage_03_audit <- build_stage_audit_diagnostics(
+  stage_03a_audit <- build_stage_audit_diagnostics(
     validation_evidence = ingpc_treatment_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "03_ingpc_treatment"
+    stage_id = "03a_ingpc_treatment"
   )
 
 
@@ -90,37 +90,37 @@ build_report_context <- function(input_file) {
 
   list(
 
-    stage_01 = list(
-      stage_id = "01_ingestion",
+    stage_01a = list(
+      stage_id = "01a_ingestion",
       period_metadata = period_metadata,
       input_references = input_profile$references,
       database_overview = input_profile$database_overview,
       required_variables_overview = input_profile$required_variables_overview,
       ingpc_universe_summary = input_profile$ingpc_universe_summary,
       validation_evidence = ingestion_result$validation_evidence,
-      audit_diagnostics = stage_01_audit$diagnostics,
-      stage_passed = stage_01_audit$stage_passed
+      audit_diagnostics = stage_01a_audit$diagnostics,
+      stage_passed = stage_01a_audit$stage_passed
     ),
 
-    stage_02 = list(
-      stage_id = "02_identifiers",
+    stage_02a = list(
+      stage_id = "02a_identifiers",
       identifier_summary = identifiers_profile$identifier_summary,
       domain_distribution = identifiers_profile$domain_distribution,
       validation_evidence = identifiers_result$validation_evidence,
-      audit_diagnostics = stage_02_audit$diagnostics,
-      stage_passed = stage_02_audit$stage_passed
+      audit_diagnostics = stage_02a_audit$diagnostics,
+      stage_passed = stage_02a_audit$stage_passed
     ),
 
-    stage_03 = list(
-      stage_id = "03_ingpc_treatment",
+    stage_03a = list(
+      stage_id = "03a_ingpc_treatment",
       ingpc_universe_comparison =
         ingpc_treatment_result$ingpc_universe_comparison,
       validation_evidence =
         ingpc_treatment_result$validation_evidence,
       audit_diagnostics =
-        stage_03_audit$diagnostics,
+        stage_03a_audit$diagnostics,
       stage_passed =
-        stage_03_audit$stage_passed
+        stage_03a_audit$stage_passed
     )
   )
 }

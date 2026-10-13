@@ -32,9 +32,9 @@ local({
   internal_files <- c(
     "build_catalogs.R",
     "build_audit_diagnostics.R",
-    "stage_01_ingestion.R",
-    "stage_02_identifiers.R",
-    "stage_03_ingpc_treatment.R"
+    "stage_01a_ingestion.R",
+    "stage_02a_identifiers.R",
+    "stage_03a_ingpc_treatment.R"
   )
 
 
@@ -55,9 +55,9 @@ local({
   # ---------------------------------------------------------------------------
 
   stage_definitions <- list(
-    internal_env$build_stage_01_control_definitions(),
-    internal_env$build_stage_02_control_definitions(),
-    internal_env$build_stage_03_control_definitions()
+    internal_env$build_stage_01a_control_definitions(),
+    internal_env$build_stage_02a_control_definitions(),
+    internal_env$build_stage_03a_control_definitions()
   )
 
 

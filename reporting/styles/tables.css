@@ -148,7 +148,7 @@
 
    Example:
 
-                     Etapa 01              Etapa 03
+                     Etapa 01A              Etapa 03A
    Universo       Muestra  Población    Muestra  Población
    verificado
 
@@ -163,7 +163,7 @@
 */
 
 
-/* First header level: grouped headings such as Etapa 01 / Etapa 03 */
+/* First header level: grouped headings such as Etapa 01A / Etapa 03A */
 
 .table-grouped-header .gt_table .gt_column_spanner_outer {
   padding: 8px 9px !important;

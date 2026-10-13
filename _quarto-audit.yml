@@ -15,15 +15,15 @@ website:
           - text: "Controles de integridad"
             href: reporting/reporte_controles_internos.qmd#etapa-01a-controles-integridad
 
-      - section: "Etapa 02 — Identificadores ENEMDU"
+      - section: "Etapa 02A — Identificadores ENEMDU"
         contents:
 
           - text: "Controles de validación de identificadores"
-            href: reporting/reporte_controles_internos.qmd#controles-validacion-identificadores
+            href: reporting/reporte_controles_internos.qmd#etapa-02a-controles-identificadores
 
-      - section: "Etapa 03 — Tratamiento de ingpc"
+      - section: "Etapa 03A — Tratamiento de ingpc"
         contents:
 
           - text: "Construcción y consistencia del universo analítico de ingpc"
-            href: reporting/reporte_controles_internos.qmd#construccion-consistencia-universo-analitico-ingpc
+            href: reporting/reporte_controles_internos.qmd#etapa-03a-construccion-consistencia-universo-analitico-ingpc
 

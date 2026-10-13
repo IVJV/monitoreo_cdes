@@ -7,7 +7,7 @@
 ```{r}
 #| label: stage-01a-context
 
-stage_01 <- report_context$stage_01
+stage_01a <- report_context$stage_01a
 ```
 
 ## Resumen de la base importada {#etapa-01a-resumen-base}
@@ -19,7 +19,7 @@ Características generales de la base importada.
 ```{r}
 #| label: stage-01a-database-overview
 
-database_overview_report <- stage_01$database_overview
+database_overview_report <- stage_01a$database_overview
 
 integer_indicators <- c(
   "Observaciones",
@@ -66,7 +66,7 @@ Estructura de las variables requeridas y distribución de valores válidos y per
 ```{r}
 #| label: stage-01a-required-variables
 
-required_variables_report <- stage_01$required_variables_overview
+required_variables_report <- stage_01a$required_variables_overview
 
 required_variables_report$Valid_N <-
   format_integer_es(required_variables_report$Valid_N)

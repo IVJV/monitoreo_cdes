@@ -1,11 +1,11 @@
 # ==============================================================================
-# Stage 02 — ENEMDU identifiers: control and audit definitions
+# Stage 02A — ENEMDU identifiers: control and audit definitions
 # ==============================================================================
 
-build_stage_02_control_definitions <- function() {
+build_stage_02a_control_definitions <- function() {
 
   controls <- build_stage_control_catalog(
-    stage_id = "02_identifiers",
+    stage_id = "02a_identifiers",
 
     groups = list(
 
@@ -61,7 +61,7 @@ build_stage_02_control_definitions <- function() {
 
 
   diagnostics <- build_stage_audit_catalog(
-    stage_id = "02_identifiers",
+    stage_id = "02a_identifiers",
 
     diagnostics = list(
 

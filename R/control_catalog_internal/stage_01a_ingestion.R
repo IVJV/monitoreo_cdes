@@ -1,11 +1,11 @@
 # ==============================================================================
-# Stage 01 — ENEMDU ingestion: control and audit definitions
+# Stage 01A — ENEMDU ingestion: control and audit definitions
 # ==============================================================================
 
-build_stage_01_control_definitions <- function() {
+build_stage_01a_control_definitions <- function() {
 
   controls <- build_stage_control_catalog(
-    stage_id = "01_ingestion",
+    stage_id = "01a_ingestion",
 
     groups = list(
 
@@ -33,7 +33,7 @@ build_stage_01_control_definitions <- function() {
 
 
   diagnostics <- build_stage_audit_catalog(
-    stage_id = "01_ingestion",
+    stage_id = "01a_ingestion",
 
     diagnostics = list(
 

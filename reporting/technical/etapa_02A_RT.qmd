@@ -1,25 +1,25 @@
-# Etapa 02 — Identificadores ENEMDU {#etapa-02}
+# Etapa 02A — Identificadores ENEMDU {#etapa-02a}
 
 ::: {.method-reference}
 **Referencia metodológica:** Punto 2 — Create identifiers: Province, natural region, PSU, and study domains, script `1.2 ENEMDU_200812_Deciles.R` validado.
 :::
 
 ```{r}
-#| label: stage-02-context
+#| label: stage-02a-context
 
-stage_02 <- report_context$stage_02
+stage_02a <- report_context$stage_02a
 ```
 
-## Resumen de identificadores construidos {#resumen-de-identificadores-construidos}
+## Resumen de identificadores construidos {#etapa-02a-resumen-identificadores}
 
 ::: {.output-intro}
 Síntesis de los identificadores generados, su cobertura en muestra y población y el número de valores distintos obtenidos.
 :::
 
 ```{r}
-#| label: stage-02-identifier-summary
+#| label: stage-02a-identifier-summary
 
-identifier_summary_report <- stage_02$identifier_summary
+identifier_summary_report <- stage_02a$identifier_summary
 
 identifier_summary_report$Sample_Valid <-
   format_integer_es(identifier_summary_report$Sample_Valid)
@@ -56,16 +56,16 @@ identifier_summary_report |>
   )
 ```
 
-## Distribución por dominio de estudio {#distribucion-por-dominio-de-estudio}
+## Distribución por dominio de estudio {#etapa-02a-distribucion-dominios}
 
 ::: {.output-intro}
 Distribución de la muestra y de la población por dominio y área, junto con el número de UPM identificadas.
 :::
 
 ```{r}
-#| label: stage-02-domain-distribution
+#| label: stage-02a-domain-distribution
 
-domain_distribution_report <- stage_02$domain_distribution
+domain_distribution_report <- stage_02a$domain_distribution
 
 domain_distribution_report$Sample_N <-
   format_integer_es(domain_distribution_report$Sample_N)

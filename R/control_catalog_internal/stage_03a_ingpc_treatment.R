@@ -1,11 +1,11 @@
 # ==============================================================================
-# Stage 03 — INGPC treatment: control and audit definitions
+# Stage 03A — INGPC treatment: control and audit definitions
 # ==============================================================================
 
-build_stage_03_control_definitions <- function() {
+build_stage_03a_control_definitions <- function() {
 
   controls <- build_stage_control_catalog(
-    stage_id = "03_ingpc_treatment",
+    stage_id = "03a_ingpc_treatment",
 
     groups = list(
 
@@ -30,7 +30,7 @@ build_stage_03_control_definitions <- function() {
 
 
   diagnostics <- build_stage_audit_catalog(
-    stage_id = "03_ingpc_treatment",
+    stage_id = "03a_ingpc_treatment",
 
     diagnostics = list(
 
@@ -45,7 +45,7 @@ build_stage_03_control_definitions <- function() {
           paste(
             "Regla metodológica de selección aplicada correctamente, con conteos",
             "de muestra y población consistentes con las referencias preservadas",
-            "en la Etapa 01."
+            "en la Etapa 01A."
           )
       )
     )

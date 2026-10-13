@@ -25,9 +25,9 @@ create_ingpc_analytical_base <- function(
   ]
 
 
-  # Values actually produced by Stage 03.
+  # Values actually produced by Stage 03A.
   # They are used below to validate the transformation against the canonical
-  # references preserved in Stage 01.
+  # references preserved in Stage 01A.
   observed_ingpc_missing_n <-
     sum(!idx_ingpc_valid)
 
@@ -55,7 +55,7 @@ create_ingpc_analytical_base <- function(
     )
 
 
-  # Validate sample counts against Stage 01 references
+  # Validate sample counts against Stage 01A references
   ingpc_sample_counts_consistent <-
     observed_ingpc_missing_n ==
       input_references$input_ingpc_missing_n &&
@@ -64,11 +64,11 @@ create_ingpc_analytical_base <- function(
 
   if (!ingpc_sample_counts_consistent)
     stop(
-      "El tratamiento de INGPC no coincide con los conteos muestrales registrados en la Etapa 01."
+      "El tratamiento de INGPC no coincide con los conteos muestrales registrados en la Etapa 01A."
     )
 
 
-  # Validate expanded population against Stage 01 references
+  # Validate expanded population against Stage 01A references
   ingpc_expanded_population_consistent <-
     isTRUE(all.equal(
       observed_ingpc_missing_expanded,
@@ -83,16 +83,16 @@ create_ingpc_analytical_base <- function(
 
   if (!ingpc_expanded_population_consistent)
     stop(
-      "El tratamiento de INGPC no coincide con las poblaciones expandidas registradas en la Etapa 01."
+      "El tratamiento de INGPC no coincide con las poblaciones expandidas registradas en la Etapa 01A."
     )
 
 
   # Cross-stage evidence.
   #
   # This is not a second analytical-universe summary. The canonical universe
-  # summary remains the object produced in Stage 01. This object records only
-  # the Stage 01 reference values and the values actually observed after the
-  # Stage 03 transformation so that their equivalence can be audited directly.
+  # summary remains the object produced in Stage 01A. This object records only
+  # the Stage 01A reference values and the values actually observed after the
+  # Stage 03A transformation so that their equivalence can be audited directly.
   ingpc_universe_comparison <- data.frame(
     universe_id = c(
       "ingpc_missing",
@@ -132,7 +132,7 @@ create_ingpc_analytical_base <- function(
   # the control catalogue rather than to the execution evidence itself.
   validation_evidence <- data.frame(
     stage_id = rep(
-      "03_ingpc_treatment",
+      "03a_ingpc_treatment",
       3
     ),
 

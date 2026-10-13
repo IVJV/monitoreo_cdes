@@ -98,7 +98,7 @@ format_scientific_es <- function(x, digits = 3) {
 # ==============================================================================
 
 # Stable display order and labels for the canonical INGPC universe.
-# The analytical values originate in Stage 01. These definitions affect only
+# The analytical values originate in Stage 01A. These definitions affect only
 # presentation and are reused wherever that same universe is displayed.
 ingpc_universe_order <- c(
   "input_total",
