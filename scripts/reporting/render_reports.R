@@ -9,7 +9,6 @@
 # ==============================================================================
 # 1. Read command-line arguments
 # ==============================================================================
-
 args <- commandArgs(trailingOnly = TRUE)
 
 if (length(args) < 1L || length(args) > 2L)
@@ -50,7 +49,7 @@ selected_report <- report_config[[report_set]]
 # ==============================================================================
 # 2. Load current production and reporting-context dependencies
 # ==============================================================================
-
+source("R/validation_errors.R")
 source("R/01A_ingesta_enemdu.R")
 source("R/02A_identificadores_enemdu.R")
 source("R/03A_tratamiento_ingpc.R")
@@ -61,7 +60,6 @@ source("R/report_context.R")
 # ==============================================================================
 # 3. Build one reusable reporting context
 # ==============================================================================
-
 report_context <- build_report_context(input_file)
 
 context_file <- tempfile(
@@ -83,7 +81,6 @@ on.exit(
 # ==============================================================================
 # 4. Prepare transient Quarto parameters
 # ==============================================================================
-
 params_file <- tempfile(
   pattern = "report_params_",
   fileext = ".yml"
@@ -120,7 +117,6 @@ writeLines(
 # ==============================================================================
 # 5. Render requested report
 # ==============================================================================
-
 quarto_bin <- Sys.which("quarto")
 
 if (!nzchar(quarto_bin))

@@ -2,6 +2,7 @@
 # Rscript test_p1a_contract.R
 # All input data are synthetic; no ENEMDU microdata are read or modified.
 
+source("R/validation_errors.R")
 source("R/01A_ingesta_enemdu.R")
 source("R/control_catalog.R")
 
@@ -15,6 +16,33 @@ expect_error <- function(expr, label) {
     error = function(e) e
   )
   assert(inherits(result, "error"), paste("Expected error:", label))
+}
+
+expect_stage_error <- function(expr, check_id, expected_message) {
+  result <- tryCatch(
+    { force(expr); NULL },
+    error = function(e) e
+  )
+
+  assert(
+    inherits(result, "rap_validation_error"),
+    paste("Expected structured validation error:", check_id)
+  )
+
+  assert(
+    identical(result$stage_id, "01a_ingestion"),
+    paste("Unexpected stage_id:", check_id)
+  )
+
+  assert(
+    identical(result$check_id, check_id),
+    paste("Unexpected check_id:", check_id)
+  )
+
+  assert(
+    identical(conditionMessage(result), expected_message),
+    paste("Unexpected error message:", check_id)
+  )
 }
 
 stage_id <- "01a_ingestion"
@@ -88,23 +116,64 @@ cat("PASS: synthetic valid source -> five checks -> two diagnostics -> reference
 missing_var <- synthetic
 missing_var$CONDACTN <- NULL
 write_input(missing_var)
-expect_error(read_validate_enemdu(input_file, return_evidence = TRUE), "missing required variable")
+expect_stage_error(
+  read_validate_enemdu(input_file, return_evidence = TRUE),
+  check_id = "required_variables_present",
+  expected_message = "Faltan variables requeridas: CONDACTN"
+)
 
 wrong_type <- synthetic
 wrong_type$CONDACTN <- c("A", "B", "C")
 write_input(wrong_type)
-expect_error(read_validate_enemdu(input_file, return_evidence = TRUE), "incompatible required type")
+expect_stage_error(
+  read_validate_enemdu(input_file, return_evidence = TRUE),
+  check_id = "required_numeric_types_valid",
+  expected_message = "Las siguientes variables requeridas no son numéricas: CONDACTN"
+)
 
 missing_fexp <- synthetic
 missing_fexp$fexp[1] <- NA_real_
 write_input(missing_fexp)
-expect_error(read_validate_enemdu(input_file, return_evidence = TRUE), "missing fexp")
+expect_stage_error(
+  read_validate_enemdu(input_file, return_evidence = TRUE),
+  check_id = "fexp_no_missing",
+  expected_message = "El factor de expansión fexp contiene valores perdidos."
+)
+
+# Verify how the SAV round trip handles an infinite expansion factor.
+nonfinite_fexp <- synthetic
+nonfinite_fexp$fexp[1] <- Inf
+write_input(nonfinite_fexp)
+
+expect_stage_error(
+  read_validate_enemdu(input_file, return_evidence = TRUE),
+  check_id = "fexp_no_missing",
+  expected_message = "El factor de expansión fexp contiene valores perdidos."
+)
+
+# Test the finiteness control directly, without SAV serialization.
+assert(
+  isTRUE(validate_stage_01a_fexp_finite(c(1.1, 2.2))),
+  "Finite expansion factors should pass validation"
+)
+
+expect_stage_error(
+  validate_stage_01a_fexp_finite(c(1.1, Inf)),
+  check_id = "fexp_finite",
+  expected_message = "El factor de expansión fexp contiene valores no finitos."
+)
+
+cat("PASS: fexp_finite validated directly in memory\n")
 
 nonpositive_fexp <- synthetic
 nonpositive_fexp$fexp[1] <- 0
 write_input(nonpositive_fexp)
-expect_error(read_validate_enemdu(input_file, return_evidence = TRUE), "nonpositive fexp")
-cat("PASS: four invalid sources abort during the correct stage\n")
+expect_stage_error(
+  read_validate_enemdu(input_file, return_evidence = TRUE),
+  check_id = "fexp_positive",
+  expected_message = "El factor de expansión fexp contiene valores no positivos."
+)
+cat("PASS: five invalid sources abort during the correct stage\n")
 
 # Verify that catalogue interpretation never turns a failed atomic check into OK.
 failed_evidence <- result$validation_evidence

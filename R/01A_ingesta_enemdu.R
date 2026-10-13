@@ -48,6 +48,20 @@ get_period_metadata <- function(input_file) {
 # ==============================================================================
 # 2. Import and validate ENEMDU source database
 # ==============================================================================
+# Validate expansion-factor finiteness independently of the input file format.
+validate_stage_01a_fexp_finite <- function(fexp) {
+
+  fexp_finite <- !any(!is.finite(fexp))
+
+  if (!fexp_finite)
+    abort_stage_validation(
+      stage_id = "01a_ingestion",
+      check_id = "fexp_finite",
+      message = "El factor de expansión fexp contiene valores no finitos."
+    )
+
+  fexp_finite
+}
 
 read_validate_enemdu <- function(
   input_file,
@@ -80,10 +94,14 @@ read_validate_enemdu <- function(
     length(missing_required_vars) == 0L
 
   if (!required_variables_present)
-    stop(paste(
-      "Faltan variables requeridas:",
-      paste(missing_required_vars, collapse = ", ")
-    ))
+    abort_stage_validation(
+      stage_id = "01a_ingestion",
+      check_id = "required_variables_present",
+      message = paste(
+        "Faltan variables requeridas:",
+        paste(missing_required_vars, collapse = ", ")
+      )
+    )
 
   required_numeric_vars <- c(
     "prov", "ciudad", "rn", "area", "ingpc", "fexp", "CONDACTN"
@@ -101,10 +119,14 @@ read_validate_enemdu <- function(
     length(non_numeric_required_vars) == 0L
 
   if (!required_numeric_types_valid)
-    stop(paste(
-      "Las siguientes variables requeridas no son numéricas:",
-      paste(non_numeric_required_vars, collapse = ", ")
-    ))
+    abort_stage_validation(
+      stage_id = "01a_ingestion",
+      check_id = "required_numeric_types_valid",
+      message = paste(
+        "Las siguientes variables requeridas no son numéricas:",
+        paste(non_numeric_required_vars, collapse = ", ")
+      )
+    )
 
   # fexp is a positive, finite survey expansion factor; these are
   # input-integrity controls
@@ -112,19 +134,23 @@ read_validate_enemdu <- function(
     !anyNA(ENEMDU_base$fexp)
 
   if (!fexp_no_missing)
-    stop("El factor de expansión fexp contiene valores perdidos.")
+    abort_stage_validation(
+      stage_id = "01a_ingestion",
+      check_id = "fexp_no_missing",
+      message = "El factor de expansión fexp contiene valores perdidos."
+    )
 
-  fexp_finite <-
-    !any(!is.finite(ENEMDU_base$fexp))
-
-  if (!fexp_finite)
-    stop("El factor de expansión fexp contiene valores no finitos.")
+  fexp_finite <- validate_stage_01a_fexp_finite(ENEMDU_base$fexp)
 
   fexp_positive <-
     !any(ENEMDU_base$fexp <= 0)
 
   if (!fexp_positive)
-    stop("El factor de expansión fexp contiene valores no positivos.")
+    abort_stage_validation(
+      stage_id = "01a_ingestion",
+      check_id = "fexp_positive",
+      message = "El factor de expansión fexp contiene valores no positivos."
+    )
 
   # Structured evidence of substantive controls actually executed above.
   #
@@ -178,7 +204,6 @@ read_validate_enemdu <- function(
 # ==============================================================================
 # 3. Build input references and diagnostic profile
 # ==============================================================================
-
 build_input_profile <- function(
   ENEMDU_base,
   period_metadata
