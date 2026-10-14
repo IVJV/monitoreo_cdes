@@ -1,4 +1,4 @@
-# Etapa 01A — Ingesta ENEMDU {#etapa-01a}
+# Etapa 01A — Ingesta ENEMDU `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-01a")` {#etapa-01a .rap-return-heading}
 
 ::: {.method-reference}
 **Referencia metodológica:** P1A — Load database, script `1.2 ENEMDU_2008_12_Deciles.R` validado.

@@ -1,0 +1,91 @@
+/* =============================================================================
+   Shared stage-assurance indicator for technical reports
+   ============================================================================= */
+
+/* Shared stage-title layout for technical assurance and audit return links. */
+main.content h1.rap-assurance-heading,
+main.content h1.rap-return-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 1rem;
+  row-gap: 0.3rem;
+}
+
+main.content h1.rap-assurance-heading .rap-stage-link,
+main.content h1.rap-assurance-heading > .rap-stage-assurance,
+main.content h1.rap-return-heading .rap-stage-return-link {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.84em;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+main.content h1.rap-assurance-heading .rap-stage-assurance {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+main.content h1.rap-assurance-heading .rap-stage-assurance::before {
+  content: "";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.12em;
+  height: 1.12em;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  box-sizing: border-box;
+  font-size: 0.95em;
+  line-height: 1;
+}
+
+main.content h1.rap-assurance-heading .rap-stage-assurance.passed {
+  color: #28734d;
+}
+
+main.content h1.rap-assurance-heading .rap-stage-assurance.passed::before {
+  content: "✓";
+}
+
+main.content h1.rap-assurance-heading .rap-stage-assurance.failed {
+  color: #a44943;
+}
+
+main.content h1.rap-assurance-heading .rap-stage-assurance.failed::before {
+  content: "×";
+}
+
+main.content h1.rap-assurance-heading .rap-stage-link:hover {
+  text-decoration: underline;
+}
+
+/* Return navigation is neutral; green remains reserved for validated controls. */
+main.content h1.rap-return-heading .rap-stage-return-link {
+  color: #496c7d;
+}
+
+main.content h1.rap-return-heading .rap-stage-return-link:hover {
+  color: #304f5e;
+  text-decoration: underline;
+}
+
+/* Stage assurance belongs to the report heading, not the navigation sidebar. */
+nav .rap-stage-link,
+nav .rap-stage-assurance,
+nav .rap-stage-return-link {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  main.content h1.rap-assurance-heading .rap-stage-link,
+  main.content h1.rap-assurance-heading > .rap-stage-assurance,
+  main.content h1.rap-return-heading .rap-stage-return-link {
+    margin-left: 0;
+  }
+}

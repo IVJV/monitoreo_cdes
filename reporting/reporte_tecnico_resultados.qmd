@@ -9,6 +9,7 @@ params:
 #| label: report-setup
 
 source("R/reporting_helpers.R")
+source("R/reporting_stage_assurance.R")
 
 # The report consumes a prebuilt reporting context. Processing and control
 # execution are performed outside the QMD by the reporting runner.

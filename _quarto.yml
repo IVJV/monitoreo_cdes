@@ -43,6 +43,7 @@ format:
       - reporting/styles/base.css
       - reporting/styles/navigation.css
       - reporting/styles/report_components.css
+      - reporting/styles/stage_assurance.css
       - reporting/styles/tables.css
 
     # The website sidebar is the navigation layer.
