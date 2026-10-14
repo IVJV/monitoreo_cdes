@@ -20,7 +20,8 @@ Controles ejecutados durante la Etapa 02A para verificar la construcción de `pr
 #| label: stage-02a-identifier-controls
 
 render_audit_diagnostics(
-  stage_02a$audit_diagnostics
+  stage_02a$audit_diagnostics,
+  stage_id = "02a_identifiers"
 )
 ```
 

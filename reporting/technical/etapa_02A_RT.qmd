@@ -21,6 +21,11 @@ Síntesis de los identificadores generados, su cobertura en muestra y población
 
 identifier_summary_report <- stage_02a$identifier_summary
 
+# A stage-specific display name avoids duplicate HTML header IDs across RT tables.
+names(identifier_summary_report)[
+  names(identifier_summary_report) == "Variable"
+] <- "Variable_02a"
+
 identifier_summary_report$Sample_Valid <-
   format_integer_es(identifier_summary_report$Sample_Valid)
 
@@ -33,7 +38,7 @@ identifier_summary_report$Distinct_Values <-
 identifier_summary_report |>
   gt::gt() |>
   gt::cols_label(
-    Variable = "Variable",
+    Variable_02a = "Variable",
     Description = "Descripción",
     Sample_Valid = unname(reporting_labels[["valid_sample"]]),
     Population_Valid = unname(reporting_labels[["valid_population"]]),
@@ -42,7 +47,7 @@ identifier_summary_report |>
   gt::cols_align(
     align = "left",
     columns = c(
-      Variable,
+      Variable_02a,
       Description
     )
   ) |>

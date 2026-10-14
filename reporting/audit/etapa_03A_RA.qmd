@@ -115,7 +115,8 @@ ingpc_consistency_comparison_report |>
 #| label: stage-03a-ingpc-controls
 
 render_audit_diagnostics(
-  stage_03a$audit_diagnostics
+  stage_03a$audit_diagnostics,
+  stage_id = "03a_ingpc_treatment"
 )
 ```
 

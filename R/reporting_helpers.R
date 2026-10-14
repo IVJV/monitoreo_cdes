@@ -199,7 +199,7 @@ render_ingpc_universe_table <- function(ingpc_universe_summary) {
 # 6. Common audit-diagnostic rendering
 # ==============================================================================
 
-render_audit_diagnostics <- function(audit_diagnostics) {
+render_audit_diagnostics <- function(audit_diagnostics, stage_id) {
 
   required_columns <- c(
     "Control",
@@ -220,10 +220,28 @@ render_audit_diagnostics <- function(audit_diagnostics) {
       )
     )
 
-  audit_diagnostics |>
+  # gt emits column names as HTML header IDs. Namespace the display-only
+  # columns per stage so separate audit tables never repeat IDs in the page.
+  # The source audit evidence and the labels shown to readers stay unchanged.
+  if (!is.character(stage_id) || length(stage_id) != 1L ||
+      is.na(stage_id) || !grepl("^[a-z0-9_]+$", stage_id))
+    stop("El diagnóstico de auditoría requiere un stage_id válido.")
+
+  display_columns <- paste0(
+    "audit_", stage_id, "_", c("control", "checks", "result")
+  )
+
+  audit_display <- audit_diagnostics
+  names(audit_display)[match(required_columns, names(audit_display))] <-
+    display_columns
+
+  audit_display |>
     gt::gt() |>
+    gt::cols_label(
+      .list = as.list(stats::setNames(required_columns, display_columns))
+    ) |>
     gt::fmt_markdown(
-      columns = Control
+      columns = tidyselect::all_of(display_columns[1])
     ) |>
     gt::text_transform(
       fn = function(x) {
@@ -242,19 +260,16 @@ render_audit_diagnostics <- function(audit_diagnostics) {
         )
       },
       locations = gt::cells_body(
-        columns = Resultado
+        columns = tidyselect::all_of(display_columns[3])
       )
     ) |>
     gt::cols_align(
       align = "left",
-      columns = c(
-        Control,
-        `Verificaciones incluidas`
-      )
+      columns = tidyselect::all_of(display_columns[1:2])
     ) |>
     gt::cols_align(
       align = "center",
-      columns = Resultado
+      columns = tidyselect::all_of(display_columns[3])
     )
 }
 
