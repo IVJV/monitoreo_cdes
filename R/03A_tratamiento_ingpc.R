@@ -47,8 +47,10 @@ create_ingpc_analytical_base <- function(
     !anyNA(ENEMDU_decile$ingpc)
 
   if (!ingpc_selection_rule_valid)
-    stop(
-      paste(
+    abort_stage_validation(
+      stage_id = "03a_ingpc_treatment",
+      check_id = "ingpc_selection_rule_valid",
+      message = paste(
         "La selección del universo analítico de ingpc no reproduce",
         "la regla metodológica SELECT IF (NOT SYSMIS(ingpc))."
       )
@@ -63,8 +65,10 @@ create_ingpc_analytical_base <- function(
       input_references$input_ingpc_valid_n
 
   if (!ingpc_sample_counts_consistent)
-    stop(
-      "El tratamiento de INGPC no coincide con los conteos muestrales registrados en la Etapa 01A."
+    abort_stage_validation(
+      stage_id = "03a_ingpc_treatment",
+      check_id = "ingpc_sample_counts_consistent",
+      message = "El tratamiento de INGPC no coincide con los conteos muestrales registrados en la Etapa 01A."
     )
 
 
@@ -82,8 +86,10 @@ create_ingpc_analytical_base <- function(
     ))
 
   if (!ingpc_expanded_population_consistent)
-    stop(
-      "El tratamiento de INGPC no coincide con las poblaciones expandidas registradas en la Etapa 01A."
+    abort_stage_validation(
+      stage_id = "03a_ingpc_treatment",
+      check_id = "ingpc_expanded_population_consistent",
+      message = "El tratamiento de INGPC no coincide con las poblaciones expandidas registradas en la Etapa 01A."
     )
 
 

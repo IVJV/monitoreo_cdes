@@ -19,11 +19,13 @@ reports <- c(
 required_stage_targets <- list(
   technical = c(
     "etapa-01a" = "etapa-01a-controles-integridad",
-    "etapa-02a" = "etapa-02a-controles-identificadores"
+    "etapa-02a" = "etapa-02a-controles-identificadores",
+    "etapa-03a" = "etapa-03a-construccion-consistencia-universo-analitico-ingpc"
   ),
   audit = c(
     "etapa-01a" = "etapa-01a",
-    "etapa-02a" = "etapa-02a"
+    "etapa-02a" = "etapa-02a",
+    "etapa-03a" = "etapa-03a"
   )
 )
 
@@ -108,7 +110,7 @@ for (report_name in names(reports)) {
       stop(paste("Cross-report link targets a different stage:",
                  source_stage_id, "->", href))
 
-    # 01A and 02A have exact, distinct destinations; no silent cross-wiring.
+    # 01A, 02A and 03A have exact, distinct destinations; no silent cross-wiring.
     if (source_stage_id %in% names(required_targets) &&
         !identical(target_anchor, unname(required_targets[[source_stage_id]])))
       stop(paste("Incorrect destination anchor for", source_stage_id,

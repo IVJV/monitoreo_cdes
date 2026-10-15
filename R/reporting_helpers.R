@@ -1,7 +1,6 @@
 # ==============================================================================
 # Common reporting helpers
 # ==============================================================================
-
 # Production reporting convention:
 # "Muestra" = unweighted number of observations.
 # "Población" = population estimate obtained using the expansion factor fexp.
@@ -24,7 +23,6 @@ reporting_labels <- c(
 # ==============================================================================
 # 1. Integer formatting
 # ==============================================================================
-
 format_integer_es <- function(x) {
 
   formatC(
@@ -40,7 +38,6 @@ format_integer_es <- function(x) {
 # ==============================================================================
 # 2. Decimal formatting
 # ==============================================================================
-
 format_decimal_es <- function(x, digits = 2) {
 
   formatC(
@@ -56,7 +53,6 @@ format_decimal_es <- function(x, digits = 2) {
 # ==============================================================================
 # 3. Percentage formatting
 # ==============================================================================
-
 format_percentage_es <- function(x, digits = 1) {
 
   paste0(
@@ -75,7 +71,6 @@ format_percentage_es <- function(x, digits = 1) {
 # ==============================================================================
 # 4. Scientific notation formatting
 # ==============================================================================
-
 format_scientific_es <- function(x, digits = 3) {
 
   formatted <- formatC(
@@ -96,7 +91,6 @@ format_scientific_es <- function(x, digits = 3) {
 # ==============================================================================
 # 5. Canonical INGPC-universe presentation
 # ==============================================================================
-
 # Stable display order and labels for the canonical INGPC universe.
 # The analytical values originate in Stage 01A. These definitions affect only
 # presentation and are reused wherever that same universe is displayed.
@@ -107,7 +101,7 @@ ingpc_universe_order <- c(
 )
 
 ingpc_universe_labels <- c(
-  input_total = "Base ENEMDU completa",
+  input_total = "Base ENEMDU original",
   ingpc_missing = "Registros con `ingpc` perdido",
   ingpc_valid = "Universo analítico (`ingpc` válido)"
 )
@@ -198,7 +192,6 @@ render_ingpc_universe_table <- function(ingpc_universe_summary) {
 # ==============================================================================
 # 6. Common audit-diagnostic rendering
 # ==============================================================================
-
 render_audit_diagnostics <- function(audit_diagnostics, stage_id) {
 
   required_columns <- c(
@@ -277,7 +270,6 @@ render_audit_diagnostics <- function(audit_diagnostics, stage_id) {
 # ==============================================================================
 # 7. Common stage-status rendering
 # ==============================================================================
-
 render_stage_status <- function(stage_passed) {
 
   if (

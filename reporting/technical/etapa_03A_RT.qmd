@@ -1,7 +1,7 @@
-# Etapa 03A — Tratamiento de `ingpc` {#etapa-03a}
+# Etapa 03A — Tratamiento de `ingpc` `r render_stage_assurance(report_context$stage_03a, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-03a-construccion-consistencia-universo-analitico-ingpc")` {#etapa-03a .rap-assurance-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** Punto 3 — `ingpc` treatment, script `1.2 ENEMDU_200812_Deciles.R` validado.
+**Referencia metodológica:** P3A — `ingpc` treatment, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}
@@ -14,7 +14,7 @@ stage_03a <- report_context$stage_03a
 ## Tratamiento del universo de `ingpc` {#etapa-03a-tratamiento-universo-ingpc}
 
 ::: {.output-intro}
-La Etapa 03A conserva los registros con `ingpc` válido para conformar el universo analítico utilizado en el cálculo posterior de deciles. La tabla reutiliza la referencia canónica del universo de `ingpc` preservada en la Etapa 01A; no reconstruye una segunda versión del mismo resumen.
+La Etapa 03A parte de la base ENEMDU original, identifica los registros con `ingpc` perdido y conserva los registros con `ingpc` válido para conformar el universo analítico utilizado posteriormente en el cálculo de deciles. La tabla presenta la muestra y la población expandida de estos tres grupos, utilizando las referencias canónicas preservadas en la Etapa 01A.
 :::
 
 ```{r}

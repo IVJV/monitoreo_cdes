@@ -1,7 +1,7 @@
-# Etapa 03A — Tratamiento de `ingpc` {#etapa-03a}
+# Etapa 03A — Tratamiento de `ingpc` `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-03a")` {#etapa-03a .rap-return-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** Punto 3 — `ingpc` treatment, script `1.2 ENEMDU_200812_Deciles.R` validado.
+**Referencia metodológica:** P3A — `ingpc` treatment, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}
@@ -13,7 +13,7 @@ stage_03a <- report_context$stage_03a
 ## Construcción y consistencia del universo analítico de `ingpc` {#etapa-03a-construccion-consistencia-universo-analitico-ingpc}
 
 ::: {.output-intro}
-La Etapa 03A verifica que la regla metodológica de selección del universo analítico de `ingpc` se aplique correctamente y que el universo resultante reproduzca las referencias de muestra y población preservadas en la Etapa 01A. La evidencia de los controles atómicos se agrupa en un diagnóstico de auditoría para conservar la trazabilidad sin exponer cada comprobación interna por separado.
+La Etapa 03A verifica que el universo analítico incluya únicamente los registros con `ingpc` válido. La evidencia comparativa contrasta, frente a las referencias de la Etapa 01A, los conteos muestrales y la población expandida de los registros excluidos y del universo seleccionado. Los tres controles de validación se consolidan en un diagnóstico de auditoría.
 :::
 
 ### Evidencia comparativa
@@ -120,7 +120,7 @@ render_audit_diagnostics(
 )
 ```
 
-### Estado de la etapa
+### Estado de la etapa {#etapa-03a-estado}
 
 ```{r}
 #| label: stage-03a-status
