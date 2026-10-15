@@ -49,6 +49,7 @@ qa_main <- function() {
   # Explicit test registry prevents silently omitting newly added tests.
   unit_tests <- c(
     "tests/test_p1a_contract.R",
+    "tests/test_p2a_contract.R",
     "tests/test_stage_assurance.R",
     "tests/test_report_table_ids.R"
   )

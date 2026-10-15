@@ -6,7 +6,6 @@
 # ==============================================================================
 # 1. Create province
 # ==============================================================================
-
 create_province <- function(
   ENEMDU_base,
   return_evidence = FALSE
@@ -51,19 +50,31 @@ create_province <- function(
     !any(province_difference)
 
   if (!province_no_missing)
-    stop("La reconstrucción de provincia a partir de ciudad produjo valores perdidos.")
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "province_no_missing",
+      message = "La reconstrucción de provincia a partir de ciudad produjo valores perdidos."
+    )
 
   if (!province_codes_valid)
-    stop(paste(
-      sum(invalid_province_code),
-      "registros presentan códigos de provincia reconstruidos no válidos."
-    ))
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "province_codes_valid",
+      message = paste(
+        sum(invalid_province_code),
+        "registros presentan códigos de provincia reconstruidos no válidos."
+      )
+    )
 
   if (!province_matches_original)
-    stop(paste(
-      sum(province_difference),
-      "registros difieren entre la variable original prov y la variable reconstruida provin."
-    ))
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "province_matches_original",
+      message = paste(
+        sum(province_difference),
+        "registros difieren entre la variable original prov y la variable reconstruida provin."
+      )
+    )
 
   # Preserve evidence from the controls actually executed above.
   validation_evidence <- data.frame(
@@ -95,14 +106,12 @@ create_province <- function(
 # ==============================================================================
 # 2. Create natural region
 # ==============================================================================
-
 create_natural_region <- function(
   ENEMDU_base,
   return_evidence = FALSE
 ) {
 
   provin_num <- as.integer(ENEMDU_base$provin)
-
   # Reconstruct natural region using the province grouping defined in SPSS
   ENEMDU_base$rnatura <- dplyr::case_when(
     provin_num %in% c(1:6, 10, 11, 17, 18) ~ 1L,
@@ -147,19 +156,31 @@ create_natural_region <- function(
     !any(region_difference)
 
   if (!natural_region_no_missing)
-    stop("La reconstrucción de región natural a partir de provin produjo valores perdidos.")
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "natural_region_no_missing",
+      message = "La reconstrucción de región natural a partir de provin produjo valores perdidos."
+    )
 
   if (!natural_region_codes_valid)
-    stop(paste(
-      sum(invalid_region_code),
-      "registros presentan códigos de región natural reconstruidos no válidos."
-    ))
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "natural_region_codes_valid",
+      message = paste(
+        sum(invalid_region_code),
+        "registros presentan códigos de región natural reconstruidos no válidos."
+      )
+    )
 
   if (!natural_region_matches_original)
-    stop(paste(
-      sum(region_difference),
-      "registros difieren entre la variable original rn y la variable reconstruida rnatura."
-    ))
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "natural_region_matches_original",
+      message = paste(
+        sum(region_difference),
+        "registros difieren entre la variable original rn y la variable reconstruida rnatura."
+      )
+    )
 
   # Preserve evidence from the controls actually executed above.
   validation_evidence <- data.frame(
@@ -191,7 +212,6 @@ create_natural_region <- function(
 # ==============================================================================
 # 3. Create PSU identifier
 # ==============================================================================
-
 create_psu <- function(
   ENEMDU_base,
   return_evidence = FALSE
@@ -221,10 +241,14 @@ create_psu <- function(
     !any(invalid_identif)
 
   if (!psu_structure_valid)
-    stop(paste(
-      sum(invalid_identif),
-      "registros presentan un identificador PSU/UPM no válido."
-    ))
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "psu_structure_valid",
+      message = paste(
+        sum(invalid_identif),
+        "registros presentan un identificador PSU/UPM no válido."
+      )
+    )
 
   # Preserve evidence from the control actually executed above.
   validation_evidence <- data.frame(
@@ -248,7 +272,6 @@ create_psu <- function(
 # ==============================================================================
 # 4. Create study domain
 # ==============================================================================
-
 create_study_domain <- function(
   ENEMDU_base,
   return_evidence = FALSE
@@ -319,22 +342,34 @@ create_study_domain <- function(
     !any(domain_area_mismatch)
 
   if (!study_domain_assigned)
-    stop(paste(
-      sum(unassigned_domain),
-      "registros no fueron asignados a un dominio de estudio."
-    ))
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "study_domain_assigned",
+      message = paste(
+        sum(unassigned_domain),
+        "registros no fueron asignados a un dominio de estudio."
+      )
+    )
 
   if (!study_domain_codes_valid)
-    stop(paste(
-      sum(invalid_domain_code),
-      "registros presentan códigos de dominio de estudio no válidos."
-    ))
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "study_domain_codes_valid",
+      message = paste(
+        sum(invalid_domain_code),
+        "registros presentan códigos de dominio de estudio no válidos."
+      )
+    )
 
   if (!study_domain_area_consistent)
-    stop(paste(
-      sum(domain_area_mismatch),
-      "registros presentan inconsistencias entre el dominio de estudio y el área."
-    ))
+    abort_stage_validation(
+      stage_id = "02a_identifiers",
+      check_id = "study_domain_area_consistent",
+      message = paste(
+        sum(domain_area_mismatch),
+        "registros presentan inconsistencias entre el dominio de estudio y el área."
+      )
+    )
 
   # Preserve evidence from the controls actually executed above.
   validation_evidence <- data.frame(
@@ -366,7 +401,6 @@ create_study_domain <- function(
 # ==============================================================================
 # 5. Create all identifiers and preserve structured validation evidence
 # ==============================================================================
-
 create_identifiers <- function(
   ENEMDU_base,
   return_evidence = FALSE
@@ -419,7 +453,6 @@ create_identifiers <- function(
 # ==============================================================================
 # 6. Build identifier diagnostic profile
 # ==============================================================================
-
 build_identifiers_profile <- function(ENEMDU_base) {
 
   # Technical summary of the identifiers constructed in Stage 02A.

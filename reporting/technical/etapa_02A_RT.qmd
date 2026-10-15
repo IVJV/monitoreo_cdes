@@ -1,7 +1,7 @@
-# Etapa 02A — Identificadores ENEMDU {#etapa-02a}
+# Etapa 02A — Identificadores ENEMDU `r render_stage_assurance(report_context$stage_02a, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-02a-controles-identificadores")` {#etapa-02a .rap-assurance-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** Punto 2 — Create identifiers: Province, natural region, PSU, and study domains, script `1.2 ENEMDU_200812_Deciles.R` validado.
+**Referencia metodológica:** P2A — Create identifiers: Province, natural region, PSU, and study domains, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}
