@@ -1,0 +1,37 @@
+# Etapa 04A — Deciles de ingreso per cápita `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-04a")` {#etapa-04a .rap-return-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P4A — Cálculo de deciles de ingreso per cápita, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-04a-audit-context
+
+stage_04a <- report_context$stage_04a
+```
+
+## Controles de validación de deciles de ingreso per cápita {#etapa-04a-controles-deciles}
+
+::: {.output-intro}
+La Etapa 04A verifica que la variable de decil de ingreso per cápita (`ningpc`) asigne códigos válidos del 1 al 10, sin valores perdidos y con cobertura de los diez deciles. También contrasta la población del universo analítico clasificado con la referencia de ingreso per cápita válido preservada en la Etapa 01A. Los cuatro controles atómicos se consolidan en dos diagnósticos de auditoría, sin repetir los cálculos de las tablas técnicas.
+:::
+
+### Diagnósticos de auditoría
+
+```{r}
+#| label: stage-04a-decile-controls
+
+render_audit_diagnostics(
+  stage_04a$audit_diagnostics,
+  stage_id = "04a_deciles_ingpc"
+)
+```
+
+### Estado de la etapa {#etapa-04a-estado}
+
+```{r}
+#| label: stage-04a-status
+#| results: asis
+
+render_stage_status(stage_04a$stage_passed)
+```

@@ -60,7 +60,7 @@ technical_output_point1 <- paste0(
   "\n============================================================\n",
   "REPORTE TÉCNICO (RT)\n",
   "============================================================\n",
-  "DISTRIBUCIÓN DE CONDACTN — ", condactn_variable_label, "\n\n",
+  "DISTRIBUCIÓN DE LA POBLACIÓN SEGÚN CONDICIÓN DE ACTIVIDAD\n\n",
   paste(capture.output(print(as.data.frame(condactn_frequency_table), row.names = FALSE)), collapse = "\n"),
   "\n\n============================================================\n",
   "REPORTE DE AUDITORÍA (RA)\n",
@@ -267,9 +267,9 @@ population_classification_gt <- population_classification_table_num %>%
   gt::tab_header(title = "Clasificación de la población") %>%
   gt::cols_label(
     Category = "Indicador",
-    Expanded_Frequency = "Frecuencia",
+    Expanded_Frequency = "Población",
     Population_Proportion = "Proporción de la población",
-    Parent_Proportion = "Proporción del nivel padre"
+    Parent_Proportion = "Proporción respecto a la categoría superior"
   ) %>%
   gt::fmt_number(columns = Expanded_Frequency, decimals = 0, sep_mark = ".", dec_mark = ",") %>%
   gt::fmt_number(columns = c(Population_Proportion, Parent_Proportion), decimals = 2, dec_mark = ",") %>%

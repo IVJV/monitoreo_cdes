@@ -22,21 +22,19 @@ local({
     parent = public_env
   )
 
-
   internal_dir <- file.path(
     "R",
     "control_catalog_internal"
   )
-
 
   internal_files <- c(
     "build_catalogs.R",
     "build_audit_diagnostics.R",
     "stage_01a_ingestion.R",
     "stage_02a_identifiers.R",
-    "stage_03a_ingpc_treatment.R"
+    "stage_03a_ingpc_treatment.R",
+    "stage_04a_deciles_ingpc.R"
   )
-
 
   invisible(
     lapply(
@@ -53,13 +51,12 @@ local({
   # ---------------------------------------------------------------------------
   # Assemble stage-specific canonical definitions
   # ---------------------------------------------------------------------------
-
   stage_definitions <- list(
     internal_env$build_stage_01a_control_definitions(),
     internal_env$build_stage_02a_control_definitions(),
-    internal_env$build_stage_03a_control_definitions()
+    internal_env$build_stage_03a_control_definitions(),
+    internal_env$build_stage_04a_control_definitions()
   )
-
 
   assembled_control_catalog <- do.call(
     rbind,
@@ -70,7 +67,6 @@ local({
     )
   )
 
-
   assembled_audit_diagnostic_catalog <- do.call(
     rbind,
     lapply(
@@ -80,7 +76,6 @@ local({
     )
   )
 
-
   rownames(assembled_control_catalog) <- NULL
   rownames(assembled_audit_diagnostic_catalog) <- NULL
 
@@ -88,20 +83,17 @@ local({
   # ---------------------------------------------------------------------------
   # Explicit public API
   # ---------------------------------------------------------------------------
-
   assign(
     "control_catalog",
     assembled_control_catalog,
     envir = public_env
   )
 
-
   assign(
     "audit_diagnostic_catalog",
     assembled_audit_diagnostic_catalog,
     envir = public_env
   )
-
 
   assign(
     "build_stage_audit_diagnostics",

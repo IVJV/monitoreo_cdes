@@ -33,3 +33,11 @@ website:
           - text: "Tratamiento del universo de ingpc"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-03a-tratamiento-universo-ingpc
 
+      - section: "Etapa 04A — Deciles de ingreso per cápita"
+        contents:
+
+          - text: "Distribución de la población por decil de ingreso per cápita"
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-04a-tabla-frecuencias-deciles
+
+          - text: "Estadísticos del ingreso per cápita por decil"
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-04a-estadisticas-ingpc-deciles

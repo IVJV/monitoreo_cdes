@@ -79,6 +79,23 @@ build_report_context <- function(input_file) {
 
 
   # ---------------------------------------------------------------------------
+  # Stage 04A — INGPC deciles
+  # ---------------------------------------------------------------------------
+
+  ingpc_deciles_result <- build_ingpc_decile_stage(
+    ingpc_treatment_result$data,
+    input_references = input_profile$references
+  )
+
+  stage_04a_audit <- build_stage_audit_diagnostics(
+    validation_evidence = ingpc_deciles_result$validation_evidence,
+    control_catalog = control_catalog,
+    audit_diagnostic_catalog = audit_diagnostic_catalog,
+    stage_id = "04a_deciles_ingpc"
+  )
+
+
+  # ---------------------------------------------------------------------------
   # Reporting context
   # ---------------------------------------------------------------------------
   # The context preserves stage of origin only for traceability. It does not
@@ -121,6 +138,22 @@ build_report_context <- function(input_file) {
         stage_03a_audit$diagnostics,
       stage_passed =
         stage_03a_audit$stage_passed
+    ),
+
+    stage_04a = list(
+      stage_id = "04a_deciles_ingpc",
+      decile_frequency_table =
+        ingpc_deciles_result$decile_frequency_table,
+      decile_report_table =
+        ingpc_deciles_result$decile_report_table,
+      point4_ingpc_mean_reference =
+        ingpc_deciles_result$point4_ingpc_mean_reference,
+      validation_evidence =
+        ingpc_deciles_result$validation_evidence,
+      audit_diagnostics =
+        stage_04a_audit$diagnostics,
+      stage_passed =
+        stage_04a_audit$stage_passed
     )
   )
 }

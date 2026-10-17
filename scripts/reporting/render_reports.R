@@ -53,6 +53,7 @@ source("R/validation_errors.R")
 source("R/01A_ingesta_enemdu.R")
 source("R/02A_identificadores_enemdu.R")
 source("R/03A_tratamiento_ingpc.R")
+source("R/04A_deciles_ingpc.R")
 source("R/control_catalog.R")
 source("R/report_context.R")
 

@@ -1,0 +1,115 @@
+# Etapa 04A — Deciles de ingreso per cápita `r render_stage_assurance(report_context$stage_04a, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-04a-controles-deciles")` {#etapa-04a .rap-assurance-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P4A — Cálculo de deciles de ingreso per cápita, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-04a-context
+
+stage_04a <- report_context$stage_04a
+```
+
+## Distribución de la población por decil de ingreso per cápita {#etapa-04a-tabla-frecuencias-deciles}
+
+::: {.output-intro}
+Los deciles de ingreso per cápita (variable `ningpc`) clasifican el universo analítico de la Etapa 03A en diez grupos, a partir del ingreso per cápita (`ingpc`) y el factor de expansión (`fexp`), aplicando el tratamiento de empates de la metodología validada. La tabla presenta la población de cada decil y su participación porcentual dentro del universo analítico. Debido a los empates, las participaciones no necesariamente son idénticas. Los porcentajes se muestran con un decimal; por efecto del redondeo, su suma puede diferir ligeramente del 100 %.
+:::
+
+```{r}
+#| label: stage-04a-decile-frequency-table
+
+# Local presentation copy: analytical objects in report_context are unchanged.
+decile_frequency_view <- stage_04a$decile_frequency_table
+
+# Namespace display-only columns to keep GT header IDs unique across reports.
+names(decile_frequency_view) <- c(
+  "s04a_freq_decile",
+  "s04a_freq_population",
+  "s04a_freq_percentage"
+)
+
+decile_frequency_view$s04a_freq_population <-
+  format_integer_es(decile_frequency_view$s04a_freq_population)
+
+decile_frequency_view$s04a_freq_percentage <-
+  format_decimal_es(decile_frequency_view$s04a_freq_percentage, digits = 1)
+
+decile_frequency_view |>
+  gt::gt() |>
+  gt::cols_label(
+    s04a_freq_decile = "Decil",
+    s04a_freq_population = unname(reporting_labels[["population"]]),
+    s04a_freq_percentage = "Porcentaje (%)"
+  ) |>
+  gt::cols_align(
+    align = "center",
+    columns = s04a_freq_decile
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(s04a_freq_population, s04a_freq_percentage)
+  )
+```
+
+## Estadísticos del ingreso per cápita por decil {#etapa-04a-estadisticas-ingpc-deciles}
+
+::: {.output-intro}
+Para cada decil se presentan la población, la suma ponderada del ingreso per cápita, la media ponderada y los valores mínimo y máximo observados. La fila «Total» corresponde al conjunto del universo analítico. Las medias se muestran con dos decimales; las medias sin redondear se conservan en `point4_ingpc_mean_reference` para la validación posterior de la Etapa 06A. Los mínimos y máximos son valores observados del ingreso per cápita, no estimaciones del diseño muestral.
+:::
+
+```{r}
+#| label: stage-04a-decile-report-table
+
+# Local presentation copy: no analytical values are recalculated.
+decile_report_view <- stage_04a$decile_report_table
+
+names(decile_report_view) <- c(
+  "s04a_stats_decile",
+  "s04a_stats_population",
+  "s04a_stats_sum",
+  "s04a_stats_mean",
+  "s04a_stats_min",
+  "s04a_stats_max"
+)
+
+decile_report_view$s04a_stats_population <-
+  format_integer_es(decile_report_view$s04a_stats_population)
+
+decile_report_view$s04a_stats_sum <-
+  format_integer_es(decile_report_view$s04a_stats_sum)
+
+decile_report_view$s04a_stats_mean <-
+  format_decimal_es(decile_report_view$s04a_stats_mean, digits = 2)
+
+decile_report_view$s04a_stats_min <-
+  format_integer_es(decile_report_view$s04a_stats_min)
+
+decile_report_view$s04a_stats_max <-
+  format_integer_es(decile_report_view$s04a_stats_max)
+
+decile_report_view |>
+  gt::gt() |>
+  gt::cols_label(
+    s04a_stats_decile = "Decil",
+    s04a_stats_population = unname(reporting_labels[["population"]]),
+    s04a_stats_sum = "Suma ponderada",
+    s04a_stats_mean = "Media ponderada",
+    s04a_stats_min = "Mínimo",
+    s04a_stats_max = "Máximo"
+  ) |>
+  gt::cols_align(
+    align = "center",
+    columns = s04a_stats_decile
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      s04a_stats_population,
+      s04a_stats_sum,
+      s04a_stats_mean,
+      s04a_stats_min,
+      s04a_stats_max
+    )
+  )
+```

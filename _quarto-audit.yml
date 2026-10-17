@@ -27,3 +27,8 @@ website:
           - text: "Construcción y consistencia del universo analítico de ingpc"
             href: reporting/reporte_controles_internos.qmd#etapa-03a-construccion-consistencia-universo-analitico-ingpc
 
+      - section: "Etapa 04A — Deciles de ingreso per cápita"
+        contents:
+
+          - text: "Controles de validación de deciles de ingreso per cápita"
+            href: reporting/reporte_controles_internos.qmd#etapa-04a-controles-deciles
