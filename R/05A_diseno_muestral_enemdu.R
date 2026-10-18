@@ -6,7 +6,6 @@
 # ==============================================================================
 # 1. Create ENEMDU survey design
 # ==============================================================================
-
 create_enemdu_survey_design <- function(ENEMDU_decile) {
 
   # INEC methodology: Treatment for strata with a single PSU.

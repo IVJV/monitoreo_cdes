@@ -12,13 +12,11 @@
 # ==============================================================================
 # 1. Build reporting context
 # ==============================================================================
-
 build_report_context <- function(input_file) {
 
   # ---------------------------------------------------------------------------
   # Stage 01A — ENEMDU ingestion
   # ---------------------------------------------------------------------------
-
   period_metadata <- get_period_metadata(input_file)
 
   ingestion_result <- read_validate_enemdu(
@@ -42,7 +40,6 @@ build_report_context <- function(input_file) {
   # ---------------------------------------------------------------------------
   # Stage 02A — ENEMDU identifiers
   # ---------------------------------------------------------------------------
-
   identifiers_result <- create_identifiers(
     ingestion_result$data,
     return_evidence = TRUE
@@ -63,7 +60,6 @@ build_report_context <- function(input_file) {
   # ---------------------------------------------------------------------------
   # Stage 03A — INGPC treatment
   # ---------------------------------------------------------------------------
-
   ingpc_treatment_result <- create_ingpc_analytical_base(
     identifiers_result$data,
     input_references = input_profile$references,
@@ -81,7 +77,6 @@ build_report_context <- function(input_file) {
   # ---------------------------------------------------------------------------
   # Stage 04A — INGPC deciles
   # ---------------------------------------------------------------------------
-
   ingpc_deciles_result <- build_ingpc_decile_stage(
     ingpc_treatment_result$data,
     input_references = input_profile$references
@@ -94,6 +89,13 @@ build_report_context <- function(input_file) {
     stage_id = "04a_deciles_ingpc"
   )
 
+
+  # ---------------------------------------------------------------------------
+  # Stage 05A — ENEMDU complex survey design
+  # ---------------------------------------------------------------------------
+  d1 <- create_enemdu_survey_design(
+    ingpc_deciles_result$data
+  )
 
   # ---------------------------------------------------------------------------
   # Reporting context
@@ -154,6 +156,11 @@ build_report_context <- function(input_file) {
         stage_04a_audit$diagnostics,
       stage_passed =
         stage_04a_audit$stage_passed
+    ),
+
+    stage_05a = list(
+      stage_id = "05a_diseno_muestral",
+      d1 = d1
     )
   )
 }
