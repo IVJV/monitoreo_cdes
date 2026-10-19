@@ -1,4 +1,4 @@
-# Etapa 03A — Tratamiento de `ingpc` `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-03a")` {#etapa-03a .rap-return-heading}
+# Etapa 03A — Tratamiento de la variable de ingreso per cápita `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-03a")` {#etapa-03a .rap-return-heading}
 
 ::: {.method-reference}
 **Referencia metodológica:** P3A — `ingpc` treatment, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
@@ -13,7 +13,7 @@ stage_03a <- report_context$stage_03a
 ## Construcción y consistencia del universo analítico de `ingpc` {#etapa-03a-construccion-consistencia-universo-analitico-ingpc}
 
 ::: {.output-intro}
-La Etapa 03A verifica que el universo analítico incluya únicamente los registros con `ingpc` válido. La evidencia comparativa contrasta, frente a las referencias de la Etapa 01A, los conteos muestrales y la población expandida de los registros excluidos y del universo seleccionado. Los tres controles de validación se consolidan en un diagnóstico de auditoría.
+La Etapa 03A verifica que el universo analítico incluya únicamente registros con `ingpc` válido. La tabla compara los conteos de muestra y población registrados en la Etapa 01A con los obtenidos tras el tratamiento, tanto para los registros con `ingpc` perdido como para el universo analítico. El diagnóstico de auditoría resume el resultado de las verificaciones.
 :::
 
 ### Evidencia comparativa
@@ -79,14 +79,14 @@ ingpc_consistency_comparison_report |>
     Observed_Expanded_N = "Población"
   ) |>
   gt::tab_spanner(
-    label = "Referencia — Etapa 01A",
+    label = "Conteo original",
     columns = c(
       Reference_Sample_N,
       Reference_Expanded_N
     )
   ) |>
   gt::tab_spanner(
-    label = "Resultado — Etapa 03A",
+    label = "Conteo tras el tratamiento",
     columns = c(
       Observed_Sample_N,
       Observed_Expanded_N

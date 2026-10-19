@@ -8,7 +8,6 @@
    1. GT tables
    Professional statistical / publication style
    ----------------------------------------------------------------------------- */
-
 .gt_table {
   width: 100% !important;
   max-width: 100% !important;
@@ -61,7 +60,6 @@
    <thead>. This keeps standard headers independent from grouped or hierarchical
    header structures.
 */
-
 .gt_table .gt_col_heading {
   padding: 8px 9px !important;
 
@@ -84,7 +82,6 @@
 /* -----------------------------------------------------------------------------
    4. Summary tables with stub column
    ----------------------------------------------------------------------------- */
-
 /*
    Optional presentation variant for tables whose first visible column is a GT
    stub and whose totals are generated through summary/grand-summary rows.
@@ -98,7 +95,6 @@
    The report defines the semantic table structure. Visual treatment remains
    centralized in this stylesheet.
 */
-
 .table-summary-stub .gt_table .gt_stubhead {
   padding: 8px 9px !important;
 
@@ -119,7 +115,6 @@
 
 
 /* Keep explanatory text visually attached to the summary table. */
-
 .table-summary-stub {
   margin-bottom: 0 !important;
 }
@@ -142,13 +137,12 @@
 /* -----------------------------------------------------------------------------
    5. Grouped / hierarchical table headers
    ----------------------------------------------------------------------------- */
-
 /*
    Optional presentation variant for tables with grouped column headings.
 
    Example:
 
-                     Etapa 01A              Etapa 03A
+                     Conteo 01A              Conteo 03A
    Universo       Muestra  Población    Muestra  Población
    verificado
 
@@ -161,10 +155,7 @@
    The report defines the semantic table structure. All visual treatment remains
    centralized in this stylesheet.
 */
-
-
 /* First header level: grouped headings such as Etapa 01A / Etapa 03A */
-
 .table-grouped-header .gt_table .gt_column_spanner_outer {
   padding: 8px 9px !important;
 
@@ -188,7 +179,6 @@
    Remove GT's internal decorative underline because the separation between
    header levels is already defined on the complete spanner cell above.
 */
-
 .table-grouped-header .gt_table .gt_column_spanner {
   border-bottom: none !important;
 }
@@ -209,7 +199,6 @@
    GT represents this heading with rowspan, so it receives the complete
    upper and lower rules and is centered in both directions.
 */
-
 .table-grouped-header .gt_table .gt_col_heading[rowspan] {
   text-align: center !important;
   vertical-align: middle !important;
@@ -222,7 +211,6 @@
 /* -----------------------------------------------------------------------------
    6. Table body
    ----------------------------------------------------------------------------- */
-
 .gt_table tbody,
 .gt_table .gt_table_body {
   border: none !important;
@@ -253,7 +241,6 @@
    Quarto/Bootstrap can apply striping through table variables and an inset
    box-shadow even when the cell background itself is white. Neutralize both
    mechanisms for all body cells, including the GT stub column. */
-
 .gt_table.table-striped > tbody > tr:nth-of-type(odd) > *,
 .gt_table.table-striped > tbody > tr:nth-of-type(even) > *,
 .gt_table tbody > tr > * {
@@ -276,7 +263,6 @@
 /* -----------------------------------------------------------------------------
    7. Remove external visual boxes
    ----------------------------------------------------------------------------- */
-
 .gt_table,
 .gt_table table,
 .gt_table .gt_table_body,
@@ -289,7 +275,6 @@
 /* -----------------------------------------------------------------------------
    8. Text wrapping
    ----------------------------------------------------------------------------- */
-
 .gt_table td {
   white-space: normal !important;
 }
@@ -298,7 +283,6 @@
 /* -----------------------------------------------------------------------------
    9. Total rows
    ----------------------------------------------------------------------------- */
-
 .gt_table .gt_summary_row,
 .gt_table .gt_grand_summary_row,
 .gt_table tr.gt_summary_row > *,
@@ -316,14 +300,12 @@
    while the containing <tr> remains unclassified. With collapsed borders,
    drawing the separator as the bottom border of the preceding body row is
    more reliable and produces exactly the same rule as the bottom of Total. */
-
 .table-summary-stub .gt_table tbody > tr:has(+ tr > .gt_first_grand_summary_row) > * {
   border-bottom: 1.25px solid #59646a !important;
 }
 
 
 /* Total row presentation. */
-
 .table-summary-stub .gt_table .gt_grand_summary_row {
   background: #ffffff !important;
   font-weight: 650 !important;
@@ -333,10 +315,18 @@
 }
 
 
+/* Stage 04A: separate the explicit Total row in both decile tables. */
+:is(
+  #etapa-04a-tabla-frecuencias-deciles,
+  #etapa-04a-estadisticas-ingpc-deciles
+) .gt_table tbody > tr:nth-last-child(2) > * {
+  border-bottom: 1.25px solid #59646a !important;
+}
+
+
 /* -----------------------------------------------------------------------------
    10. Responsive tables
    ----------------------------------------------------------------------------- */
-
 @media (max-width: 1100px) {
 
   .gt_table {
@@ -364,7 +354,6 @@
 /* -----------------------------------------------------------------------------
    11. Validation status
    ----------------------------------------------------------------------------- */
-
 /* Status colors reinforce the textual result; they do not replace it.
    The corresponding class must be assigned from the actual execution result. */
 

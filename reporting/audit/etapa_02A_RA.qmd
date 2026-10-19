@@ -13,7 +13,7 @@ stage_02a <- report_context$stage_02a
 ## Controles de validación de identificadores {#etapa-02a-controles-identificadores}
 
 ::: {.output-intro}
-Controles ejecutados durante la Etapa 02A para verificar la construcción de `provin`, `rnatura`, `identif` y `dominio` conforme a las reglas de identificación definidas en la metodología validada. La evidencia de los controles atómicos se agrupa en diagnósticos de auditoría para conservar la trazabilidad sin exponer cada comprobación interna por separado.
+La Etapa 02A comprueba que los identificadores de provincia y región natural coincidan con los datos originales, que el identificador de la unidad primaria de muestreo (UPM) tenga una estructura válida y que cada registro esté asignado correctamente a un dominio de estudio. La tabla presenta los controles realizados y sus resultados.
 :::
 
 ```{r}

@@ -13,7 +13,7 @@ stage_01a <- report_context$stage_01a
 ## Controles de integridad {#etapa-01a-controles-integridad}
 
 ::: {.output-intro}
-En la Etapa 01A se comprueba la presencia y compatibilidad de tipos de las variables requeridas, así como la ausencia de valores perdidos, la finitud y la positividad del factor de expansión `fexp`. Los controles se ejecutan individualmente y sus resultados se presentan en diagnósticos agrupados; la evidencia estructurada de cada comprobación se conserva para asegurar la trazabilidad.
+La Etapa 01A verifica que las variables requeridas estén presentes y tengan tipos de datos compatibles. También comprueba que el factor de expansión (`fexp`) no contenga valores perdidos y que todos sus valores sean finitos y estrictamente positivos. La tabla presenta los controles realizados y sus resultados.
 :::
 
 ```{r}

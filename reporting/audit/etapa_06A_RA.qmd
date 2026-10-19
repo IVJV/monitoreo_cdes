@@ -1,7 +1,7 @@
 # Etapa 06A — Media del ingreso per cápita por decil ajustada por diseño muestral `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-06a")` {#etapa-06a .rap-return-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P6A — Contraste de medias estimadas con la referencia exacta de la Etapa 04A, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+**Referencia metodológica:** P6A — Survey-adjusted mean of ingpc by decile, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}
@@ -13,7 +13,8 @@ stage_06a <- report_context$stage_06a
 ## Consistencia del ingreso medio per cápita por decil {#etapa-06a-consistencia-medias}
 
 ::: {.output-intro}
-Se compara la media del ingreso per cápita calculada en la Etapa 04A con la media obtenida en la Etapa 06A mediante el diseño muestral complejo de ENEMDU. La comparación utiliza los valores sin redondear y una tolerancia de `1e-8` (0,00000001). Las medias se presentan con seis decimales. La visualización de las diferencias aplica la misma tolerancia, sin modificar los valores utilizados en la validación.
+La tabla compara las medias del ingreso per cápita por decil calculadas en la Etapa 04A con las estimadas en la Etapa 06A considerando el diseño muestral complejo de la ENEMDU. La validación utiliza los valores sin redondear y una tolerancia de `1e-8` (0,00000001). Las medias se presentan con seis decimales.
+
 :::
 
 ### Evidencia comparativa

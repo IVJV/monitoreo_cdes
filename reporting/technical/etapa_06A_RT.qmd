@@ -1,7 +1,7 @@
 # Etapa 06A — Media del ingreso per cápita por decil ajustada por diseño muestral `r render_stage_assurance(report_context$stage_06a, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-06a-consistencia-medias")` {#etapa-06a .rap-assurance-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P6A — Estimación de `ingpc` por decil ajustada por diseño muestral, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+**Referencia metodológica:** P6A — Survey-adjusted mean of ingpc by decile, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}
@@ -13,7 +13,7 @@ stage_06a <- report_context$stage_06a
 ## Estimación de la media de ingreso per cápita por decil {#etapa-06a-estimacion-ingpc-deciles}
 
 ::: {.output-intro}
-La tabla presenta el ingreso medio per cápita estimado para cada decil, considerando el diseño muestral complejo de ENEMDU. Se incluyen el error estándar, como medida de la precisión de la estimación, y el intervalo de confianza del 95 %. Los resultados se muestran con dos decimales; los cálculos y las validaciones conservan los valores numéricos originales sin redondear.
+La tabla presenta el ingreso medio per cápita de cada decil, estimado considerando el diseño muestral de la ENEMDU. Se incluyen el error estándar y el intervalo de confianza del 95 % para mostrar la precisión de las estimaciones.
 :::
 
 ::: {.table-grouped-header}
