@@ -1,0 +1,124 @@
+# Etapa 06A — Media del ingreso per cápita por decil ajustada por diseño muestral `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-06a")` {#etapa-06a .rap-return-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P6A — Contraste de medias estimadas con la referencia exacta de la Etapa 04A, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-06a-audit-context
+
+stage_06a <- report_context$stage_06a
+```
+
+## Consistencia del ingreso medio per cápita por decil {#etapa-06a-consistencia-medias}
+
+::: {.output-intro}
+Se compara la media del ingreso per cápita calculada en la Etapa 04A con la media obtenida en la Etapa 06A mediante el diseño muestral complejo de ENEMDU. La comparación utiliza los valores sin redondear y una tolerancia de `1e-8` (0,00000001). Las medias se presentan con seis decimales. La visualización de las diferencias aplica la misma tolerancia, sin modificar los valores utilizados en la validación.
+:::
+
+### Evidencia comparativa
+
+<style>
+#etapa-06a-consistencia-medias .table-grouped-header .cell-output-display {
+  margin-bottom: 0 !important;
+}
+
+#etapa-06a-consistencia-medias .table-grouped-header .table-note {
+  margin-top: 0 !important;
+}
+</style>
+
+::: {.table-grouped-header}
+
+```{r}
+#| label: stage-06a-mean-validation-evidence
+
+mean_validation_view <- stage_06a$mean_validation
+
+names(mean_validation_view) <- c(
+  "s06a_audit_decile",
+  "s06a_audit_mean",
+  "s06a_audit_reference",
+  "s06a_audit_difference"
+)
+
+mean_validation_view$s06a_audit_mean <-
+  format_decimal_es(mean_validation_view$s06a_audit_mean, digits = 6)
+
+mean_validation_view$s06a_audit_reference <-
+  format_decimal_es(mean_validation_view$s06a_audit_reference, digits = 6)
+
+# Format differences for reading; underlying values remain unchanged.
+mean_validation_view$s06a_audit_difference <- vapply(
+  mean_validation_view$s06a_audit_difference,
+  function(value) {
+    if (value <= 1e-8) return("0")
+    parts <- strsplit(format_scientific_es(value, digits = 3), "e", fixed = TRUE)[[1]]
+    exponent <- chartr(
+      "0123456789-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁻",
+      as.character(as.integer(parts[2]))
+    )
+    paste0(parts[1], " × 10", exponent)
+  },
+  character(1)
+)
+
+# Arrange both means in the same order described in the introduction.
+mean_validation_view <- mean_validation_view[c(
+  "s06a_audit_decile",
+  "s06a_audit_reference",
+  "s06a_audit_mean",
+  "s06a_audit_difference"
+)]
+
+mean_validation_view |>
+  gt::gt() |>
+  gt::cols_label(
+    s06a_audit_decile = "Decil",
+    s06a_audit_reference = "Media",
+    s06a_audit_mean = "Media con diseño muestral",
+    s06a_audit_difference = "Diferencia absoluta"
+  ) |>
+  gt::tab_spanner(
+    label = "Ingreso medio per cápita",
+    columns = c(s06a_audit_reference, s06a_audit_mean)
+  ) |>
+  gt::cols_align(
+    align = "center",
+    columns = s06a_audit_decile
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      s06a_audit_mean,
+      s06a_audit_reference,
+      s06a_audit_difference
+    )
+  )
+```
+
+::: {.table-note}
+**Nota.** El 0 indica una diferencia dentro de la tolerancia de 0,00000001, no una igualdad exacta.
+:::
+
+:::
+
+### Diagnóstico de auditoría
+
+```{r}
+#| label: stage-06a-mean-consistency-control
+
+render_audit_diagnostics(
+  stage_06a$audit_diagnostics,
+  stage_id = "06a_media_ingpc_por_decil"
+)
+```
+
+### Estado de la etapa {#etapa-06a-estado}
+
+```{r}
+#| label: stage-06a-status
+#| results: asis
+
+render_stage_status(stage_06a$stage_passed)
+```

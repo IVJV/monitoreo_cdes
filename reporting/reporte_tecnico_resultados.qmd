@@ -41,6 +41,9 @@ if (is.null(report_context$stage_03a))
 if (is.null(report_context$stage_04a))
   stop("El contexto de reporting no contiene la Etapa 04A.")
 
+if (is.null(report_context$stage_06a))
+  stop("El contexto de reporting no contiene la Etapa 06A.")
+
 period_metadata <- report_context$stage_01a$period_metadata
 
 review_date <- params$review_date
@@ -69,6 +72,7 @@ if (
 {{< include technical/etapa_02A_RT.qmd >}}
 {{< include technical/etapa_03A_RT.qmd >}}
 {{< include technical/etapa_04A_RT.qmd >}}
+{{< include technical/etapa_06A_RT.qmd >}}
 
 <!--
 Common report navigation:

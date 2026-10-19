@@ -1,0 +1,69 @@
+# Etapa 06A — Media del ingreso per cápita por decil ajustada por diseño muestral `r render_stage_assurance(report_context$stage_06a, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-06a-consistencia-medias")` {#etapa-06a .rap-assurance-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P6A — Estimación de `ingpc` por decil ajustada por diseño muestral, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-06a-context
+
+stage_06a <- report_context$stage_06a
+```
+
+## Estimación de la media de ingreso per cápita por decil {#etapa-06a-estimacion-ingpc-deciles}
+
+::: {.output-intro}
+La tabla presenta el ingreso medio per cápita estimado para cada decil, considerando el diseño muestral complejo de ENEMDU. Se incluyen el error estándar, como medida de la precisión de la estimación, y el intervalo de confianza del 95 %. Los resultados se muestran con dos decimales; los cálculos y las validaciones conservan los valores numéricos originales sin redondear.
+:::
+
+::: {.table-grouped-header}
+
+```{r}
+#| label: stage-06a-survey-mean-table
+
+# Solo presentación: los valores se calculan en la capa productiva.
+svy_mean_view <- stage_06a$svy_ingpc_by_decile_table_num
+
+names(svy_mean_view) <- c(
+  "s06a_mean_decile",
+  "s06a_mean_value",
+  "s06a_mean_se",
+  "s06a_mean_ci_lower",
+  "s06a_mean_ci_upper"
+)
+
+for (variable in names(svy_mean_view)[-1]) {
+  svy_mean_view[[variable]] <- format_decimal_es(
+    svy_mean_view[[variable]], digits = 2
+  )
+}
+
+svy_mean_view |>
+  gt::gt() |>
+  gt::cols_label(
+    s06a_mean_decile = "Decil",
+    s06a_mean_value = "Ingreso medio per cápita",
+    s06a_mean_se = "Error estándar",
+    s06a_mean_ci_lower = "Límite inferior",
+    s06a_mean_ci_upper = "Límite superior"
+  ) |>
+  gt::tab_spanner(
+    label = "Intervalo de confianza del 95 %",
+    columns = c(s06a_mean_ci_lower, s06a_mean_ci_upper)
+  ) |>
+  gt::cols_align(
+    align = "center",
+    columns = s06a_mean_decile
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      s06a_mean_value,
+      s06a_mean_se,
+      s06a_mean_ci_lower,
+      s06a_mean_ci_upper
+    )
+  )
+```
+
+:::

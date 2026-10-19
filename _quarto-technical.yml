@@ -41,3 +41,9 @@ website:
 
           - text: "Estadísticos del ingreso per cápita por decil"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-04a-estadisticas-ingpc-deciles
+
+      - section: "Etapa 06A — Media de ingpc ajustada por diseño muestral"
+        contents:
+
+          - text: "Estimación de la media de ingreso per cápita por decil"
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-06a-estimacion-ingpc-deciles

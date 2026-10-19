@@ -97,6 +97,19 @@ build_report_context <- function(input_file) {
     ingpc_deciles_result$data
   )
 
+  # Stage 06A — Survey-adjusted mean of INGPC by decile
+  ingpc_survey_mean_result <- build_ingpc_survey_mean_stage(
+    d1,
+    ingpc_deciles_result$point4_ingpc_mean_reference
+  )
+
+  stage_06a_audit <- build_stage_audit_diagnostics(
+    validation_evidence = ingpc_survey_mean_result$validation_evidence,
+    control_catalog = control_catalog,
+    audit_diagnostic_catalog = audit_diagnostic_catalog,
+    stage_id = "06a_media_ingpc_por_decil"
+  )
+
   # ---------------------------------------------------------------------------
   # Reporting context
   # ---------------------------------------------------------------------------
@@ -161,6 +174,16 @@ build_report_context <- function(input_file) {
     stage_05a = list(
       stage_id = "05a_diseno_muestral",
       d1 = d1
+    ),
+
+    stage_06a = list(
+      stage_id = "06a_media_ingpc_por_decil",
+      svy_ingpc_by_decile_table_num = ingpc_survey_mean_result$svy_ingpc_by_decile_table_num,
+      svy_ingpc_by_decile_table = ingpc_survey_mean_result$svy_ingpc_by_decile_table,
+      mean_validation = ingpc_survey_mean_result$mean_validation,
+      validation_evidence = ingpc_survey_mean_result$validation_evidence,
+      audit_diagnostics = stage_06a_audit$diagnostics,
+      stage_passed = stage_06a_audit$stage_passed
     )
   )
 }

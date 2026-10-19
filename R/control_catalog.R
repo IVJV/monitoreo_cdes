@@ -33,7 +33,8 @@ local({
     "stage_01a_ingestion.R",
     "stage_02a_identifiers.R",
     "stage_03a_ingpc_treatment.R",
-    "stage_04a_deciles_ingpc.R"
+    "stage_04a_deciles_ingpc.R",
+    "stage_06a_media_ingpc_por_decil.R"
   )
 
   invisible(
@@ -55,7 +56,8 @@ local({
     internal_env$build_stage_01a_control_definitions(),
     internal_env$build_stage_02a_control_definitions(),
     internal_env$build_stage_03a_control_definitions(),
-    internal_env$build_stage_04a_control_definitions()
+    internal_env$build_stage_04a_control_definitions(),
+    internal_env$build_stage_06a_control_definitions()
   )
 
   assembled_control_catalog <- do.call(

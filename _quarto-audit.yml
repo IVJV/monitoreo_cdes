@@ -32,3 +32,9 @@ website:
 
           - text: "Controles de validación de deciles de ingreso per cápita"
             href: reporting/reporte_controles_internos.qmd#etapa-04a-controles-deciles
+
+      - section: "Etapa 06A — Media de ingpc ajustada por diseño muestral"
+        contents:
+
+          - text: "Consistencia de las medias estimadas por diseño muestral"
+            href: reporting/reporte_controles_internos.qmd#etapa-06a-consistencia-medias

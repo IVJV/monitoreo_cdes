@@ -64,6 +64,10 @@ validate_ingpc_decile_means <- function(
       "La validación de medias de la encuesta falló: uno o más deciles no tienen una media de referencia de la Etapa 04."
     )
 
+  # Reject missing and non-finite means, as required by the reference script.
+  if (anyNA(mean_validation$Mean) || any(!is.finite(mean_validation$Mean)))
+    stop("La validación de medias falló: existen estimaciones faltantes o no finitas.")
+
   # Numerical comparison uses exact unrounded values
   if (any(mean_validation$Difference > mean_tolerance))
     stop(paste(
@@ -77,4 +81,38 @@ validate_ingpc_decile_means <- function(
     ))
 
   mean_validation
+}
+
+# ==============================================================================
+# 3. Execute Stage 06A once and preserve methodological outputs
+# ==============================================================================
+
+build_ingpc_survey_mean_stage <- function(d1, point4_ingpc_mean_reference) {
+
+  svy_ingpc_by_decile_table_num <- estimate_ingpc_by_decile(d1)
+  mean_validation <- validate_ingpc_decile_means(
+    svy_ingpc_by_decile_table_num,
+    point4_ingpc_mean_reference
+  )
+
+  # Original 6A output: a display-only table with six decimal places.
+  svy_ingpc_by_decile_table <- svy_ingpc_by_decile_table_num |>
+    dplyr::mutate(
+      dplyr::across(
+        c(Mean, Linearized_Std_Err, CI_95_Lower, CI_95_Upper),
+        ~ sprintf("%.6f", .x)
+      )
+    )
+
+  list(
+    svy_ingpc_by_decile_table_num = svy_ingpc_by_decile_table_num,
+    svy_ingpc_by_decile_table = svy_ingpc_by_decile_table,
+    mean_validation = mean_validation,
+    validation_evidence = data.frame(
+      stage_id = "06a_media_ingpc_por_decil",
+      check_id = "survey_mean_consistency",
+      passed = TRUE,
+      stringsAsFactors = FALSE
+    )
+  )
 }
