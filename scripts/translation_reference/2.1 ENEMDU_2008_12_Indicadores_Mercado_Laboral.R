@@ -115,7 +115,7 @@ ENEMDU_laboral <- ENEMDU_laboral %>%
 ###--------------------------------------------------------------------------###
 ###        2B.2 Auxiliary variables for CONDACTN subcategories               ###
 ###--------------------------------------------------------------------------###
-# b. Create CONDACTN subcategory variables
+# Create CONDACTN subcategory variables
 ENEMDU_laboral <- ENEMDU_laboral %>%
   mutate(
     empleo_adecuado = make_indicator(condactn_num == 1),
@@ -132,7 +132,7 @@ ENEMDU_laboral <- ENEMDU_laboral %>%
 ###--------------------------------------------------------------------------###
 ###                  2B.3 Official variable metadata                         ###
 ###--------------------------------------------------------------------------###
-# c. Assign official variable and value labels
+# Assign official variable and value labels
 auxiliary_variable_labels <- c(
   pet = "Población en Edad de Trabajar (PET)",
   pea = "Población Económicamente Activa (PEA)",
@@ -166,7 +166,7 @@ for (variable in names(auxiliary_variable_labels)) {
 ###--------------------------------------------------------------------------###
 ###               2B.4 Hierarchical population table                         ###
 ###--------------------------------------------------------------------------###
-# d. Define hierarchical order and parent category
+# a. Define hierarchical order and parent category
 population_hierarchy <- data.frame(
   Order = 1:16,
   Level = c(0, 1, 1, 2, 3, 4, 4, 5, 5, 4, 4, 4, 3, 4, 4, 2),
@@ -187,7 +187,7 @@ population_hierarchy <- data.frame(
 )
 population_hierarchy$Category <- unname(auxiliary_variable_labels[population_hierarchy$Variable])
 
-# Calculate exact expanded frequencies
+# b. Calculate exact expanded frequencies
 population_hierarchy$Expanded_Frequency <- vapply(
   population_hierarchy$Variable, function(variable) sum(ENEMDU_laboral$fexp * as.numeric(ENEMDU_laboral[[variable]]), na.rm = TRUE),numeric(1))
 
@@ -201,7 +201,7 @@ population_classification_table_num <- population_hierarchy %>% arrange(Order)
 ###--------------------------------------------------------------------------###
 ###          2B.5 Validation against original CONDACTN                       ###
 ###--------------------------------------------------------------------------###
-# e. Build comparative evidence against original CONDACTN distribution
+# a. Build comparative evidence against original CONDACTN distribution
 population_totals <- setNames(population_classification_table_num$Expanded_Frequency, population_classification_table_num$Variable)
 
 # Complete original CONDACTN reference, allowing zero-frequency categories
@@ -238,7 +238,7 @@ population_validation <- data.frame(
 )
 
 
-# f. QA [population_classification_consistency] — Validate constructed indicators against original CONDACTN distribution
+# b. QA [population_classification_consistency] — Validate constructed indicators against original CONDACTN distribution
 if (any(abs(condactn_validation_difference) > 1e-8)) {
   stop(paste("Constructed population indicators do not reproduce the original CONDACTN distribution for:",
     paste(names(condactn_validation_difference)[abs(condactn_validation_difference) > 1e-8], collapse = ", ")))
@@ -248,7 +248,7 @@ if (any(abs(condactn_validation_difference) > 1e-8)) {
 ###--------------------------------------------------------------------------###
 ###               2B.6 Visual grouping and hierarchical table                ###
 ###--------------------------------------------------------------------------###
-# g. Create technical visual table; Visual_Group is a display grouping
+# Create technical visual table; Visual_Group is a display grouping
 # [Distinct from the conceptual Level/Parent hierarchy defined in Point 2.4]
 population_classification_gt <- population_classification_table_num %>%
   mutate(
