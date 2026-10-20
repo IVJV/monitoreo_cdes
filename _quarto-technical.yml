@@ -27,10 +27,10 @@ website:
           - text: "Distribución por dominio de estudio"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-02a-distribucion-dominios
 
-      - section: "Etapa 03A — Tratamiento de ingpc"
+      - section: "Etapa 03A — Tratamiento de la variable de ingreso per cápita"
         contents:
 
-          - text: "Tratamiento del universo de ingpc"
+          - text: "Conformación del universo analítico"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-03a-tratamiento-universo-ingpc
 
       - section: "Etapa 04A — Deciles de ingreso per cápita"
@@ -42,8 +42,14 @@ website:
           - text: "Estadísticos del ingreso per cápita por decil"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-04a-estadisticas-ingpc-deciles
 
-      - section: "Etapa 06A — Media de ingpc ajustada por diseño muestral"
+      - section: "Etapa 06A — Media del ingreso per cápita por decil ajustada por diseño muestral"
         contents:
 
           - text: "Estimación de la media de ingreso per cápita por decil"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-06a-estimacion-ingpc-deciles
+
+      - section: "Etapa 01B — Validación y exploración de la condición de actividad"
+        contents:
+
+          - text: "Distribución de la población según condición de actividad"
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-01b-distribucion-condactn

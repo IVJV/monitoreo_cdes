@@ -10,7 +10,7 @@
 stage_03a <- report_context$stage_03a
 ```
 
-## Construcción y consistencia del universo analítico de `ingpc` {#etapa-03a-construccion-consistencia-universo-analitico-ingpc}
+## Construcción y consistencia del universo analítico de ingreso per cápita {#etapa-03a-construccion-consistencia-universo-analitico-ingpc}
 
 ::: {.output-intro}
 La Etapa 03A verifica que el universo analítico incluya únicamente registros con `ingpc` válido. La tabla compara los conteos de muestra y población registrados en la Etapa 01A con los obtenidos tras el tratamiento, tanto para los registros con `ingpc` perdido como para el universo analítico. El diagnóstico de auditoría resume el resultado de las verificaciones.

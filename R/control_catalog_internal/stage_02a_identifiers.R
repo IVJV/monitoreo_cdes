@@ -1,7 +1,6 @@
 # ==============================================================================
 # Stage 02A — ENEMDU identifiers: control and audit definitions
 # ==============================================================================
-
 build_stage_02a_control_definitions <- function() {
 
   controls <- build_stage_control_catalog(

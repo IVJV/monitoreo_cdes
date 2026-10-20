@@ -21,10 +21,10 @@ website:
           - text: "Controles de validación de identificadores"
             href: reporting/reporte_controles_internos.qmd#etapa-02a-controles-identificadores
 
-      - section: "Etapa 03A — Tratamiento de ingpc"
+      - section: "Etapa 03A — Tratamiento de la variable de ingreso per cápita"
         contents:
 
-          - text: "Construcción y consistencia del universo analítico de ingpc"
+          - text: "Construcción y consistencia del universo analítico de ingreso per cápita"
             href: reporting/reporte_controles_internos.qmd#etapa-03a-construccion-consistencia-universo-analitico-ingpc
 
       - section: "Etapa 04A — Deciles de ingreso per cápita"
@@ -33,8 +33,14 @@ website:
           - text: "Controles de validación de deciles de ingreso per cápita"
             href: reporting/reporte_controles_internos.qmd#etapa-04a-controles-deciles
 
-      - section: "Etapa 06A — Media de ingpc ajustada por diseño muestral"
+      - section: "Etapa 06A — Media del ingreso per cápita por decil ajustada por diseño muestral"
         contents:
 
           - text: "Consistencia de las medias estimadas por diseño muestral"
             href: reporting/reporte_controles_internos.qmd#etapa-06a-consistencia-medias
+
+      - section: "Etapa 01B — Validación y exploración de la condición de actividad"
+        contents:
+
+          - text: "Validación de códigos y etiquetas de condición de actividad"
+            href: reporting/reporte_controles_internos.qmd#etapa-01b-validacion-condactn

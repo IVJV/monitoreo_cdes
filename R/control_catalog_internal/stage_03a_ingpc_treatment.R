@@ -39,7 +39,7 @@ build_stage_03a_control_definitions <- function() {
           "ingpc_analytical_universe_consistency",
 
         audit_label =
-          "Construcción y consistencia del universo analítico de `ingpc`",
+          "Construcción y consistencia del universo analítico de ingreso per cápita",
 
         audit_description =
           paste(
