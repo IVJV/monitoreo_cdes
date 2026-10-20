@@ -181,6 +181,7 @@ build_report_context <- function(input_file) {
       svy_ingpc_by_decile_table_num = ingpc_survey_mean_result$svy_ingpc_by_decile_table_num,
       svy_ingpc_by_decile_table = ingpc_survey_mean_result$svy_ingpc_by_decile_table,
       mean_validation = ingpc_survey_mean_result$mean_validation,
+      mean_tolerance = ingpc_survey_mean_result$mean_tolerance,
       validation_evidence = ingpc_survey_mean_result$validation_evidence,
       audit_diagnostics = stage_06a_audit$diagnostics,
       stage_passed = stage_06a_audit$stage_passed

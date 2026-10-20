@@ -1,0 +1,62 @@
+```{r}
+#| label: report-setup
+
+source("R/reporting_helpers.R")
+source("R/reporting_stage_assurance.R")
+
+# The report consumes a prebuilt reporting context. Processing and control
+# execution are performed outside the QMD by the reporting runner.
+if (
+  is.null(params$context_file) ||
+  length(params$context_file) != 1L ||
+  !nzchar(params$context_file) ||
+  !file.exists(params$context_file)
+) {
+  stop(
+    paste(
+      "No se encontró un contexto de reporting válido.",
+      "Genere el reporte mediante scripts/reporting/render_reports.R."
+    )
+  )
+}
+
+report_context <- readRDS(params$context_file)
+
+if (is.null(report_context$stage_01a))
+  stop("El contexto de reporting no contiene la Etapa 01A.")
+
+if (is.null(report_context$stage_02a))
+  stop("El contexto de reporting no contiene la Etapa 02A.")
+
+if (is.null(report_context$stage_03a))
+  stop("El contexto de reporting no contiene la Etapa 03A.")
+
+if (is.null(report_context$stage_04a))
+  stop("El contexto de reporting no contiene la Etapa 04A.")
+
+if (is.null(report_context$stage_06a))
+  stop("El contexto de reporting no contiene la Etapa 06A.")
+
+period_metadata <- report_context$stage_01a$period_metadata
+
+review_date <- params$review_date
+
+if (
+  is.null(review_date) ||
+  length(review_date) != 1L ||
+  !nzchar(review_date)
+) {
+  review_date <- format(Sys.Date(), "%d/%m/%Y")
+}
+```
+
+::: {.report-metadata}
+<div class="metadata-label">Archivo fuente</div>
+<div>`r period_metadata$input_name`</div>
+
+<div class="metadata-label">Período</div>
+<div>`r period_metadata$period_code`</div>
+
+<div class="metadata-label">Fecha de revisión</div>
+<div>`r review_date`</div>
+:::

@@ -19,21 +19,17 @@ Los deciles agrupan el universo analítico en diez grupos según el ingreso per 
 ```{r}
 #| label: stage-04a-decile-frequency-table
 
-# Local presentation copy: analytical objects in report_context are unchanged.
-decile_frequency_view <- stage_04a$decile_frequency_table
-
-# Namespace display-only columns to keep GT header IDs unique across reports.
-names(decile_frequency_view) <- c(
-  "s04a_freq_decile",
-  "s04a_freq_population",
-  "s04a_freq_percentage"
+# Presentation only: preserve analytical values in report_context.
+decile_frequency_view <- prepare_gt_view(
+  stage_04a$decile_frequency_table,
+  column_ids = c(
+    Decile = "s04a_freq_decile",
+    Frequency = "s04a_freq_population",
+    Percentage = "s04a_freq_percentage"
+  ),
+  integer_columns = "s04a_freq_population",
+  decimal_columns = c(s04a_freq_percentage = 1)
 )
-
-decile_frequency_view$s04a_freq_population <-
-  format_integer_es(decile_frequency_view$s04a_freq_population)
-
-decile_frequency_view$s04a_freq_percentage <-
-  format_decimal_es(decile_frequency_view$s04a_freq_percentage, digits = 1)
 
 decile_frequency_view |>
   gt::gt() |>
@@ -49,6 +45,15 @@ decile_frequency_view |>
   gt::cols_align(
     align = "right",
     columns = c(s04a_freq_population, s04a_freq_percentage)
+  ) |>
+  gt::text_transform(
+    locations = gt::cells_body(
+      columns = s04a_freq_decile,
+      rows = s04a_freq_decile == "Total"
+    ),
+    fn = function(x) gt::html(
+      paste0('<span class="rap-total-row-marker">', x, '</span>')
+    )
   )
 ```
 
@@ -61,32 +66,23 @@ La tabla presenta la población y los estadísticos del ingreso per cápita por 
 ```{r}
 #| label: stage-04a-decile-report-table
 
-# Local presentation copy: no analytical values are recalculated.
-decile_report_view <- stage_04a$decile_report_table
-
-names(decile_report_view) <- c(
-  "s04a_stats_decile",
-  "s04a_stats_population",
-  "s04a_stats_sum",
-  "s04a_stats_mean",
-  "s04a_stats_min",
-  "s04a_stats_max"
+# Presentation only: preserve unrounded analytical values in report_context.
+decile_report_view <- prepare_gt_view(
+  stage_04a$decile_report_table,
+  column_ids = c(
+    Decile = "s04a_stats_decile",
+    N = "s04a_stats_population",
+    Sum = "s04a_stats_sum",
+    Mean = "s04a_stats_mean",
+    Min = "s04a_stats_min",
+    Max = "s04a_stats_max"
+  ),
+  integer_columns = c(
+    "s04a_stats_population", "s04a_stats_sum",
+    "s04a_stats_min", "s04a_stats_max"
+  ),
+  decimal_columns = c(s04a_stats_mean = 2)
 )
-
-decile_report_view$s04a_stats_population <-
-  format_integer_es(decile_report_view$s04a_stats_population)
-
-decile_report_view$s04a_stats_sum <-
-  format_integer_es(decile_report_view$s04a_stats_sum)
-
-decile_report_view$s04a_stats_mean <-
-  format_decimal_es(decile_report_view$s04a_stats_mean, digits = 2)
-
-decile_report_view$s04a_stats_min <-
-  format_integer_es(decile_report_view$s04a_stats_min)
-
-decile_report_view$s04a_stats_max <-
-  format_integer_es(decile_report_view$s04a_stats_max)
 
 decile_report_view |>
   gt::gt() |>
@@ -110,6 +106,15 @@ decile_report_view |>
       s04a_stats_mean,
       s04a_stats_min,
       s04a_stats_max
+    )
+  ) |>
+  gt::text_transform(
+    locations = gt::cells_body(
+      columns = s04a_stats_decile,
+      rows = s04a_stats_decile == "Total"
+    ),
+    fn = function(x) gt::html(
+      paste0('<span class="rap-total-row-marker">', x, '</span>')
     )
   )
 ```

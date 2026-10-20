@@ -18,42 +18,30 @@ La tabla compara las medias del ingreso per cápita por decil calculadas en la E
 :::
 
 ### Evidencia comparativa
-
-<style>
-#etapa-06a-consistencia-medias .table-grouped-header .cell-output-display {
-  margin-bottom: 0 !important;
-}
-
-#etapa-06a-consistencia-medias .table-grouped-header .table-note {
-  margin-top: 0 !important;
-}
-</style>
-
-::: {.table-grouped-header}
+::: {.table-grouped-header .table-attached-note}
 
 ```{r}
 #| label: stage-06a-mean-validation-evidence
 
-mean_validation_view <- stage_06a$mean_validation
-
-names(mean_validation_view) <- c(
-  "s06a_audit_decile",
-  "s06a_audit_mean",
-  "s06a_audit_reference",
-  "s06a_audit_difference"
+mean_validation_view <- prepare_gt_view(
+  stage_06a$mean_validation,
+  column_ids = c(
+    Decile = "s06a_audit_decile",
+    Mean = "s06a_audit_mean",
+    Mean_reference = "s06a_audit_reference",
+    Difference = "s06a_audit_difference"
+  ),
+  decimal_columns = c(
+    s06a_audit_mean = 6,
+    s06a_audit_reference = 6
+  )
 )
-
-mean_validation_view$s06a_audit_mean <-
-  format_decimal_es(mean_validation_view$s06a_audit_mean, digits = 6)
-
-mean_validation_view$s06a_audit_reference <-
-  format_decimal_es(mean_validation_view$s06a_audit_reference, digits = 6)
 
 # Format differences for reading; underlying values remain unchanged.
 mean_validation_view$s06a_audit_difference <- vapply(
   mean_validation_view$s06a_audit_difference,
   function(value) {
-    if (value <= 1e-8) return("0")
+    if (value <= stage_06a$mean_tolerance) return("0")
     parts <- strsplit(format_scientific_es(value, digits = 3), "e", fixed = TRUE)[[1]]
     exponent <- chartr(
       "0123456789-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁻",

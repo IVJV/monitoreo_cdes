@@ -19,21 +19,11 @@ Síntesis de los identificadores generados, su cobertura en muestra y población
 ```{r}
 #| label: stage-02a-identifier-summary
 
-identifier_summary_report <- stage_02a$identifier_summary
-
-# A stage-specific display name avoids duplicate HTML header IDs across RT tables.
-names(identifier_summary_report)[
-  names(identifier_summary_report) == "Variable"
-] <- "Variable_02a"
-
-identifier_summary_report$Sample_Valid <-
-  format_integer_es(identifier_summary_report$Sample_Valid)
-
-identifier_summary_report$Population_Valid <-
-  format_integer_es(identifier_summary_report$Population_Valid)
-
-identifier_summary_report$Distinct_Values <-
-  format_integer_es(identifier_summary_report$Distinct_Values)
+identifier_summary_report <- prepare_gt_view(
+  stage_02a$identifier_summary,
+  column_ids = c(Variable = "Variable_02a"),
+  integer_columns = c("Sample_Valid", "Population_Valid", "Distinct_Values")
+)
 
 identifier_summary_report |>
   gt::gt() |>
@@ -70,16 +60,10 @@ Distribución de la muestra y de la población por dominio y área, junto con el
 ```{r}
 #| label: stage-02a-domain-distribution
 
-domain_distribution_report <- stage_02a$domain_distribution
-
-domain_distribution_report$Sample_N <-
-  format_integer_es(domain_distribution_report$Sample_N)
-
-domain_distribution_report$Expanded_N <-
-  format_integer_es(domain_distribution_report$Expanded_N)
-
-domain_distribution_report$Unique_PSUs <-
-  format_integer_es(domain_distribution_report$Unique_PSUs)
+domain_distribution_report <- prepare_gt_view(
+  stage_02a$domain_distribution,
+  integer_columns = c("Sample_N", "Expanded_N", "Unique_PSUs")
+)
 
 domain_distribution_report |>
   gt::gt() |>

@@ -66,19 +66,10 @@ Estructura de las variables requeridas y distribución de valores válidos y per
 ```{r}
 #| label: stage-01a-required-variables
 
-required_variables_report <- stage_01a$required_variables_overview
-
-required_variables_report$Valid_N <-
-  format_integer_es(required_variables_report$Valid_N)
-
-required_variables_report$Missing_N <-
-  format_integer_es(required_variables_report$Missing_N)
-
-required_variables_report$Valid_Expanded <-
-  format_integer_es(required_variables_report$Valid_Expanded)
-
-required_variables_report$Missing_Expanded <-
-  format_integer_es(required_variables_report$Missing_Expanded)
+required_variables_report <- prepare_gt_view(
+  stage_01a$required_variables_overview,
+  integer_columns = c("Valid_N", "Missing_N", "Valid_Expanded", "Missing_Expanded")
+)
 
 required_variables_report |>
   gt::gt() |>

@@ -2,11 +2,13 @@
 # Survey-adjusted mean of INGPC by decile
 # ==============================================================================
 
+# Canonical tolerance for the validated Stage 06A mean comparison.
+INGPC_MEAN_TOLERANCE <- 1e-8
+
 
 # ==============================================================================
 # 1. Estimate INGPC by decile
 # ==============================================================================
-
 estimate_ingpc_by_decile <- function(d1) {
 
   # Estimate mean per capita income by decile using the complex survey design
@@ -38,14 +40,13 @@ estimate_ingpc_by_decile <- function(d1) {
 # ==============================================================================
 # 2. Validate survey-adjusted INGPC means
 # ==============================================================================
-
 validate_ingpc_decile_means <- function(
   svy_ingpc_by_decile_table_num,
   point4_ingpc_mean_reference
 ) {
 
   # Validate survey means against the exact unrounded weighted means from Stage 04
-  mean_tolerance <- 1e-8
+  mean_tolerance <- INGPC_MEAN_TOLERANCE
 
   mean_validation <- svy_ingpc_by_decile_table_num |>
     dplyr::select(Decile, Mean) |>
@@ -86,7 +87,6 @@ validate_ingpc_decile_means <- function(
 # ==============================================================================
 # 3. Execute Stage 06A once and preserve methodological outputs
 # ==============================================================================
-
 build_ingpc_survey_mean_stage <- function(d1, point4_ingpc_mean_reference) {
 
   svy_ingpc_by_decile_table_num <- estimate_ingpc_by_decile(d1)
@@ -108,6 +108,7 @@ build_ingpc_survey_mean_stage <- function(d1, point4_ingpc_mean_reference) {
     svy_ingpc_by_decile_table_num = svy_ingpc_by_decile_table_num,
     svy_ingpc_by_decile_table = svy_ingpc_by_decile_table,
     mean_validation = mean_validation,
+    mean_tolerance = INGPC_MEAN_TOLERANCE,
     validation_evidence = data.frame(
       stage_id = "06a_media_ingpc_por_decil",
       check_id = "survey_mean_consistency",

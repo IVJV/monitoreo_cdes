@@ -22,21 +22,22 @@ La tabla presenta el ingreso medio per cápita de cada decil, estimado considera
 #| label: stage-06a-survey-mean-table
 
 # Solo presentación: los valores se calculan en la capa productiva.
-svy_mean_view <- stage_06a$svy_ingpc_by_decile_table_num
-
-names(svy_mean_view) <- c(
-  "s06a_mean_decile",
-  "s06a_mean_value",
-  "s06a_mean_se",
-  "s06a_mean_ci_lower",
-  "s06a_mean_ci_upper"
-)
-
-for (variable in names(svy_mean_view)[-1]) {
-  svy_mean_view[[variable]] <- format_decimal_es(
-    svy_mean_view[[variable]], digits = 2
+svy_mean_view <- prepare_gt_view(
+  stage_06a$svy_ingpc_by_decile_table_num,
+  column_ids = c(
+    Decile = "s06a_mean_decile",
+    Mean = "s06a_mean_value",
+    Linearized_Std_Err = "s06a_mean_se",
+    CI_95_Lower = "s06a_mean_ci_lower",
+    CI_95_Upper = "s06a_mean_ci_upper"
+  ),
+  decimal_columns = c(
+    s06a_mean_value = 2,
+    s06a_mean_se = 2,
+    s06a_mean_ci_lower = 2,
+    s06a_mean_ci_upper = 2
   )
-}
+)
 
 svy_mean_view |>
   gt::gt() |>

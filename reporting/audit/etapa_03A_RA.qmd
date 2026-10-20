@@ -33,25 +33,13 @@ ingpc_consistency_comparison_report$Universo <-
     ]
   )
 
-ingpc_consistency_comparison_report$Reference_Sample_N <-
-  format_integer_es(
-    ingpc_consistency_comparison_report$Reference_Sample_N
+ingpc_consistency_comparison_report <- prepare_gt_view(
+  ingpc_consistency_comparison_report,
+  integer_columns = c(
+    "Reference_Sample_N", "Reference_Expanded_N",
+    "Observed_Sample_N", "Observed_Expanded_N"
   )
-
-ingpc_consistency_comparison_report$Reference_Expanded_N <-
-  format_integer_es(
-    ingpc_consistency_comparison_report$Reference_Expanded_N
-  )
-
-ingpc_consistency_comparison_report$Observed_Sample_N <-
-  format_integer_es(
-    ingpc_consistency_comparison_report$Observed_Sample_N
-  )
-
-ingpc_consistency_comparison_report$Observed_Expanded_N <-
-  format_integer_es(
-    ingpc_consistency_comparison_report$Observed_Expanded_N
-  )
+)
 
 ingpc_consistency_comparison_report <-
   ingpc_consistency_comparison_report[

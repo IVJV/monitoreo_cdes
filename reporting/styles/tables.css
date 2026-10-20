@@ -133,6 +133,14 @@
   margin-bottom: 0 !important;
 }
 
+/* Table with an explanatory note visually attached to its output. */
+.table-attached-note .cell-output-display {
+  margin-bottom: 0 !important;
+}
+
+.table-attached-note .table-note {
+  margin-top: 0 !important;
+}
 
 /* -----------------------------------------------------------------------------
    5. Grouped / hierarchical table headers
@@ -315,11 +323,9 @@
 }
 
 
-/* Stage 04A: separate the explicit Total row in both decile tables. */
-:is(
-  #etapa-04a-tabla-frecuencias-deciles,
-  #etapa-04a-estadisticas-ingpc-deciles
-) .gt_table tbody > tr:nth-last-child(2) > * {
+/* Separate the row preceding a semantically marked Total row.
+   The separation no longer depends on row order or stage IDs. */
+.gt_table tbody > tr:has(+ tr .rap-total-row-marker) > * {
   border-bottom: 1.25px solid #59646a !important;
 }
 

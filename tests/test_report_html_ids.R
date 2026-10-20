@@ -29,6 +29,22 @@ for (report_name in names(files)) {
     "etapa-01a" else "etapa-01a-controles-integridad"
   stopifnot(expected_anchor %in% ids)
 
+  # 04A uses semantic markers for both explicit Total rows, not their position.
+  if (report_name == "technical") {
+    total_markers <- xml2::xml_find_all(
+      document,
+      paste0(
+        '//*[@id="etapa-04a"]//span[',
+        'contains(concat(" ", normalize-space(@class), " "),',
+        ' " rap-total-row-marker ")]'
+      )
+    )
+    stopifnot(
+      length(total_markers) == 2L,
+      all(xml2::xml_text(total_markers) == "Total")
+    )
+  }
+
   cat("PASS:", report_name, "HTML IDs unique; stage anchor present\n")
 }
 

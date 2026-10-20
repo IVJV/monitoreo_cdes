@@ -89,7 +89,73 @@ format_scientific_es <- function(x, digits = 3) {
 
 
 # ==============================================================================
-# 5. Canonical INGPC-universe presentation
+# 5. Preparation of display-only GT table views
+# ==============================================================================
+# The source data frame is not modified. Column IDs are explicitly mapped to
+# their display-only identifiers; statistical transformations are not performed.
+prepare_gt_view <- function(
+  data,
+  column_ids = character(),
+  integer_columns = character(),
+  decimal_columns = numeric()
+) {
+  if (!is.data.frame(data))
+    stop("La vista GT requiere un data.frame.")
+
+  if (!is.character(column_ids) ||
+      (length(column_ids) > 0L &&
+       (is.null(names(column_ids)) || anyNA(names(column_ids)) ||
+        any(!nzchar(names(column_ids))) || anyNA(column_ids) ||
+        any(!nzchar(column_ids)) || anyDuplicated(names(column_ids)))))
+    stop("column_ids debe ser un vector de correspondencias con nombres válidos.")
+
+  if (!is.character(integer_columns) || anyNA(integer_columns) ||
+      anyDuplicated(integer_columns))
+    stop("integer_columns debe contener nombres de columnas únicos.")
+
+  if (!is.numeric(decimal_columns) ||
+      (length(decimal_columns) > 0L &&
+       (is.null(names(decimal_columns)) || anyNA(names(decimal_columns)) ||
+        any(!nzchar(names(decimal_columns))) ||
+        anyDuplicated(names(decimal_columns)) ||
+        anyNA(decimal_columns) ||
+        any(!is.finite(decimal_columns)) ||
+        any(decimal_columns < 0 | decimal_columns != floor(decimal_columns)))))
+    stop("decimal_columns debe asociar cada columna a decimales enteros no negativos.")
+
+  view <- data
+  if (length(column_ids) > 0L) {
+    missing_source <- setdiff(names(column_ids), names(view))
+    if (length(missing_source) > 0L)
+      stop(paste("Columnas originales ausentes:", paste(missing_source, collapse = ", ")))
+
+    renamed <- names(view)
+    renamed[match(names(column_ids), renamed)] <- unname(column_ids)
+    if (anyDuplicated(renamed))
+      stop("Los identificadores GT deben ser únicos.")
+    names(view) <- renamed
+  }
+
+  target_columns <- c(integer_columns, names(decimal_columns))
+  if (anyDuplicated(target_columns))
+    stop("Una columna no puede tener dos formatos diferentes.")
+  missing_target <- setdiff(target_columns, names(view))
+  if (length(missing_target) > 0L)
+    stop(paste("Columnas para formato ausentes:", paste(missing_target, collapse = ", ")))
+
+  for (column in integer_columns)
+    view[[column]] <- format_integer_es(view[[column]])
+  for (column in names(decimal_columns))
+    view[[column]] <- format_decimal_es(
+      view[[column]], digits = decimal_columns[[column]]
+    )
+
+  view
+}
+
+
+# ==============================================================================
+# 6. Canonical INGPC-universe presentation
 # ==============================================================================
 # Stable display order and labels for the canonical INGPC universe.
 # The analytical values originate in Stage 01A. These definitions affect only
@@ -190,7 +256,7 @@ render_ingpc_universe_table <- function(ingpc_universe_summary) {
 
 
 # ==============================================================================
-# 6. Common audit-diagnostic rendering
+# 7. Common audit-diagnostic rendering
 # ==============================================================================
 render_audit_diagnostics <- function(audit_diagnostics, stage_id) {
 
@@ -268,11 +334,12 @@ render_audit_diagnostics <- function(audit_diagnostics, stage_id) {
 
 
 # ==============================================================================
-# 7. Common stage-status rendering
+# 8. Common stage-status rendering
 # ==============================================================================
 render_stage_status <- function(stage_passed) {
 
   if (
+    !is.logical(stage_passed) ||
     length(stage_passed) != 1L ||
     is.na(stage_passed)
   ) {
