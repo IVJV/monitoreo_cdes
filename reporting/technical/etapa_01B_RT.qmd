@@ -1,0 +1,69 @@
+# Etapa 01B — Validación y exploración de la condición de actividad `r render_stage_assurance(report_context$stage_01b, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-01b-validacion-condactn")` {#etapa-01b .rap-assurance-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P1B — CONDACTN validation and exploration, script `2.1 ENEMDU_2008_12_Indicadores_Mercado_Laboral.R` validado.
+:::
+
+```{r}
+#| label: stage-01b-context
+
+stage_01b <- report_context$stage_01b
+```
+
+## Distribución de la población según condición de actividad {#etapa-01b-distribucion-condactn}
+
+::: {.output-intro}
+La tabla presenta la distribución de la población según la condición de actividad (`CONDACTN`) en el universo analítico con `ingpc` válido. La población se estima aplicando el factor de expansión `fexp`, mientras que los porcentajes se calculan respecto del total de población clasificada.
+:::
+
+```{r}
+#| label: stage-01b-condactn-frequency-table
+
+# Presentación exclusivamente: consume la tabla producida en 01B.
+# La referencia numérica sin redondear se conserva en el contexto para 02B.
+condactn_frequency_view <- prepare_gt_view(
+  stage_01b$condactn_frequency_table,
+  column_ids = c(
+    CONDACTN = "s01b_condactn_code",
+    Category = "s01b_condactn_category",
+    Frequency = "s01b_condactn_population",
+    Valid_Percentage = "s01b_condactn_valid_pct",
+    Cumulative_Percentage = "s01b_condactn_cumulative_pct"
+  ),
+  integer_columns = "s01b_condactn_population",
+  decimal_columns = c(
+    s01b_condactn_valid_pct = 1,
+    s01b_condactn_cumulative_pct = 1
+  )
+)
+
+condactn_frequency_view$s01b_condactn_cumulative_pct[
+  condactn_frequency_view$s01b_condactn_category == "Total"
+] <- ""
+
+condactn_frequency_view |>
+  gt::gt() |>
+  gt::cols_label(
+    s01b_condactn_code = "CONDACTN",
+    s01b_condactn_category = "Condición de actividad",
+    s01b_condactn_population = unname(reporting_labels[["population"]]),
+    s01b_condactn_valid_pct = "Porcentaje (%)",
+    s01b_condactn_cumulative_pct = "Porcentaje acumulado (%)"
+  ) |>
+  gt::cols_align(
+    align = "left",
+    columns = s01b_condactn_category
+  ) |>
+  gt::cols_align(
+    align = "center",
+    columns = s01b_condactn_code
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      s01b_condactn_population,
+      s01b_condactn_valid_pct,
+      s01b_condactn_cumulative_pct
+    )
+  )
+```

@@ -12,6 +12,7 @@ params:
 {{< include technical/etapa_03A_RT.qmd >}}
 {{< include technical/etapa_04A_RT.qmd >}}
 {{< include technical/etapa_06A_RT.qmd >}}
+{{< include technical/etapa_01B_RT.qmd >}}
 
 <!--
 Common report navigation:

@@ -111,6 +111,21 @@ build_report_context <- function(input_file) {
   )
 
   # ---------------------------------------------------------------------------
+  # Stage 01B — CONDACTN validation and reference distribution
+  # ---------------------------------------------------------------------------
+  condactn_result <- build_condactn_stage(
+    ingpc_deciles_result$data
+  )
+
+  stage_01b_audit <- build_stage_audit_diagnostics(
+    validation_evidence = condactn_result$validation_evidence,
+    control_catalog = control_catalog,
+    audit_diagnostic_catalog = audit_diagnostic_catalog,
+    stage_id = "01b_condactn_reference"
+  )
+
+
+  # ---------------------------------------------------------------------------
   # Reporting context
   # ---------------------------------------------------------------------------
   # The context preserves stage of origin only for traceability. It does not
@@ -185,6 +200,15 @@ build_report_context <- function(input_file) {
       validation_evidence = ingpc_survey_mean_result$validation_evidence,
       audit_diagnostics = stage_06a_audit$diagnostics,
       stage_passed = stage_06a_audit$stage_passed
+    ),
+
+    stage_01b = list(
+      stage_id = "01b_condactn_reference",
+      condactn_frequency_reference = condactn_result$condactn_frequency_reference,
+      condactn_frequency_table = condactn_result$condactn_frequency_table,
+      validation_evidence = condactn_result$validation_evidence,
+      audit_diagnostics = stage_01b_audit$diagnostics,
+      stage_passed = stage_01b_audit$stage_passed
     )
   )
 }

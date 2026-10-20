@@ -54,6 +54,7 @@ qa_main <- function() {
     "tests/test_p4a_contract.R",
     "tests/test_p5a_contract.R",
     "tests/test_p6a_contract.R",
+    "tests/test_p1b_contract.R",
     "tests/test_stage_assurance.R",
     "tests/test_report_table_ids.R"
   )

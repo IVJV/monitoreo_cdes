@@ -1,0 +1,37 @@
+# Etapa 01B — Validación y exploración de la condición de actividad `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-01b")` {#etapa-01b .rap-return-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P1B — CONDACTN validation and exploration, script `2.1 ENEMDU_2008_12_Indicadores_Mercado_Laboral.R` validado.
+:::
+
+```{r}
+#| label: stage-01b-audit-context
+
+stage_01b <- report_context$stage_01b
+```
+
+## Validación de códigos y etiquetas de condición de actividad {#etapa-01b-validacion-condactn}
+
+::: {.output-intro}
+La Etapa 01B verifica que `CONDACTN` conserve sus etiquetas originales, que los códigos observados correspondan al intervalo de 0 a 9 y que cada código observado tenga una etiqueta de valor. La tabla presenta el diagnóstico registrado durante el procesamiento.
+:::
+
+### Diagnóstico de auditoría
+
+```{r}
+#| label: stage-01b-condactn-controls
+
+render_audit_diagnostics(
+  stage_01b$audit_diagnostics,
+  stage_id = "01b_condactn_reference"
+)
+```
+
+### Estado de la etapa {#etapa-01b-estado}
+
+```{r}
+#| label: stage-01b-status
+#| results: asis
+
+render_stage_status(stage_01b$stage_passed)
+```
