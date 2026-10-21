@@ -53,3 +53,9 @@ website:
 
           - text: "Distribución de la población según condición de actividad"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-01b-distribucion-condactn
+
+      - section: "Etapa 02B — Clasificación de la población"
+        contents:
+
+          - text: "Clasificación jerárquica de la población"
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-02b-clasificacion-poblacion

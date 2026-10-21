@@ -373,3 +373,53 @@
   color: #a33a3a !important;
   font-weight: 600 !important;
 }
+
+/* -----------------------------------------------------------------------------
+   12. Population hierarchy, stage 02B (report-specific presentation)
+   ----------------------------------------------------------------------------- */
+/*
+   Palette preserved from the historical 2B Visual_Group 0–5. These scoped rules
+   intentionally override the default white GT body style only within the 02B
+   hierarchical population table. The QMD assigns the group to each category;
+   the shared stylesheet owns its visual treatment.
+*/
+
+.table-hierarchy-02b .gt_table tbody tr:has(.rap-02b-hierarchy-group-0) > * {
+  background: #4F6FA3 !important;
+  color: #FFFFFF !important;
+}
+
+.table-hierarchy-02b .gt_table tbody tr:has(.rap-02b-hierarchy-group-1) > * {
+  background: #6F8FB5 !important;
+  color: #172733 !important;
+}
+
+.table-hierarchy-02b .gt_table tbody tr:has(.rap-02b-hierarchy-group-2) > * {
+  background: #8FA8C5 !important;
+  color: #20313D !important;
+}
+
+.table-hierarchy-02b .gt_table tbody tr:has(.rap-02b-hierarchy-group-3) > * {
+  background: #AABACD !important;
+  color: #20313D !important;
+}
+
+.table-hierarchy-02b .gt_table tbody tr:has(.rap-02b-hierarchy-group-4) > * {
+  background: #C0CBD8 !important;
+  color: #20313D !important;
+}
+
+.table-hierarchy-02b .gt_table tbody tr:has(.rap-02b-hierarchy-group-5) > * {
+  background: #D6DCE4 !important;
+  color: #20313D !important;
+}
+
+.table-hierarchy-02b .gt_table tbody tr:has(.rap-02b-hierarchy-group-0) > * {
+  font-weight: 700 !important;
+  border-bottom-color: #3f5d8e !important;
+}
+
+/* Preserve subtle within-group boundaries without introducing zebra striping. */
+.table-hierarchy-02b .gt_table tbody tr > * {
+  border-bottom-color: rgb(42 63 82 / 19%) !important;
+}

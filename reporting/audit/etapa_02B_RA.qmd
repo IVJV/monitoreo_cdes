@@ -1,0 +1,122 @@
+# Etapa 02B — Clasificación de la población `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-02b")` {#etapa-02b .rap-return-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P2B — Population classification, script `2.1 ENEMDU_2008_12_Indicadores_Mercado_Laboral.R` validado.
+:::
+
+```{r}
+#| label: stage-02b-audit-context
+
+stage_02b <- report_context$stage_02b
+```
+
+## Consistencia de la clasificación de la población {#etapa-02b-consistencia-clasificacion-poblacion}
+
+::: {.output-intro}
+La tabla compara la población expandida obtenida a partir de la condición de actividad original (`CONDACTN`), cuya distribución se preservó en la Etapa 01B, con la calculada mediante los 16 indicadores construidos en la Etapa 02B. La validación utiliza los valores sin redondear y una tolerancia absoluta de `1e-8` (0,00000001). Las poblaciones se presentan con tres decimales.
+:::
+
+### Evidencia comparativa
+
+::: {.table-grouped-header .table-attached-note}
+
+```{r}
+#| label: stage-02b-population-validation-evidence
+
+# Solo presentación: usar la evidencia ya validada en la etapa productiva.
+# Los nombres descriptivos se recuperan de la jerarquía, sin recalcular cifras.
+population_validation_view <- stage_02b$population_validation
+population_category_index <- match(
+  population_validation_view$Indicator,
+  stage_02b$population_classification_table_num$Variable
+)
+if (anyNA(population_category_index))
+  stop("La evidencia de 02B contiene indicadores sin etiqueta descriptiva.")
+
+population_validation_view$Category <-
+  stage_02b$population_classification_table_num$Category[
+    population_category_index
+  ]
+
+population_validation_view <- prepare_gt_view(
+  population_validation_view,
+  column_ids = c(
+    Category = "s02b_audit_indicator",
+    Reference = "s02b_audit_reference",
+    Observed = "s02b_audit_observed",
+    Difference = "s02b_audit_difference"
+  ),
+  decimal_columns = c(
+    s02b_audit_reference = 3,
+    s02b_audit_observed = 3
+  )
+)
+
+# Mostrar "0" para las diferencias aceptadas por el control productivo.
+# Esta conversión no modifica la evidencia numérica original.
+population_validation_view$s02b_audit_difference <- vapply(
+  population_validation_view$s02b_audit_difference,
+  function(value) {
+    if (abs(value) <= 1e-8) return("0")
+    format_scientific_es(value, digits = 3)
+  },
+  character(1)
+)
+
+population_validation_view |>
+  dplyr::select(
+    s02b_audit_indicator,
+    s02b_audit_reference,
+    s02b_audit_observed,
+    s02b_audit_difference
+  ) |>
+  gt::gt() |>
+  gt::cols_label(
+    s02b_audit_indicator = "Indicador",
+    s02b_audit_reference = "CONDACTN",
+    s02b_audit_observed = "Indicadores construidos",
+    s02b_audit_difference = "Diferencia"
+  ) |>
+  gt::tab_spanner(
+    label = "Población",
+    columns = c(s02b_audit_reference, s02b_audit_observed)
+  ) |>
+  gt::cols_align(
+    align = "left",
+    columns = s02b_audit_indicator
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      s02b_audit_reference,
+      s02b_audit_observed,
+      s02b_audit_difference
+    )
+  )
+```
+
+::: {.table-note}
+**Nota.** El 0 indica una diferencia dentro de la tolerancia de 0,00000001, no una igualdad exacta.
+:::
+
+:::
+
+### Diagnóstico de auditoría
+
+```{r}
+#| label: stage-02b-population-consistency-control
+
+render_audit_diagnostics(
+  stage_02b$audit_diagnostics,
+  stage_id = "02b_population_classification"
+)
+```
+
+### Estado de la etapa {#etapa-02b-estado}
+
+```{r}
+#| label: stage-02b-status
+#| results: asis
+
+render_stage_status(stage_02b$stage_passed)
+```

@@ -44,3 +44,9 @@ website:
 
           - text: "Validación de códigos y etiquetas de condición de actividad"
             href: reporting/reporte_controles_internos.qmd#etapa-01b-validacion-condactn
+
+      - section: "Etapa 02B — Clasificación de la población"
+        contents:
+
+          - text: "Consistencia de la clasificación de la población"
+            href: reporting/reporte_controles_internos.qmd#etapa-02b-consistencia-clasificacion-poblacion

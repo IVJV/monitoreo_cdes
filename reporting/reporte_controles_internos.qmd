@@ -13,6 +13,7 @@ params:
 {{< include audit/etapa_04A_RA.qmd >}}
 {{< include audit/etapa_06A_RA.qmd >}}
 {{< include audit/etapa_01B_RA.qmd >}}
+{{< include audit/etapa_02B_RA.qmd >}}
 
 <!--
 Common report navigation:

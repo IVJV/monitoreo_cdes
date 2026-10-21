@@ -124,6 +124,21 @@ build_report_context <- function(input_file) {
     stage_id = "01b_condactn_reference"
   )
 
+  # ---------------------------------------------------------------------------
+  # Stage 02B — Population classification and reconciliation with Stage 01B
+  # ---------------------------------------------------------------------------
+  population_result <- build_population_classification_stage(
+    ingpc_deciles_result$data,
+    condactn_result$condactn_frequency_reference
+  )
+
+  stage_02b_audit <- build_stage_audit_diagnostics(
+    validation_evidence = population_result$validation_evidence,
+    control_catalog = control_catalog,
+    audit_diagnostic_catalog = audit_diagnostic_catalog,
+    stage_id = "02b_population_classification"
+  )
+
 
   # ---------------------------------------------------------------------------
   # Reporting context
@@ -209,6 +224,16 @@ build_report_context <- function(input_file) {
       validation_evidence = condactn_result$validation_evidence,
       audit_diagnostics = stage_01b_audit$diagnostics,
       stage_passed = stage_01b_audit$stage_passed
+    ),
+
+    stage_02b = list(
+      stage_id = "02b_population_classification",
+      population_classification_table_num =
+        population_result$population_classification_table_num,
+      population_validation = population_result$population_validation,
+      validation_evidence = population_result$validation_evidence,
+      audit_diagnostics = stage_02b_audit$diagnostics,
+      stage_passed = stage_02b_audit$stage_passed
     )
   )
 }
