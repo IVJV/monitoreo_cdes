@@ -58,6 +58,10 @@ source("R/05A_diseno_muestral_enemdu.R")
 source("R/06A_media_ingpc_por_decil_ajustada_por_diseno_muestral.R")
 source("R/01B_validacion_exploracion_condactn.R")
 source("R/02B_clasificacion_poblacion.R")
+source("R/01C_recepcion_entrada.R")
+source("R/02C_distribucion_poblacion_por_decil.R")
+source("R/03C_concentracion_ingreso_por_decil.R")
+source("R/04C_verificacion_tablas.R")
 source("R/control_catalog.R")
 source("R/report_context.R")
 
@@ -66,6 +70,17 @@ source("R/report_context.R")
 # 3. Build one reusable reporting context
 # ==============================================================================
 report_context <- build_report_context(input_file)
+
+# Publication is separate from Quarto and only runs for the technical report.
+# Release occurs after 04C approval; the QMD merely displays and links outputs.
+if (identical(report_set, "technical")) {
+  source("R/reporting_helpers.R")
+  source("R/reporting_publication_format.R")
+  source("R/04C_publicacion_resultados.R")
+
+  stage_c_publication <- publish_stage_c_results(report_context)
+  report_context$stage_04c$publication <- stage_c_publication$files
+}
 
 context_file <- tempfile(
   pattern = "report_context_",
@@ -146,3 +161,11 @@ if (!identical(render_status, 0L))
       render_status
     )
   )
+
+# Verify the technical HTML links directly to approved Excel publications.
+# No second downloads directory or workbook copies are created.
+if (identical(report_set, "technical")) {
+  verify_stage_c_publication_links(stage_c_publication)
+  cat("PUBLICACIÓN BLOQUE C:", stage_c_publication$directory, "\n")
+  cat("ENLACES EXCEL: comprobados contra publicación única", "\n")
+}

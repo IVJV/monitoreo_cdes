@@ -1,0 +1,99 @@
+# Etapa 04C — Verificación independiente y publicación de resultados `r render_stage_assurance(report_context$stage_04c, "../../audit/reporting/reporte_controles_internos.html#etapa-04c-consistencia-tablas")` {#etapa-04c .rap-assurance-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P2C — Table 1. Population Distribution by Income Per Capita Decile; P3C — Table 2. Income Per Capita Concentration by Income Decile; P4C — Independent verification and release, script `3.1 ENEMDU_2008_12_Distribución_Concentración_ingpc.R` validado.
+:::
+
+Las tablas de distribución de la población y concentración del ingreso se publican una vez superada su verificación independiente frente a la condición de actividad original (`CONDACTN`).
+
+## Publicación de resultados {#etapa-04c-publicacion-resultados}
+
+### Tabla 1 — Distribución de la población por deciles de ingreso per cápita — `r report_context$stage_01c$period_title` {#etapa-04c-tabla-1}
+
+*Población y porcentaje de la población*
+
+:::: {.table-attached-download}
+
+::: {.overflow-auto}
+
+```{r}
+#| label: stage-04c-published-population-table
+
+render_stage_c_decile_matrix(
+  data = report_context$stage_02c$population_distribution_table_num,
+  value_column = "Population",
+  percentage_column = "Percentage",
+  value_digits = 0L,
+  stage_prefix = "s02c",
+  stage_04c = report_context$stage_04c
+)
+```
+
+:::
+
+`r render_stage_c_excel_download(report_context$stage_04c$publication$table1_xlsx)`
+
+::::
+
+### Tabla 2 — Concentración del ingreso per cápita por deciles — `r report_context$stage_01c$period_title` {#etapa-04c-tabla-2}
+
+*Ingreso per cápita (millones de USD) y participación (%)*
+
+:::: {.table-attached-download}
+
+::: {.overflow-auto}
+
+```{r}
+#| label: stage-04c-published-income-table
+
+render_stage_c_decile_matrix(
+  data = report_context$stage_03c$income_concentration_table_num,
+  value_column = "Income_Millions",
+  percentage_column = "Participation",
+  value_digits = 2L,
+  stage_prefix = "s03c",
+  stage_04c = report_context$stage_04c
+)
+```
+
+:::
+
+`r render_stage_c_excel_download(report_context$stage_04c$publication$table2_xlsx)`
+
+::::
+
+## Referencia de verificación {#etapa-04c-referencia-verificacion}
+
+### Población e ingreso per cápita por condición de actividad — `r report_context$stage_01c$period_title` {#etapa-04c-poblacion-ingreso-condactn}
+
+```{r}
+#| label: stage-04c-reference-support-table
+
+stage_04c <- report_context$stage_04c
+if (!isTRUE(stage_04c$verification_approved) ||
+    !isTRUE(stage_04c$stage_passed))
+  stop("La tabla de apoyo de 04C requiere controles superados.")
+
+verification_view <- prepare_gt_view(
+  stage_04c$verification_table_num,
+  column_ids = c(
+    CONDACTN_code = "s04c_condactn_code",
+    Activity_condition = "s04c_activity_condition",
+    Population = "s04c_population",
+    Income_Per_Capita_Total_USD = "s04c_income_usd"
+  ),
+  integer_columns = c("s04c_population", "s04c_income_usd")
+)
+
+verification_view |>
+  dplyr::select(s04c_activity_condition, s04c_population, s04c_income_usd) |>
+  gt::gt() |>
+  gt::cols_label(
+    s04c_activity_condition = "Condición de actividad",
+    s04c_population = "Población",
+    s04c_income_usd = "Ingreso per cápita total (USD)"
+  ) |>
+  gt::cols_align(align = "left", columns = s04c_activity_condition) |>
+  gt::cols_align(align = "right",
+                 columns = c(s04c_population, s04c_income_usd))
+```

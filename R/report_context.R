@@ -139,6 +139,51 @@ build_report_context <- function(input_file) {
     stage_id = "02b_population_classification"
   )
 
+  # ---------------------------------------------------------------------------
+  # Stage 01C — Reception of labor-market data and period labels
+  # ---------------------------------------------------------------------------
+  input_reception_result <- build_input_reception_stage(
+    population_result$data,
+    period_metadata
+  )
+
+
+  # ---------------------------------------------------------------------------
+  # Stage 02C — Population distribution by per capita income decile
+  # ---------------------------------------------------------------------------
+  population_distribution_result <- build_population_distribution_stage(
+    input_reception_result$data,
+    population_result$population_classification_table_num,
+    input_reception_result$period_excel
+  )
+
+
+  # ---------------------------------------------------------------------------
+  # Stage 03C — Income concentration by per capita income decile
+  # ---------------------------------------------------------------------------
+  income_concentration_result <- build_income_concentration_stage(
+    input_reception_result$data,
+    population_result$population_classification_table_num,
+    input_reception_result$period_excel
+  )
+
+
+  # ---------------------------------------------------------------------------
+  # Stage 04C — Independent verification of Tables 1 and 2
+  # ---------------------------------------------------------------------------
+  table_verification_result <- build_table_output_verification_stage(
+    input_reception_result$data,
+    population_distribution_result$population_distribution_table_num,
+    income_concentration_result$income_concentration_table_num
+  )
+
+  stage_04c_audit <- build_stage_audit_diagnostics(
+    validation_evidence = table_verification_result$validation_evidence,
+    control_catalog = control_catalog,
+    audit_diagnostic_catalog = audit_diagnostic_catalog,
+    stage_id = "04c_table_output_verification"
+  )
+
 
   # ---------------------------------------------------------------------------
   # Reporting context
@@ -234,6 +279,39 @@ build_report_context <- function(input_file) {
       validation_evidence = population_result$validation_evidence,
       audit_diagnostics = stage_02b_audit$diagnostics,
       stage_passed = stage_02b_audit$stage_passed
+    ),
+
+    stage_01c = list(
+      stage_id = input_reception_result$stage_id,
+      period_excel = input_reception_result$period_excel,
+      period_title = input_reception_result$period_title,
+      period_file = input_reception_result$period_file
+    ),
+
+    stage_02c = list(
+      stage_id = population_distribution_result$stage_id,
+      population_distribution_table_num =
+        population_distribution_result$population_distribution_table_num
+    ),
+
+    stage_03c = list(
+      stage_id = income_concentration_result$stage_id,
+      income_concentration_table_num =
+        income_concentration_result$income_concentration_table_num
+    ),
+
+    stage_04c = list(
+      stage_id = table_verification_result$stage_id,
+      verification_table_num = table_verification_result$verification_table_num,
+      total_verification = table_verification_result$total_verification,
+      decile_verification = table_verification_result$decile_verification,
+      verification_summary = table_verification_result$verification_summary,
+      verification_tolerance = table_verification_result$verification_tolerance,
+      total_discrepancies = table_verification_result$total_discrepancies,
+      verification_approved = table_verification_result$verification_approved,
+      validation_evidence = table_verification_result$validation_evidence,
+      audit_diagnostics = stage_04c_audit$diagnostics,
+      stage_passed = stage_04c_audit$stage_passed
     )
   )
 }

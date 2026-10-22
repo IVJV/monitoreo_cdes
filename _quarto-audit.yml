@@ -50,3 +50,9 @@ website:
 
           - text: "Consistencia de la clasificación de la población"
             href: reporting/reporte_controles_internos.qmd#etapa-02b-consistencia-clasificacion-poblacion
+
+      - section: "Etapa 04C — Verificación independiente y publicación de resultados"
+        contents:
+
+          - text: "Diagnóstico de auditoría"
+            href: reporting/reporte_controles_internos.qmd#etapa-04c-consistencia-tablas

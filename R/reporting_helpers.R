@@ -372,3 +372,123 @@ render_stage_status <- function(stage_passed) {
 
   invisible(NULL)
 }
+
+
+# ==============================================================================
+# 9. Common presentation for the two validated Stage C decile matrices
+# ==============================================================================
+# Reshape and format only a display copy. Analytical values remain untouched.
+# The four Stage 04C controls must approve both tables before they are shown.
+render_stage_c_decile_matrix <- function(
+    data, value_column, percentage_column,
+    value_digits = 0L, stage_prefix, stage_04c) {
+
+  if (!is.list(stage_04c) ||
+      !isTRUE(stage_04c$verification_approved) ||
+      !isTRUE(stage_04c$stage_passed))
+    stop("Las tablas de 02C y 03C requieren la aprobación de 04C.")
+
+  if (!is.character(stage_prefix) || length(stage_prefix) != 1L ||
+      is.na(stage_prefix) || !grepl("^s[0-9]{2}c$", stage_prefix))
+    stop("Identificador de presentación de la tabla C inválido.")
+
+  required <- c("Variable", "Indicator", "Decile", value_column,
+                percentage_column)
+  if (!is.data.frame(data) || !all(required %in% names(data)))
+    stop("La tabla numérica de la etapa C no tiene la estructura requerida.")
+
+  if (nrow(data) != 176L || anyDuplicated(paste(
+        as.character(data$Variable), as.character(data$Decile), sep = "|")))
+    stop("La vista de la etapa C requiere 16 indicadores y 11 categorías únicas.")
+
+  if (!is.numeric(value_digits) || length(value_digits) != 1L ||
+      is.na(value_digits) || value_digits < 0 ||
+      value_digits != floor(value_digits))
+    stop("La precisión de presentación debe ser un entero no negativo.")
+
+  display <- data |>
+    dplyr::select(
+      Variable, Indicator, Decile,
+      tidyselect::all_of(c(value_column, percentage_column))
+    ) |>
+    tidyr::pivot_longer(
+      cols = tidyselect::all_of(c(value_column, percentage_column)),
+      names_to = ".measure", values_to = ".value"
+    ) |>
+    dplyr::mutate(
+      .measure = factor(.measure,
+                        levels = c(value_column, percentage_column)),
+      .indicator = ifelse(as.character(.measure) == value_column,
+                          Indicator, ""),
+      .display = ifelse(
+        as.character(.measure) == value_column,
+        format_decimal_es(.value, digits = value_digits),
+        format_percentage_es(.value, digits = 1L)
+      )
+    ) |>
+    dplyr::select(Variable, .measure, .indicator, Decile, .display) |>
+    tidyr::pivot_wider(names_from = Decile, values_from = .display) |>
+    dplyr::arrange(Variable, .measure) |>
+    dplyr::select(-Variable, -.measure)
+
+  expected_columns <- c(".indicator", "Total", paste("Decil", 1:10))
+  if (!identical(names(display), expected_columns))
+    stop("La tabla de deciles no presenta todas las columnas esperadas.")
+
+  display_names <- paste0(stage_prefix, "_", c(
+    "indicator", "total", paste0("decile_", 1:10)
+  ))
+  names(display) <- display_names
+
+  display |>
+    gt::gt() |>
+    gt::cols_label(
+      .list = as.list(stats::setNames(
+        c("Indicador", "Total", paste("Decil", 1:10)),
+        display_names
+      ))
+    ) |>
+    gt::cols_align(
+      align = "left",
+      columns = tidyselect::all_of(display_names[1])
+    ) |>
+    gt::cols_align(
+      align = "right",
+      columns = tidyselect::all_of(display_names[-1])
+    ) |>
+    gt::tab_style(
+      style = gt::cell_text(color = "#657181"),
+      locations = gt::cells_body(rows = seq.int(2L, nrow(display), by = 2L))
+    ) |>
+    gt::tab_options(table.width = gt::px(1500))
+}
+
+
+# ==============================================================================
+# 10. Shared display-only Excel download link for validated publications
+# ==============================================================================
+# The reporting runner creates the referenced file; this helper only renders a
+# relative hyperlink, without generating files or changing analytical results.
+render_stage_c_excel_download <- function(filename) {
+
+  if (!is.character(filename) || length(filename) != 1L || is.na(filename) ||
+      !grepl("^Tabla_[12]_[A-Za-z0-9_]+\\.xlsx$", filename))
+    stop("La publicación requiere un nombre de archivo Excel válido.")
+
+  # The technical HTML is written to output/reports/technical/reporting/.
+  # Point to the only published workbook, under output/publications/YYYY_MM/.
+  period <- sub("^.*_([0-9]{4}_[0-9]{2})\\.xlsx$", "\\1", filename)
+  publication_href <- paste0("../../../publications/", period, "/", filename)
+
+  paste0(
+    '<a class="rap-excel-download" href="', publication_href,
+    '" download="', filename, '">',
+    '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" ',
+    'viewBox="0 0 24 24" fill="none" stroke="currentColor" ',
+    'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ',
+    'aria-hidden="true" focusable="false">',
+    '<rect x="4" y="2" width="16" height="20" rx="2"/>',
+    '<path d="M8 7h8M8 12h8M8 17h8M12 7v10"/>',
+    '</svg> Descargar tabla en Excel (.xlsx)</a>'
+  )
+}

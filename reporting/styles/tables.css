@@ -34,7 +34,6 @@
 /* -----------------------------------------------------------------------------
    2. Decorative GT containers
    ----------------------------------------------------------------------------- */
-
 .gt_table .gt_heading,
 .gt_table .gt_stubhead {
   background: #ffffff !important;
@@ -46,7 +45,6 @@
 /* -----------------------------------------------------------------------------
    3. Standard table header
    ----------------------------------------------------------------------------- */
-
 .gt_table thead,
 .gt_table .gt_col_headings {
   border: none !important;
@@ -140,6 +138,28 @@
 
 .table-attached-note .table-note {
   margin-top: 0 !important;
+}
+
+/* -----------------------------------------------------------------------------
+   4b. Tables with an attached Excel download link
+   ----------------------------------------------------------------------------- */
+/* The report groups each published table and its download in a semantic wrapper.
+   Spacing belongs to the table component, not to global Quarto output margins. */
+.table-attached-download .cell-output-display {
+  margin-bottom: 0 !important;
+}
+
+.table-attached-download .overflow-auto {
+  margin-bottom: 0 !important;
+}
+
+.table-attached-download > p {
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
+}
+
+.table-attached-download {
+  margin-bottom: 42px;
 }
 
 /* -----------------------------------------------------------------------------

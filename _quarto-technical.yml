@@ -59,3 +59,16 @@ website:
 
           - text: "Clasificación jerárquica de la población"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-02b-clasificacion-poblacion
+
+
+      - section: "Etapa 04C — Verificación independiente y publicación de resultados"
+        contents:
+
+          - text: "Tabla 1 — Distribución de la población"
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-04c-tabla-1
+
+          - text: "Tabla 2 — Concentración del ingreso"
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-04c-tabla-2
+
+          - text: "Referencia de verificación"
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-04c-referencia-verificacion

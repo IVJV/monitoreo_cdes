@@ -24,7 +24,8 @@ required_stage_targets <- list(
     "etapa-04a" = "etapa-04a-controles-deciles",
     "etapa-06a" = "etapa-06a-consistencia-medias",
     "etapa-01b" = "etapa-01b-validacion-condactn",
-    "etapa-02b" = "etapa-02b-consistencia-clasificacion-poblacion"
+    "etapa-02b" = "etapa-02b-consistencia-clasificacion-poblacion",
+    "etapa-04c" = "etapa-04c-consistencia-tablas"
   ),
   audit = c(
     "etapa-01a" = "etapa-01a",
@@ -33,7 +34,8 @@ required_stage_targets <- list(
     "etapa-04a" = "etapa-04a",
     "etapa-06a" = "etapa-06a",
     "etapa-01b" = "etapa-01b",
-    "etapa-02b" = "etapa-02b"
+    "etapa-02b" = "etapa-02b",
+    "etapa-04c" = "etapa-04c"
   )
 )
 
