@@ -7,14 +7,14 @@ params:
 
 {{< include includes/report_setup.qmd >}}
 
-{{< include audit/etapa_01A_RA.qmd >}}
-{{< include audit/etapa_02A_RA.qmd >}}
-{{< include audit/etapa_03A_RA.qmd >}}
-{{< include audit/etapa_04A_RA.qmd >}}
-{{< include audit/etapa_06A_RA.qmd >}}
-{{< include audit/etapa_01B_RA.qmd >}}
-{{< include audit/etapa_02B_RA.qmd >}}
-{{< include audit/etapa_04C_RA.qmd >}}
+{{< include audit/etapa_A01_RA.qmd >}}
+{{< include audit/etapa_A02_RA.qmd >}}
+{{< include audit/etapa_A03_RA.qmd >}}
+{{< include audit/etapa_A04_RA.qmd >}}
+{{< include audit/etapa_A06_RA.qmd >}}
+{{< include audit/etapa_B01_RA.qmd >}}
+{{< include audit/etapa_B02_RA.qmd >}}
+{{< include audit/etapa_C04_RA.qmd >}}
 
 <!--
 Common report navigation:

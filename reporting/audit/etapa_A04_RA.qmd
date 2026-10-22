@@ -1,0 +1,37 @@
+# Etapa A04 — Deciles de ingreso per cápita `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A04")` {#etapa-A04 .rap-return-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P4A — Per capita income decile calculation, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-A04-audit-context
+
+stage_A04 <- report_context$stage_A04
+```
+
+## Controles de validación de deciles de ingreso per cápita {#etapa-A04-controles-deciles}
+
+::: {.output-intro}
+La Etapa A04 comprueba que todos los registros del universo analítico tengan asignado un decil válido (del 1 al 10), que estén representados los diez deciles y que la población total clasificada coincida con la población con `ingpc` válido registrada en la Etapa A01. La tabla presenta los resultados de estas verificaciones.
+:::
+
+### Diagnósticos de auditoría
+
+```{r}
+#| label: stage-A04-decile-controls
+
+render_audit_diagnostics(
+  stage_A04$audit_diagnostics,
+  stage_id = "A04_deciles_ingpc"
+)
+```
+
+### Estado de la etapa {#etapa-A04-estado}
+
+```{r}
+#| label: stage-A04-status
+#| results: asis
+
+render_stage_status(stage_A04$stage_passed)
+```

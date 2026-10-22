@@ -1,0 +1,114 @@
+# Etapa B02 — Clasificación de la población `r render_stage_assurance(report_context$stage_B02, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-B02-consistencia-clasificacion-poblacion")` {#etapa-B02 .rap-assurance-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P2B — Population classification, script `2.1 ENEMDU_2008_12_Indicadores_Mercado_Laboral.R` validado.
+:::
+
+```{r}
+#| label: stage-B02-context
+
+stage_B02 <- report_context$stage_B02
+```
+
+## Clasificación jerárquica de la población {#etapa-B02-clasificacion-poblacion}
+
+::: {.output-intro}
+La tabla presenta la clasificación de la población según la condición de actividad (`CONDACTN`) en el universo analítico con `ingpc` válido. La población se estima mediante el factor de expansión `fexp`. Las dos proporciones expresan la participación de cada categoría respecto de la población total y de su categoría jerárquica superior, respectivamente, en una escala de 0 a 1. Las sangrías indican la jerarquía; sus categorías están anidadas y no deben sumarse entre niveles.
+:::
+
+::: {.table-hierarchy-B02}
+
+```{r}
+#| label: stage-B02-population-classification-table
+
+# Solo presentación: consumir la jerarquía numérica validada por B02.
+# Se conservan el orden, los niveles y las relaciones entre categorías.
+population_classification_view <- prepare_gt_view(
+  stage_B02$population_classification_table_num,
+  column_ids = c(
+    Order = "s02b_order",
+    Level = "s02b_level",
+    Parent = "s02b_parent",
+    Variable = "s02b_variable",
+    Category = "s02b_indicator",
+    Expanded_Frequency = "s02b_population",
+    Population_Proportion = "s02b_population_proportion",
+    Parent_Proportion = "s02b_parent_proportion"
+  ),
+  integer_columns = "s02b_population",
+  decimal_columns = c(
+    s02b_population_proportion = 2,
+    s02b_parent_proportion = 2
+  )
+)
+
+# Agrupación cromática histórica (Visual_Group del script 2.1).
+# Es una clasificación de PRESENTACIÓN distinta de Level y Parent.
+population_visual_group <- dplyr::case_when(
+  population_classification_view$s02b_variable == "poblacion_total" ~ 0L,
+  population_classification_view$s02b_variable %in% c("menor_15", "pet") ~ 1L,
+  population_classification_view$s02b_variable %in% c("pea", "pei") ~ 2L,
+  population_classification_view$s02b_variable %in% c(
+    "poblacion_ocupada", "desempleo"
+  ) ~ 3L,
+  population_classification_view$s02b_variable %in% c(
+    "empleo_adecuado", "subempleo", "otro_empleo_inadecuado",
+    "empleo_no_remunerado", "empleo_no_clasificado"
+  ) ~ 4L,
+  population_classification_view$s02b_variable %in% c(
+    "subempleo_tiempo", "subempleo_ingresos",
+    "desempleo_abierto", "desempleo_oculto"
+  ) ~ 5L,
+  TRUE ~ NA_integer_
+)
+if (anyNA(population_visual_group))
+  stop("La vista de B02 contiene categorías sin grupo cromático.")
+
+# Sangrías y énfasis de las categorías superiores exclusivamente en la vista.
+# La jerarquía de origen no se altera; no se recalculan los indicadores.
+population_parents <- unique(stats::na.omit(
+  population_classification_view$s02b_parent
+))
+population_classification_view$s02b_indicator <- paste0(
+  # La clase identifica el grupo para CSS; no altera ninguna cifra.
+  '<span class="rap-B02-hierarchy-group-', population_visual_group,
+  '" aria-hidden="true"></span>',
+  strrep("   ", population_classification_view$s02b_level),
+  ifelse(
+    population_classification_view$s02b_variable %in%
+      c("poblacion_total", population_parents),
+    paste0("**", population_classification_view$s02b_indicator, "**"),
+    population_classification_view$s02b_indicator
+  )
+)
+
+population_classification_view |>
+  dplyr::select(
+    s02b_indicator,
+    s02b_population,
+    s02b_population_proportion,
+    s02b_parent_proportion
+  ) |>
+  gt::gt() |>
+  gt::fmt_markdown(columns = s02b_indicator) |>
+  gt::cols_label(
+    s02b_indicator = "Indicador",
+    s02b_population = unname(reporting_labels[["population"]]),
+    s02b_population_proportion = "Proporción de la población",
+    s02b_parent_proportion = "Proporción respecto a la categoría superior"
+  ) |>
+  gt::cols_align(
+    align = "left",
+    columns = s02b_indicator
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      s02b_population,
+      s02b_population_proportion,
+      s02b_parent_proportion
+    )
+  )
+```
+
+:::

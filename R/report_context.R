@@ -15,7 +15,7 @@
 build_report_context <- function(input_file) {
 
   # ---------------------------------------------------------------------------
-  # Stage 01A — ENEMDU ingestion
+  # Stage A01 — ENEMDU ingestion
   # ---------------------------------------------------------------------------
   period_metadata <- get_period_metadata(input_file)
 
@@ -29,16 +29,16 @@ build_report_context <- function(input_file) {
     period_metadata
   )
 
-  stage_01a_audit <- build_stage_audit_diagnostics(
+  stage_A01_audit <- build_stage_audit_diagnostics(
     validation_evidence = ingestion_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "01a_ingestion"
+    stage_id = "A01_ingestion"
   )
 
 
   # ---------------------------------------------------------------------------
-  # Stage 02A — ENEMDU identifiers
+  # Stage A02 — ENEMDU identifiers
   # ---------------------------------------------------------------------------
   identifiers_result <- create_identifiers(
     ingestion_result$data,
@@ -49,16 +49,16 @@ build_report_context <- function(input_file) {
     identifiers_result$data
   )
 
-  stage_02a_audit <- build_stage_audit_diagnostics(
+  stage_A02_audit <- build_stage_audit_diagnostics(
     validation_evidence = identifiers_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "02a_identifiers"
+    stage_id = "A02_identifiers"
   )
 
 
   # ---------------------------------------------------------------------------
-  # Stage 03A — INGPC treatment
+  # Stage A03 — INGPC treatment
   # ---------------------------------------------------------------------------
   ingpc_treatment_result <- create_ingpc_analytical_base(
     identifiers_result$data,
@@ -66,81 +66,81 @@ build_report_context <- function(input_file) {
     return_evidence = TRUE
   )
 
-  stage_03a_audit <- build_stage_audit_diagnostics(
+  stage_A03_audit <- build_stage_audit_diagnostics(
     validation_evidence = ingpc_treatment_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "03a_ingpc_treatment"
+    stage_id = "A03_ingpc_treatment"
   )
 
 
   # ---------------------------------------------------------------------------
-  # Stage 04A — INGPC deciles
+  # Stage A04 — INGPC deciles
   # ---------------------------------------------------------------------------
   ingpc_deciles_result <- build_ingpc_decile_stage(
     ingpc_treatment_result$data,
     input_references = input_profile$references
   )
 
-  stage_04a_audit <- build_stage_audit_diagnostics(
+  stage_A04_audit <- build_stage_audit_diagnostics(
     validation_evidence = ingpc_deciles_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "04a_deciles_ingpc"
+    stage_id = "A04_deciles_ingpc"
   )
 
 
   # ---------------------------------------------------------------------------
-  # Stage 05A — ENEMDU complex survey design
+  # Stage A05 — ENEMDU complex survey design
   # ---------------------------------------------------------------------------
   d1 <- create_enemdu_survey_design(
     ingpc_deciles_result$data
   )
 
-  # Stage 06A — Survey-adjusted mean of INGPC by decile
+  # Stage A06 — Survey-adjusted mean of INGPC by decile
   ingpc_survey_mean_result <- build_ingpc_survey_mean_stage(
     d1,
     ingpc_deciles_result$point4_ingpc_mean_reference
   )
 
-  stage_06a_audit <- build_stage_audit_diagnostics(
+  stage_A06_audit <- build_stage_audit_diagnostics(
     validation_evidence = ingpc_survey_mean_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "06a_media_ingpc_por_decil"
+    stage_id = "A06_media_ingpc_por_decil"
   )
 
   # ---------------------------------------------------------------------------
-  # Stage 01B — CONDACTN validation and reference distribution
+  # Stage B01 — CONDACTN validation and reference distribution
   # ---------------------------------------------------------------------------
   condactn_result <- build_condactn_stage(
     ingpc_deciles_result$data
   )
 
-  stage_01b_audit <- build_stage_audit_diagnostics(
+  stage_B01_audit <- build_stage_audit_diagnostics(
     validation_evidence = condactn_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "01b_condactn_reference"
+    stage_id = "B01_condactn_reference"
   )
 
   # ---------------------------------------------------------------------------
-  # Stage 02B — Population classification and reconciliation with Stage 01B
+  # Stage B02 — Population classification and reconciliation with Stage B01
   # ---------------------------------------------------------------------------
   population_result <- build_population_classification_stage(
     ingpc_deciles_result$data,
     condactn_result$condactn_frequency_reference
   )
 
-  stage_02b_audit <- build_stage_audit_diagnostics(
+  stage_B02_audit <- build_stage_audit_diagnostics(
     validation_evidence = population_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "02b_population_classification"
+    stage_id = "B02_population_classification"
   )
 
   # ---------------------------------------------------------------------------
-  # Stage 01C — Reception of labor-market data and period labels
+  # Stage C01 — Reception of labor-market data and period labels
   # ---------------------------------------------------------------------------
   input_reception_result <- build_input_reception_stage(
     population_result$data,
@@ -149,7 +149,7 @@ build_report_context <- function(input_file) {
 
 
   # ---------------------------------------------------------------------------
-  # Stage 02C — Population distribution by per capita income decile
+  # Stage C02 — Population distribution by per capita income decile
   # ---------------------------------------------------------------------------
   population_distribution_result <- build_population_distribution_stage(
     input_reception_result$data,
@@ -159,7 +159,7 @@ build_report_context <- function(input_file) {
 
 
   # ---------------------------------------------------------------------------
-  # Stage 03C — Income concentration by per capita income decile
+  # Stage C03 — Income concentration by per capita income decile
   # ---------------------------------------------------------------------------
   income_concentration_result <- build_income_concentration_stage(
     input_reception_result$data,
@@ -169,7 +169,7 @@ build_report_context <- function(input_file) {
 
 
   # ---------------------------------------------------------------------------
-  # Stage 04C — Independent verification of Tables 1 and 2
+  # Stage C04 — Independent verification of Tables 1 and 2
   # ---------------------------------------------------------------------------
   table_verification_result <- build_table_output_verification_stage(
     input_reception_result$data,
@@ -177,11 +177,11 @@ build_report_context <- function(input_file) {
     income_concentration_result$income_concentration_table_num
   )
 
-  stage_04c_audit <- build_stage_audit_diagnostics(
+  stage_C04_audit <- build_stage_audit_diagnostics(
     validation_evidence = table_verification_result$validation_evidence,
     control_catalog = control_catalog,
     audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "04c_table_output_verification"
+    stage_id = "C04_table_output_verification"
   )
 
 
@@ -197,41 +197,41 @@ build_report_context <- function(input_file) {
 
   list(
 
-    stage_01a = list(
-      stage_id = "01a_ingestion",
+    stage_A01 = list(
+      stage_id = "A01_ingestion",
       period_metadata = period_metadata,
       input_references = input_profile$references,
       database_overview = input_profile$database_overview,
       required_variables_overview = input_profile$required_variables_overview,
       ingpc_universe_summary = input_profile$ingpc_universe_summary,
       validation_evidence = ingestion_result$validation_evidence,
-      audit_diagnostics = stage_01a_audit$diagnostics,
-      stage_passed = stage_01a_audit$stage_passed
+      audit_diagnostics = stage_A01_audit$diagnostics,
+      stage_passed = stage_A01_audit$stage_passed
     ),
 
-    stage_02a = list(
-      stage_id = "02a_identifiers",
+    stage_A02 = list(
+      stage_id = "A02_identifiers",
       identifier_summary = identifiers_profile$identifier_summary,
       domain_distribution = identifiers_profile$domain_distribution,
       validation_evidence = identifiers_result$validation_evidence,
-      audit_diagnostics = stage_02a_audit$diagnostics,
-      stage_passed = stage_02a_audit$stage_passed
+      audit_diagnostics = stage_A02_audit$diagnostics,
+      stage_passed = stage_A02_audit$stage_passed
     ),
 
-    stage_03a = list(
-      stage_id = "03a_ingpc_treatment",
+    stage_A03 = list(
+      stage_id = "A03_ingpc_treatment",
       ingpc_universe_comparison =
         ingpc_treatment_result$ingpc_universe_comparison,
       validation_evidence =
         ingpc_treatment_result$validation_evidence,
       audit_diagnostics =
-        stage_03a_audit$diagnostics,
+        stage_A03_audit$diagnostics,
       stage_passed =
-        stage_03a_audit$stage_passed
+        stage_A03_audit$stage_passed
     ),
 
-    stage_04a = list(
-      stage_id = "04a_deciles_ingpc",
+    stage_A04 = list(
+      stage_id = "A04_deciles_ingpc",
       decile_frequency_table =
         ingpc_deciles_result$decile_frequency_table,
       decile_report_table =
@@ -241,66 +241,66 @@ build_report_context <- function(input_file) {
       validation_evidence =
         ingpc_deciles_result$validation_evidence,
       audit_diagnostics =
-        stage_04a_audit$diagnostics,
+        stage_A04_audit$diagnostics,
       stage_passed =
-        stage_04a_audit$stage_passed
+        stage_A04_audit$stage_passed
     ),
 
-    stage_05a = list(
-      stage_id = "05a_diseno_muestral",
+    stage_A05 = list(
+      stage_id = "A05_diseno_muestral",
       d1 = d1
     ),
 
-    stage_06a = list(
-      stage_id = "06a_media_ingpc_por_decil",
+    stage_A06 = list(
+      stage_id = "A06_media_ingpc_por_decil",
       svy_ingpc_by_decile_table_num = ingpc_survey_mean_result$svy_ingpc_by_decile_table_num,
       svy_ingpc_by_decile_table = ingpc_survey_mean_result$svy_ingpc_by_decile_table,
       mean_validation = ingpc_survey_mean_result$mean_validation,
       mean_tolerance = ingpc_survey_mean_result$mean_tolerance,
       validation_evidence = ingpc_survey_mean_result$validation_evidence,
-      audit_diagnostics = stage_06a_audit$diagnostics,
-      stage_passed = stage_06a_audit$stage_passed
+      audit_diagnostics = stage_A06_audit$diagnostics,
+      stage_passed = stage_A06_audit$stage_passed
     ),
 
-    stage_01b = list(
-      stage_id = "01b_condactn_reference",
+    stage_B01 = list(
+      stage_id = "B01_condactn_reference",
       condactn_frequency_reference = condactn_result$condactn_frequency_reference,
       condactn_frequency_table = condactn_result$condactn_frequency_table,
       validation_evidence = condactn_result$validation_evidence,
-      audit_diagnostics = stage_01b_audit$diagnostics,
-      stage_passed = stage_01b_audit$stage_passed
+      audit_diagnostics = stage_B01_audit$diagnostics,
+      stage_passed = stage_B01_audit$stage_passed
     ),
 
-    stage_02b = list(
-      stage_id = "02b_population_classification",
+    stage_B02 = list(
+      stage_id = "B02_population_classification",
       population_classification_table_num =
         population_result$population_classification_table_num,
       population_validation = population_result$population_validation,
       validation_evidence = population_result$validation_evidence,
-      audit_diagnostics = stage_02b_audit$diagnostics,
-      stage_passed = stage_02b_audit$stage_passed
+      audit_diagnostics = stage_B02_audit$diagnostics,
+      stage_passed = stage_B02_audit$stage_passed
     ),
 
-    stage_01c = list(
+    stage_C01 = list(
       stage_id = input_reception_result$stage_id,
       period_excel = input_reception_result$period_excel,
       period_title = input_reception_result$period_title,
       period_file = input_reception_result$period_file
     ),
 
-    stage_02c = list(
+    stage_C02 = list(
       stage_id = population_distribution_result$stage_id,
       population_distribution_table_num =
         population_distribution_result$population_distribution_table_num
     ),
 
-    stage_03c = list(
+    stage_C03 = list(
       stage_id = income_concentration_result$stage_id,
       income_concentration_table_num =
         income_concentration_result$income_concentration_table_num
     ),
 
-    stage_04c = list(
+    stage_C04 = list(
       stage_id = table_verification_result$stage_id,
       verification_table_num = table_verification_result$verification_table_num,
       total_verification = table_verification_result$total_verification,
@@ -310,8 +310,8 @@ build_report_context <- function(input_file) {
       total_discrepancies = table_verification_result$total_discrepancies,
       verification_approved = table_verification_result$verification_approved,
       validation_evidence = table_verification_result$validation_evidence,
-      audit_diagnostics = stage_04c_audit$diagnostics,
-      stage_passed = stage_04c_audit$stage_passed
+      audit_diagnostics = stage_C04_audit$diagnostics,
+      stage_passed = stage_C04_audit$stage_passed
     )
   )
 }

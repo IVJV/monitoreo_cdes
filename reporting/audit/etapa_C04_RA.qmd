@@ -1,0 +1,31 @@
+# Etapa C04 — Verificación independiente y publicación de resultados `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-C04")` {#etapa-C04 .rap-return-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P4C — Independent verification of Tables 1 and 2 against original CONDACTN, script `3.1 ENEMDU_2008_12_Distribución_Concentración_ingpc.R` validado.
+:::
+
+```{r}
+#| label: stage-C04-audit-context
+
+stage_C04 <- report_context$stage_C04
+```
+
+## Diagnóstico de auditoría {#etapa-C04-consistencia-tablas}
+
+```{r}
+#| label: stage-C04-audit-diagnostics
+
+render_audit_diagnostics(
+  stage_C04$audit_diagnostics,
+  stage_id = "C04_table_output_verification"
+)
+```
+
+## Estado de la etapa {#etapa-C04-estado}
+
+```{r}
+#| label: stage-C04-status
+#| results: asis
+
+render_stage_status(stage_C04$stage_passed)
+```

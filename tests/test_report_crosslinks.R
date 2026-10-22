@@ -18,24 +18,24 @@ reports <- c(
 # This is not a hard-coded copy of href paths: paths are read from rendered links.
 required_stage_targets <- list(
   technical = c(
-    "etapa-01a" = "etapa-01a-controles-integridad",
-    "etapa-02a" = "etapa-02a-controles-identificadores",
-    "etapa-03a" = "etapa-03a-construccion-consistencia-universo-analitico-ingpc",
-    "etapa-04a" = "etapa-04a-controles-deciles",
-    "etapa-06a" = "etapa-06a-consistencia-medias",
-    "etapa-01b" = "etapa-01b-validacion-condactn",
-    "etapa-02b" = "etapa-02b-consistencia-clasificacion-poblacion",
-    "etapa-04c" = "etapa-04c-consistencia-tablas"
+    "etapa-A01" = "etapa-A01-controles-integridad",
+    "etapa-A02" = "etapa-A02-controles-identificadores",
+    "etapa-A03" = "etapa-A03-construccion-consistencia-universo-analitico-ingpc",
+    "etapa-A04" = "etapa-A04-controles-deciles",
+    "etapa-A06" = "etapa-A06-consistencia-medias",
+    "etapa-B01" = "etapa-B01-validacion-condactn",
+    "etapa-B02" = "etapa-B02-consistencia-clasificacion-poblacion",
+    "etapa-C04" = "etapa-C04-consistencia-tablas"
   ),
   audit = c(
-    "etapa-01a" = "etapa-01a",
-    "etapa-02a" = "etapa-02a",
-    "etapa-03a" = "etapa-03a",
-    "etapa-04a" = "etapa-04a",
-    "etapa-06a" = "etapa-06a",
-    "etapa-01b" = "etapa-01b",
-    "etapa-02b" = "etapa-02b",
-    "etapa-04c" = "etapa-04c"
+    "etapa-A01" = "etapa-A01",
+    "etapa-A02" = "etapa-A02",
+    "etapa-A03" = "etapa-A03",
+    "etapa-A04" = "etapa-A04",
+    "etapa-A06" = "etapa-A06",
+    "etapa-B01" = "etapa-B01",
+    "etapa-B02" = "etapa-B02",
+    "etapa-C04" = "etapa-C04"
   )
 )
 

@@ -9,50 +9,50 @@ website:
   sidebar:
     contents:
 
-      - section: "Etapa 01A — Ingesta ENEMDU"
+      - section: "Etapa A01 — Ingesta ENEMDU"
         contents:
 
           - text: "Controles de integridad"
-            href: reporting/reporte_controles_internos.qmd#etapa-01a-controles-integridad
+            href: reporting/reporte_controles_internos.qmd#etapa-A01-controles-integridad
 
-      - section: "Etapa 02A — Identificadores ENEMDU"
+      - section: "Etapa A02 — Identificadores ENEMDU"
         contents:
 
           - text: "Controles de validación de identificadores"
-            href: reporting/reporte_controles_internos.qmd#etapa-02a-controles-identificadores
+            href: reporting/reporte_controles_internos.qmd#etapa-A02-controles-identificadores
 
-      - section: "Etapa 03A — Tratamiento de la variable de ingreso per cápita"
+      - section: "Etapa A03 — Tratamiento de la variable de ingreso per cápita"
         contents:
 
           - text: "Construcción y consistencia del universo analítico de ingreso per cápita"
-            href: reporting/reporte_controles_internos.qmd#etapa-03a-construccion-consistencia-universo-analitico-ingpc
+            href: reporting/reporte_controles_internos.qmd#etapa-A03-construccion-consistencia-universo-analitico-ingpc
 
-      - section: "Etapa 04A — Deciles de ingreso per cápita"
+      - section: "Etapa A04 — Deciles de ingreso per cápita"
         contents:
 
           - text: "Controles de validación de deciles de ingreso per cápita"
-            href: reporting/reporte_controles_internos.qmd#etapa-04a-controles-deciles
+            href: reporting/reporte_controles_internos.qmd#etapa-A04-controles-deciles
 
-      - section: "Etapa 06A — Media del ingreso per cápita por decil ajustada por diseño muestral"
+      - section: "Etapa A06 — Media del ingreso per cápita por decil ajustada por diseño muestral"
         contents:
 
           - text: "Consistencia de las medias estimadas por diseño muestral"
-            href: reporting/reporte_controles_internos.qmd#etapa-06a-consistencia-medias
+            href: reporting/reporte_controles_internos.qmd#etapa-A06-consistencia-medias
 
-      - section: "Etapa 01B — Validación y exploración de la condición de actividad"
+      - section: "Etapa B01 — Validación y exploración de la condición de actividad"
         contents:
 
           - text: "Validación de códigos y etiquetas de condición de actividad"
-            href: reporting/reporte_controles_internos.qmd#etapa-01b-validacion-condactn
+            href: reporting/reporte_controles_internos.qmd#etapa-B01-validacion-condactn
 
-      - section: "Etapa 02B — Clasificación de la población"
+      - section: "Etapa B02 — Clasificación de la población"
         contents:
 
           - text: "Consistencia de la clasificación de la población"
-            href: reporting/reporte_controles_internos.qmd#etapa-02b-consistencia-clasificacion-poblacion
+            href: reporting/reporte_controles_internos.qmd#etapa-B02-consistencia-clasificacion-poblacion
 
-      - section: "Etapa 04C — Verificación independiente y publicación de resultados"
+      - section: "Etapa C04 — Verificación independiente y publicación de resultados"
         contents:
 
           - text: "Diagnóstico de auditoría"
-            href: reporting/reporte_controles_internos.qmd#etapa-04c-consistencia-tablas
+            href: reporting/reporte_controles_internos.qmd#etapa-C04-consistencia-tablas

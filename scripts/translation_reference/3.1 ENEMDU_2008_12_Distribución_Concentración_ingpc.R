@@ -6,7 +6,7 @@ library(tidyr)
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###                           1C. Input reception                            ###
+###                           C01. Input reception                            ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
@@ -28,12 +28,12 @@ rm(month_abbr_es, month_names_es)
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###     2C. Table 1. Population Distribution by Income Per Capita Decile     ###
+###     C02. Table 1. Population Distribution by Income Per Capita Decile     ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
 ###--------------------------------------------------------------------------###
-###                 2C.1 Population-distribution calculation                 ###
+###                 C02.1 Population-distribution calculation                 ###
 ###--------------------------------------------------------------------------###
 # a. Define population-classification variables in hierarchical order
 population_vars <- c(
@@ -86,7 +86,7 @@ population_distribution_table_num <- bind_rows(population_distribution_total, po
 
 
 ###--------------------------------------------------------------------------###
-###                   2C.2 Population-distribution table                     ###
+###                   C02.2 Population-distribution table                     ###
 ###--------------------------------------------------------------------------###
 # f. Create display table
 population_distribution_table <- population_distribution_table_num %>%
@@ -139,13 +139,13 @@ population_distribution_gt <- population_distribution_table %>%
 
 
 ###--------------------------------------------------------------------------###
-###                     2C.3 HTML output preparation                         ###
+###                     C02.3 HTML output preparation                         ###
 ###--------------------------------------------------------------------------###
 # h. Define HTML output file; generation is deferred until Point 4 approval
 population_distribution_html <- paste0("Tabla_1_Distribucion_ingpc_", period_file, ".html")
 
 ###--------------------------------------------------------------------------###
-###                    2C.4 Excel output preparation                         ###
+###                    C02.4 Excel output preparation                         ###
 ###--------------------------------------------------------------------------###
 # i. Create numeric Excel table with the same structure
 population_distribution_excel_num <- population_distribution_table_num %>%
@@ -228,12 +228,12 @@ openxlsx::setColWidths(population_wb, "Tabla 1", cols = 3:13, widths = 12)
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###   3C. Table 2. Income Per Capita Concentration by Income Decile          ###
+###   C03. Table 2. Income Per Capita Concentration by Income Decile          ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
 ###--------------------------------------------------------------------------###
-###                  3C.1 Income-concentration calculation                   ###
+###                  C03.1 Income-concentration calculation                   ###
 ###--------------------------------------------------------------------------###
 # a. Calculate aggregated income and participation by classification and decile
 income_concentration_decile <- ENEMDU_indicators %>%
@@ -270,7 +270,7 @@ income_concentration_table_num <- bind_rows(income_concentration_total, income_c
 
 
 ###--------------------------------------------------------------------------###
-###                    3C.2 Income-concentration table                       ###
+###                    C03.2 Income-concentration table                       ###
 ###--------------------------------------------------------------------------###
 # d. Create display table
 income_concentration_table <- income_concentration_table_num %>%
@@ -323,14 +323,14 @@ income_concentration_gt <- income_concentration_table %>%
 
 
 ###--------------------------------------------------------------------------###
-###                    3C.3 HTML output preparation                          ###
+###                    C03.3 HTML output preparation                          ###
 ###--------------------------------------------------------------------------###
 # f. Define HTML output file; generation is deferred until Point 4 approval
 income_concentration_html <- paste0("Tabla_2_Concentracion_ingpc_", period_file, ".html")
 
 
 ###--------------------------------------------------------------------------###
-###                    3C.4 Excel output preparation                         ###
+###                    C03.4 Excel output preparation                         ###
 ###--------------------------------------------------------------------------###
 # g. Create numeric Excel table with the same structure
 income_concentration_excel_num <- income_concentration_table_num %>%
@@ -407,12 +407,12 @@ openxlsx::setColWidths(income_wb, "Tabla 2", cols = 3:13, widths = 12)
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-### 4C. Independent verification of Tables 1 and 2 against original CONDACTN ###
+### C04. Independent verification of Tables 1 and 2 against original CONDACTN ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
 ###--------------------------------------------------------------------------###
-###        4C.1 Independent reference totals from original CONDACTN          ###
+###        C04.1 Independent reference totals from original CONDACTN          ###
 ###--------------------------------------------------------------------------###
 # a. Prepare original variables used for independent verification
 verification_source <- ENEMDU_indicators %>%
@@ -481,7 +481,7 @@ verification_reference_totals <- bind_rows(
 
 
 ###--------------------------------------------------------------------------###
-###                4C.2 Verification of total columns                        ###
+###                C04.2 Verification of total columns                        ###
 ###--------------------------------------------------------------------------###
 # f. Extract Table 1 and Table 2 totals
 table1_totals <- population_distribution_table_num %>%
@@ -507,7 +507,7 @@ total_verification <- verification_reference_totals %>%
 
 
 ###--------------------------------------------------------------------------###
-###       4C.3 Independent D1-D10 verification from original CONDACTN        ###
+###       C04.3 Independent D1-D10 verification from original CONDACTN        ###
 ###--------------------------------------------------------------------------###
 # h. Build an independent decile reference directly from CONDACTN, ningpc, fexp and ingpc
 source_decile <- function(variable, codes) {
@@ -584,7 +584,7 @@ decile_verification <- verification_reference_deciles %>%
 
 
 ###--------------------------------------------------------------------------###
-###                       4C.4 Validation gate                               ###
+###                       C04.4 Validation gate                               ###
 ###--------------------------------------------------------------------------###
 # k. Consolidate independent control results
 table1_total_ok <- all(total_verification$Table1_Total_OK %in% TRUE)
@@ -694,7 +694,7 @@ if (!verification_approved) {
 
 
 ###--------------------------------------------------------------------------###
-###                   4C.5 Verification support table                        ###
+###                   C04.5 Verification support table                        ###
 ###--------------------------------------------------------------------------###
 # m. Create support table directly from original CONDACTN
 verification_gt <- verification_table_num %>%
@@ -723,7 +723,7 @@ verification_gt <- verification_table_num %>%
 
 
 ###--------------------------------------------------------------------------###
-###                      4C.6 Release validated outputs                      ###
+###                      C04.6 Release validated outputs                      ###
 ###--------------------------------------------------------------------------###
 # n. Generate final HTML output with vertically merged indicator cells
 save_merged_gt_html <- function(gt_object, filename) {
@@ -762,7 +762,7 @@ print(verification_gt)
 
 
 ###--------------------------------------------------------------------------###
-###                        4C.7 Technical output                             ###
+###                        C04.7 Technical output                             ###
 ###--------------------------------------------------------------------------###
 # r. Report generated outputs and final validation result
 technical_output_point4 <- paste0(

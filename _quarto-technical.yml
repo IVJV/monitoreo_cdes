@@ -9,66 +9,66 @@ website:
   sidebar:
     contents:
 
-      - section: "Etapa 01A — Ingesta ENEMDU"
+      - section: "Etapa A01 — Ingesta ENEMDU"
         contents:
 
           - text: "Resumen de la base importada"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-01a-resumen-base
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-A01-resumen-base
 
           - text: "Variables requeridas para el procesamiento"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-01a-variables-requeridas
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-A01-variables-requeridas
 
-      - section: "Etapa 02A — Identificadores ENEMDU"
+      - section: "Etapa A02 — Identificadores ENEMDU"
         contents:
 
           - text: "Resumen de identificadores construidos"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-02a-resumen-identificadores
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-A02-resumen-identificadores
 
           - text: "Distribución por dominio de estudio"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-02a-distribucion-dominios
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-A02-distribucion-dominios
 
-      - section: "Etapa 03A — Tratamiento de la variable de ingreso per cápita"
+      - section: "Etapa A03 — Tratamiento de la variable de ingreso per cápita"
         contents:
 
           - text: "Conformación del universo analítico"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-03a-tratamiento-universo-ingpc
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-A03-tratamiento-universo-ingpc
 
-      - section: "Etapa 04A — Deciles de ingreso per cápita"
+      - section: "Etapa A04 — Deciles de ingreso per cápita"
         contents:
 
           - text: "Distribución de la población por decil de ingreso per cápita"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-04a-tabla-frecuencias-deciles
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-A04-tabla-frecuencias-deciles
 
           - text: "Estadísticos del ingreso per cápita por decil"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-04a-estadisticas-ingpc-deciles
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-A04-estadisticas-ingpc-deciles
 
-      - section: "Etapa 06A — Media del ingreso per cápita por decil ajustada por diseño muestral"
+      - section: "Etapa A06 — Media del ingreso per cápita por decil ajustada por diseño muestral"
         contents:
 
           - text: "Estimación de la media de ingreso per cápita por decil"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-06a-estimacion-ingpc-deciles
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-A06-estimacion-ingpc-deciles
 
-      - section: "Etapa 01B — Validación y exploración de la condición de actividad"
+      - section: "Etapa B01 — Validación y exploración de la condición de actividad"
         contents:
 
           - text: "Distribución de la población según condición de actividad"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-01b-distribucion-condactn
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-B01-distribucion-condactn
 
-      - section: "Etapa 02B — Clasificación de la población"
+      - section: "Etapa B02 — Clasificación de la población"
         contents:
 
           - text: "Clasificación jerárquica de la población"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-02b-clasificacion-poblacion
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-B02-clasificacion-poblacion
 
 
-      - section: "Etapa 04C — Verificación independiente y publicación de resultados"
+      - section: "Etapa C04 — Verificación independiente y publicación de resultados"
         contents:
 
           - text: "Tabla 1 — Distribución de la población"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-04c-tabla-1
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-C04-tabla-1
 
           - text: "Tabla 2 — Concentración del ingreso"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-04c-tabla-2
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-C04-tabla-2
 
           - text: "Referencia de verificación"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-04c-referencia-verificacion
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-C04-referencia-verificacion

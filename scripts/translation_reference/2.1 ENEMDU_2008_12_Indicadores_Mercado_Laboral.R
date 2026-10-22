@@ -4,12 +4,12 @@ library(dplyr)
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###                  1B. CONDACTN validation and exploration                 ###
+###                  B01. CONDACTN validation and exploration                 ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
 ###--------------------------------------------------------------------------###
-###           1B.1. CONDACTN exploration and reference distribution          ###
+###           B01.1. CONDACTN exploration and reference distribution          ###
 ###--------------------------------------------------------------------------###
 # a. QA [condactn_reference] — Validate original CONDACTN metadata and observed codes
 condactn_variable_label <- attr(ENEMDU_decile$CONDACTN, "label")
@@ -82,12 +82,12 @@ rm(
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###                   2B. Population classification                          ###
+###                   B02. Population classification                          ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
 ###--------------------------------------------------------------------------###
-###       2B.1 Auxiliary population-classification variables                 ###
+###       B02.1 Auxiliary population-classification variables                 ###
 ###--------------------------------------------------------------------------###
 # Preserve the decile database and create a separate labor-market analytical base
 ENEMDU_laboral <- ENEMDU_decile
@@ -113,7 +113,7 @@ ENEMDU_laboral <- ENEMDU_laboral %>%
 
 
 ###--------------------------------------------------------------------------###
-###        2B.2 Auxiliary variables for CONDACTN subcategories               ###
+###        B02.2 Auxiliary variables for CONDACTN subcategories               ###
 ###--------------------------------------------------------------------------###
 # Create CONDACTN subcategory variables
 ENEMDU_laboral <- ENEMDU_laboral %>%
@@ -130,7 +130,7 @@ ENEMDU_laboral <- ENEMDU_laboral %>%
 
 
 ###--------------------------------------------------------------------------###
-###                  2B.3 Official variable metadata                         ###
+###                  B02.3 Official variable metadata                         ###
 ###--------------------------------------------------------------------------###
 # Assign official variable and value labels
 auxiliary_variable_labels <- c(
@@ -164,7 +164,7 @@ for (variable in names(auxiliary_variable_labels)) {
 
 
 ###--------------------------------------------------------------------------###
-###               2B.4 Hierarchical population table                         ###
+###               B02.4 Hierarchical population table                         ###
 ###--------------------------------------------------------------------------###
 # a. Define hierarchical order and parent category
 population_hierarchy <- data.frame(
@@ -199,7 +199,7 @@ population_classification_table_num <- population_hierarchy %>% arrange(Order)
 
 
 ###--------------------------------------------------------------------------###
-###          2B.5 Validation against original CONDACTN                       ###
+###          B02.5 Validation against original CONDACTN                       ###
 ###--------------------------------------------------------------------------###
 # a. Build comparative evidence against original CONDACTN distribution
 population_totals <- setNames(population_classification_table_num$Expanded_Frequency, population_classification_table_num$Variable)
@@ -246,7 +246,7 @@ if (any(abs(condactn_validation_difference) > 1e-8)) {
 
 
 ###--------------------------------------------------------------------------###
-###               2B.6 Visual grouping and hierarchical table                ###
+###               B02.6 Visual grouping and hierarchical table                ###
 ###--------------------------------------------------------------------------###
 # Create technical visual table; Visual_Group is a display grouping
 # [Distinct from the conceptual Level/Parent hierarchy defined in Point 2.4]
@@ -287,7 +287,7 @@ print(population_classification_gt)
 
 
 ###--------------------------------------------------------------------------###
-###                    2B.7 Technical output                                 ###
+###                    B02.7 Technical output                                 ###
 ###--------------------------------------------------------------------------###
 technical_output_point2 <- paste0(
   "\n============================================================\n",

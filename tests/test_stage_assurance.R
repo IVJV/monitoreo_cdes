@@ -6,9 +6,9 @@ source("R/reporting_stage_assurance.R")
 
 make_stage <- function(passed) {
   list(
-    stage_id = "01a_ingestion",
+    stage_id = "A01_ingestion",
     validation_evidence = data.frame(
-      stage_id = "01a_ingestion",
+      stage_id = "A01_ingestion",
       check_id = "required_variables_present",
       passed = passed,
       stringsAsFactors = FALSE
@@ -17,7 +17,7 @@ make_stage <- function(passed) {
   )
 }
 
-href <- "../../audit/reporting/reporte_controles_internos.html#etapa-01a-controles-integridad"
+href <- "../../audit/reporting/reporte_controles_internos.html#etapa-A01-controles-integridad"
 
 # Passing controls: green state with the exact stage-specific audit destination.
 ok <- render_stage_assurance(make_stage(TRUE), href)
@@ -45,7 +45,7 @@ stopifnot(
 
 # Functional stages with no executed controls must not display a badge.
 functional_stage <- list(
-  stage_id = "05a_survey_design",
+  stage_id = "A05_survey_design",
   validation_evidence = NULL,
   stage_passed = NULL
 )
@@ -63,7 +63,7 @@ stopifnot(inherits(err, "error"))
 cat("PASS: stage assurance (linked, unlinked, failed, absent, invalid)\n")
 
 # Audit-to-technical link returns to the matching stage without repeating status.
-technical_href <- "../../technical/reporting/reporte_tecnico_resultados.html#etapa-01a"
+technical_href <- "../../technical/reporting/reporte_tecnico_resultados.html#etapa-A01"
 return_link <- render_stage_return_link(technical_href)
 stopifnot(
   grepl('class="rap-stage-return-link"', return_link, fixed = TRUE),
@@ -73,7 +73,7 @@ stopifnot(
 )
 
 # Escaping of URL attributes and rejection of missing or invalid destinations.
-escaped_return <- render_stage_return_link('report.html?x=1&y="2"#etapa-01a')
+escaped_return <- render_stage_return_link('report.html?x=1&y="2"#etapa-A01')
 stopifnot(grepl('x=1&amp;y=&quot;2&quot;', escaped_return, fixed = TRUE))
 for (invalid_href in list(NULL, "", " ", NA_character_, character(0))) {
   invalid_result <- tryCatch(
@@ -85,13 +85,13 @@ for (invalid_href in list(NULL, "", " ", NA_character_, character(0))) {
 
 # The audit stage's reference and heading anchor must target the correct RT.
 audit_qmd <- paste(
-  readLines("reporting/audit/etapa_01A_RA.qmd", warn = FALSE),
+  readLines("reporting/audit/etapa_A01_RA.qmd", warn = FALSE),
   collapse = "\n"
 )
 stopifnot(
   grepl("render_stage_return_link", audit_qmd, fixed = TRUE),
   grepl(technical_href, audit_qmd, fixed = TRUE),
-  grepl("{#etapa-01a .rap-return-heading}", audit_qmd, fixed = TRUE)
+  grepl("{#etapa-A01 .rap-return-heading}", audit_qmd, fixed = TRUE)
 )
 
-cat("PASS: stage 01A audit-to-technical return link\n")
+cat("PASS: stage A01 audit-to-technical return link\n")

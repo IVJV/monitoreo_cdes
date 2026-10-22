@@ -158,7 +158,7 @@ prepare_gt_view <- function(
 # 6. Canonical INGPC-universe presentation
 # ==============================================================================
 # Stable display order and labels for the canonical INGPC universe.
-# The analytical values originate in Stage 01A. These definitions affect only
+# The analytical values originate in Stage A01. These definitions affect only
 # presentation and are reused wherever that same universe is displayed.
 ingpc_universe_order <- c(
   "input_total",
@@ -283,7 +283,7 @@ render_audit_diagnostics <- function(audit_diagnostics, stage_id) {
   # columns per stage so separate audit tables never repeat IDs in the page.
   # The source audit evidence and the labels shown to readers stay unchanged.
   if (!is.character(stage_id) || length(stage_id) != 1L ||
-      is.na(stage_id) || !grepl("^[a-z0-9_]+$", stage_id))
+      is.na(stage_id) || !grepl("^[A-Za-z0-9_]+$", stage_id))
     stop("El diagnóstico de auditoría requiere un stage_id válido.")
 
   display_columns <- paste0(
@@ -378,15 +378,15 @@ render_stage_status <- function(stage_passed) {
 # 9. Common presentation for the two validated Stage C decile matrices
 # ==============================================================================
 # Reshape and format only a display copy. Analytical values remain untouched.
-# The four Stage 04C controls must approve both tables before they are shown.
+# The four Stage C04 controls must approve both tables before they are shown.
 render_stage_c_decile_matrix <- function(
     data, value_column, percentage_column,
-    value_digits = 0L, stage_prefix, stage_04c) {
+    value_digits = 0L, stage_prefix, stage_C04) {
 
-  if (!is.list(stage_04c) ||
-      !isTRUE(stage_04c$verification_approved) ||
-      !isTRUE(stage_04c$stage_passed))
-    stop("Las tablas de 02C y 03C requieren la aprobación de 04C.")
+  if (!is.list(stage_C04) ||
+      !isTRUE(stage_C04$verification_approved) ||
+      !isTRUE(stage_C04$stage_passed))
+    stop("Las tablas de C02 y C03 requieren la aprobación de C04.")
 
   if (!is.character(stage_prefix) || length(stage_prefix) != 1L ||
       is.na(stage_prefix) || !grepl("^s[0-9]{2}c$", stage_prefix))

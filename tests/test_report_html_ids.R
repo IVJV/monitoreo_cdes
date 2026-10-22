@@ -1,5 +1,5 @@
 # ==============================================================================
-# HTML structure: unique IDs and working stage 01A cross-report anchors
+# HTML structure: unique IDs and working stage A01 cross-report anchors
 # Run after rendering both technical and audit reports.
 # ==============================================================================
 
@@ -26,15 +26,15 @@ for (report_name in names(files)) {
                paste(duplicates, collapse = ", ")))
 
   expected_anchor <- if (report_name == "technical")
-    "etapa-01a" else "etapa-01a-controles-integridad"
+    "etapa-A01" else "etapa-A01-controles-integridad"
   stopifnot(expected_anchor %in% ids)
 
-  # 04A uses semantic markers for both explicit Total rows, not their position.
+  # A04 uses semantic markers for both explicit Total rows, not their position.
   if (report_name == "technical") {
     total_markers <- xml2::xml_find_all(
       document,
       paste0(
-        '//*[@id="etapa-04a"]//span[',
+        '//*[@id="etapa-A04"]//span[',
         'contains(concat(" ", normalize-space(@class), " "),',
         ' " rap-total-row-marker ")]'
       )

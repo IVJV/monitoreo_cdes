@@ -4,7 +4,7 @@
 # Display-only transformations and workbook styling. Analytical calculations,
 # independent verification and the publication gate are defined elsewhere.
 
-build_stage_c_publication_html <- function(data, stage_04c, table_number,
+build_stage_c_publication_html <- function(data, stage_C04, table_number,
                                            period_title) {
   if (!(table_number %in% c(1L, 2L)))
     stop("Número de tabla no disponible.")
@@ -12,12 +12,12 @@ build_stage_c_publication_html <- function(data, stage_04c, table_number,
   table_gt <- if (table_number == 1L) {
     render_stage_c_decile_matrix(
       data, "Population", "Percentage", value_digits = 0L,
-      stage_prefix = "s02c", stage_04c = stage_04c
+      stage_prefix = "s02c", stage_C04 = stage_C04
     )
   } else {
     render_stage_c_decile_matrix(
       data, "Income_Millions", "Participation", value_digits = 2L,
-      stage_prefix = "s03c", stage_04c = stage_04c
+      stage_prefix = "s03c", stage_C04 = stage_C04
     )
   }
 
@@ -43,7 +43,7 @@ build_stage_c_publication_html <- function(data, stage_04c, table_number,
     )
 }
 
-# Numeric workbook view equivalent to historical Sections 2C.4 and 3C.4.
+# Numeric workbook view equivalent to historical Sections C02.4 and C03.4.
 # Percentage/participation cells are Excel fractions; no numeric value is
 # rounded or converted into text before writing the workbook.
 build_stage_c_publication_excel <- function(data, table_number) {

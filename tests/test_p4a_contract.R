@@ -1,11 +1,11 @@
 # ==============================================================================
-# Stage 04A contract tests
+# Stage A04 contract tests
 # Run from the repository root: Rscript tests/test_p4a_contract.R
 # Synthetic data only. No ENEMDU microdata are read or modified.
 # ==============================================================================
 
 source("R/validation_errors.R")
-source("R/04A_deciles_ingpc.R")
+source("R/A04_deciles_ingpc.R")
 source("R/control_catalog.R")
 
 assert <- function(condition, message) {
@@ -19,7 +19,7 @@ expect_stage_error <- function(expr, expected_check, expected_message) {
   )
   assert(inherits(result, "rap_validation_error"),
          paste("Expected structured error:", expected_check))
-  assert(identical(result$stage_id, "04a_deciles_ingpc"),
+  assert(identical(result$stage_id, "A04_deciles_ingpc"),
          paste("Unexpected stage_id:", expected_check))
   assert(identical(result$check_id, expected_check),
          paste("Unexpected check_id:", expected_check))
@@ -31,7 +31,7 @@ expect_stage_error <- function(expr, expected_check, expected_message) {
 # 1. Canonical controls and audit diagnostics
 # ==============================================================================
 
-stage_id <- "04a_deciles_ingpc"
+stage_id <- "A04_deciles_ingpc"
 expected_checks <- c(
   "decile_no_missing",
   "decile_complete_coverage",
@@ -49,13 +49,13 @@ stage_controls <- control_catalog[
 stage_diagnostics <- audit_diagnostic_catalog[
   audit_diagnostic_catalog$stage_id == stage_id, , drop = FALSE
 ]
-assert(nrow(stage_controls) == 4L, "Expected four canonical 04A checks")
-assert(nrow(stage_diagnostics) == 2L, "Expected two 04A audit diagnostics")
+assert(nrow(stage_controls) == 4L, "Expected four canonical A04 checks")
+assert(nrow(stage_diagnostics) == 2L, "Expected two A04 audit diagnostics")
 assert(identical(as.character(stage_controls$check_id), expected_checks),
-       "Unexpected 04A check IDs or order")
+       "Unexpected A04 check IDs or order")
 assert(identical(as.character(stage_diagnostics$audit_group), expected_groups),
-       "Unexpected 04A audit groups")
-assert(!anyDuplicated(stage_controls$check_id), "Duplicate 04A check IDs")
+       "Unexpected A04 audit groups")
+assert(!anyDuplicated(stage_controls$check_id), "Duplicate A04 check IDs")
 cat("PASS: four canonical checks and two audit diagnostics\n")
 
 # ==============================================================================
@@ -81,10 +81,10 @@ original_base <- synthetic_base
 input_references <- list(input_ingpc_valid_expanded = sum(synthetic_base$fexp))
 
 result <- build_ingpc_decile_stage(synthetic_base, input_references)
-assert(identical(synthetic_base, original_base), "Stage 04A modified its input")
-assert(nrow(result$data) == nrow(synthetic_base), "04A dropped observations")
+assert(identical(synthetic_base, original_base), "Stage A04 modified its input")
+assert(nrow(result$data) == nrow(synthetic_base), "A04 dropped observations")
 assert(identical(sort(unique(result$data$ningpc)), 1:10),
-       "04A did not produce all ten deciles")
+       "A04 did not produce all ten deciles")
 assert(identical(attr(result$data$ningpc, "label"), "Per capita income decile"),
        "The original decile variable label changed")
 
@@ -103,7 +103,7 @@ assert(identical(as.character(tail(frequency_table$Decile, 1)), "Total"),
        "The total row is missing")
 assert(isTRUE(all.equal(tail(frequency_table$Frequency, 1),
                         input_references$input_ingpc_valid_expanded)),
-       "The frequency-table total differs from Stage 01A")
+       "The frequency-table total differs from Stage A01")
 assert(isTRUE(all.equal(sum(head(frequency_table$Percentage, -1)), 100)),
        "The decile frequencies do not total 100 percent")
 assert(isTRUE(all.equal(sum(head(frequency_table$Frequency, -1)),
@@ -115,21 +115,21 @@ reference <- result$point4_ingpc_mean_reference
 assert(nrow(report_table) == 11L && nrow(reference) == 10L,
        "Unexpected report or reference row count")
 assert(identical(names(reference), c("Decile", "Mean")),
-       "06A reference contract changed")
+       "A06 reference contract changed")
 assert(isTRUE(all.equal(reference$Mean, head(report_table$Mean, 10))),
-       "The unrounded 06A mean references differ from the report")
+       "The unrounded A06 mean references differ from the report")
 assert(isTRUE(all.equal(tail(report_table$N, 1), sum(synthetic_base$fexp))),
        "Incorrect total expanded N")
 assert(isTRUE(all.equal(tail(report_table$Sum, 1),
                         sum(synthetic_base$ingpc * synthetic_base$fexp))),
        "Incorrect total weighted income")
 
-assert(nrow(result$validation_evidence) == 4L, "Missing 04A control evidence")
+assert(nrow(result$validation_evidence) == 4L, "Missing A04 control evidence")
 assert(identical(as.character(result$validation_evidence$check_id), expected_checks),
-       "04A evidence and catalogue have different check IDs")
+       "A04 evidence and catalogue have different check IDs")
 assert(all(result$validation_evidence$stage_id == stage_id) &&
          all(result$validation_evidence$passed),
-       "04A evidence must indicate successful execution")
+       "A04 evidence must indicate successful execution")
 
 audit <- build_stage_audit_diagnostics(
   result$validation_evidence,
@@ -137,11 +137,11 @@ audit <- build_stage_audit_diagnostics(
   audit_diagnostic_catalog,
   stage_id
 )
-assert(isTRUE(audit$stage_passed), "04A was not approved")
+assert(isTRUE(audit$stage_passed), "A04 was not approved")
 assert(nrow(audit$diagnostics) == 2L &&
          all(audit$diagnostics$Resultado == "OK"),
-       "Unexpected 04A audit result")
-cat("PASS: decile tables, unrounded 06A references and audit evidence\n")
+       "Unexpected A04 audit result")
+cat("PASS: decile tables, unrounded A06 references and audit evidence\n")
 
 # ==============================================================================
 # 4. Four reachable structured failure cases
@@ -189,7 +189,7 @@ expect_stage_error(
   "decile_expanded_population_consistent",
   paste(
     "La población expandida de la tabla de frecuencias por decil",
-    "difiere de la población con INGPC válido registrada en la Etapa 01A."
+    "difiere de la población con INGPC válido registrada en la Etapa A01."
   )
 )
 cat("PASS: four structured validation failures\n")

@@ -1,10 +1,10 @@
 # ==============================================================================
-# Stage 01B — CONDACTN contract tests (synthetic data; no ENEMDU file required)
+# Stage B01 — CONDACTN contract tests (synthetic data; no ENEMDU file required)
 # Run from the project root: Rscript tests/test_p1b_contract.R
 # ==============================================================================
 
 source("R/validation_errors.R")
-source("R/01B_validacion_exploracion_condactn.R")
+source("R/B01_validacion_exploracion_condactn.R")
 source("R/control_catalog.R")
 
 assert <- function(condition, message) {
@@ -26,7 +26,7 @@ expect_stage_error <- function(expr, check_id, expected_message) {
   )
   assert(inherits(result, "rap_validation_error"),
          paste("Expected structured validation error:", check_id))
-  assert(identical(result$stage_id, "01b_condactn_reference"),
+  assert(identical(result$stage_id, "B01_condactn_reference"),
          paste("Unexpected stage_id:", check_id))
   assert(identical(result$check_id, check_id),
          paste("Unexpected check_id:", check_id))
@@ -34,7 +34,7 @@ expect_stage_error <- function(expr, check_id, expected_message) {
          paste("Unexpected error message:", check_id))
 }
 
-stage_id <- "01b_condactn_reference"
+stage_id <- "B01_condactn_reference"
 expected_checks <- c(
   "condactn_metadata_present",
   "condactn_codes_valid",

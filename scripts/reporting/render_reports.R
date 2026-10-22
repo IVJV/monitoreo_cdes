@@ -50,18 +50,18 @@ selected_report <- report_config[[report_set]]
 # 2. Load current production and reporting-context dependencies
 # ==============================================================================
 source("R/validation_errors.R")
-source("R/01A_ingesta_enemdu.R")
-source("R/02A_identificadores_enemdu.R")
-source("R/03A_tratamiento_ingpc.R")
-source("R/04A_deciles_ingpc.R")
-source("R/05A_diseno_muestral_enemdu.R")
-source("R/06A_media_ingpc_por_decil_ajustada_por_diseno_muestral.R")
-source("R/01B_validacion_exploracion_condactn.R")
-source("R/02B_clasificacion_poblacion.R")
-source("R/01C_recepcion_entrada.R")
-source("R/02C_distribucion_poblacion_por_decil.R")
-source("R/03C_concentracion_ingreso_por_decil.R")
-source("R/04C_verificacion_tablas.R")
+source("R/A01_ingesta_enemdu.R")
+source("R/A02_identificadores_enemdu.R")
+source("R/A03_tratamiento_ingpc.R")
+source("R/A04_deciles_ingpc.R")
+source("R/A05_diseno_muestral_enemdu.R")
+source("R/A06_media_ingpc_por_decil_ajustada_por_diseno_muestral.R")
+source("R/B01_validacion_exploracion_condactn.R")
+source("R/B02_clasificacion_poblacion.R")
+source("R/C01_recepcion_entrada.R")
+source("R/C02_distribucion_poblacion_por_decil.R")
+source("R/C03_concentracion_ingreso_por_decil.R")
+source("R/C04_verificacion_tablas.R")
 source("R/control_catalog.R")
 source("R/report_context.R")
 
@@ -72,14 +72,14 @@ source("R/report_context.R")
 report_context <- build_report_context(input_file)
 
 # Publication is separate from Quarto and only runs for the technical report.
-# Release occurs after 04C approval; the QMD merely displays and links outputs.
+# Release occurs after C04 approval; the QMD merely displays and links outputs.
 if (identical(report_set, "technical")) {
   source("R/reporting_helpers.R")
   source("R/reporting_publication_format.R")
-  source("R/04C_publicacion_resultados.R")
+  source("R/C04_publicacion_resultados.R")
 
   stage_c_publication <- publish_stage_c_results(report_context)
-  report_context$stage_04c$publication <- stage_c_publication$files
+  report_context$stage_C04$publication <- stage_c_publication$files
 }
 
 context_file <- tempfile(

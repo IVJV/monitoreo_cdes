@@ -30,14 +30,14 @@ local({
   internal_files <- c(
     "build_catalogs.R",
     "build_audit_diagnostics.R",
-    "stage_01a_ingestion.R",
-    "stage_02a_identifiers.R",
-    "stage_03a_ingpc_treatment.R",
-    "stage_04a_deciles_ingpc.R",
-    "stage_06a_media_ingpc_por_decil.R",
-    "stage_01b_condactn_reference.R",
-    "stage_02b_population_classification.R",
-    "stage_04c_table_output_verification.R"
+    "stage_A01_ingestion.R",
+    "stage_A02_identifiers.R",
+    "stage_A03_ingpc_treatment.R",
+    "stage_A04_deciles_ingpc.R",
+    "stage_A06_media_ingpc_por_decil.R",
+    "stage_B01_condactn_reference.R",
+    "stage_B02_population_classification.R",
+    "stage_C04_table_output_verification.R"
   )
 
   invisible(
@@ -56,14 +56,14 @@ local({
   # Assemble stage-specific canonical definitions
   # ---------------------------------------------------------------------------
   stage_definitions <- list(
-    internal_env$build_stage_01a_control_definitions(),
-    internal_env$build_stage_02a_control_definitions(),
-    internal_env$build_stage_03a_control_definitions(),
-    internal_env$build_stage_04a_control_definitions(),
-    internal_env$build_stage_06a_control_definitions(),
-    internal_env$build_stage_01b_control_definitions(),
-    internal_env$build_stage_02b_control_definitions(),
-    internal_env$build_stage_04c_control_definitions()
+    internal_env$build_stage_A01_control_definitions(),
+    internal_env$build_stage_A02_control_definitions(),
+    internal_env$build_stage_A03_control_definitions(),
+    internal_env$build_stage_A04_control_definitions(),
+    internal_env$build_stage_A06_control_definitions(),
+    internal_env$build_stage_B01_control_definitions(),
+    internal_env$build_stage_B02_control_definitions(),
+    internal_env$build_stage_C04_control_definitions()
   )
 
   assembled_control_catalog <- do.call(

@@ -1,0 +1,92 @@
+# Etapa A02 — Identificadores ENEMDU `r render_stage_assurance(report_context$stage_A02, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A02-controles-identificadores")` {#etapa-A02 .rap-assurance-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P2A — Create identifiers: Province, natural region, PSU, and study domains, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-A02-context
+
+stage_A02 <- report_context$stage_A02
+```
+
+## Resumen de identificadores construidos {#etapa-A02-resumen-identificadores}
+
+::: {.output-intro}
+Síntesis de los identificadores generados, su cobertura en muestra y población y el número de valores distintos obtenidos.
+:::
+
+```{r}
+#| label: stage-A02-identifier-summary
+
+identifier_summary_report <- prepare_gt_view(
+  stage_A02$identifier_summary,
+  column_ids = c(Variable = "Variable_A02"),
+  integer_columns = c("Sample_Valid", "Population_Valid", "Distinct_Values")
+)
+
+identifier_summary_report |>
+  gt::gt() |>
+  gt::cols_label(
+    Variable_A02 = "Variable",
+    Description = "Descripción",
+    Sample_Valid = unname(reporting_labels[["valid_sample"]]),
+    Population_Valid = unname(reporting_labels[["valid_population"]]),
+    Distinct_Values = "Valores distintos"
+  ) |>
+  gt::cols_align(
+    align = "left",
+    columns = c(
+      Variable_A02,
+      Description
+    )
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      Sample_Valid,
+      Population_Valid,
+      Distinct_Values
+    )
+  )
+```
+
+## Distribución por dominio de estudio {#etapa-A02-distribucion-dominios}
+
+::: {.output-intro}
+Distribución de la muestra y de la población por dominio y área, junto con el número de UPM identificadas.
+:::
+
+```{r}
+#| label: stage-A02-domain-distribution
+
+domain_distribution_report <- prepare_gt_view(
+  stage_A02$domain_distribution,
+  integer_columns = c("Sample_N", "Expanded_N", "Unique_PSUs")
+)
+
+domain_distribution_report |>
+  gt::gt() |>
+  gt::cols_label(
+    dominio = "Dominio",
+    area = "Área",
+    Sample_N = unname(reporting_labels[["sample"]]),
+    Expanded_N = unname(reporting_labels[["population"]]),
+    Unique_PSUs = "UPM"
+  ) |>
+  gt::cols_align(
+    align = "center",
+    columns = c(
+      dominio,
+      area
+    )
+  ) |>
+  gt::cols_align(
+    align = "right",
+    columns = c(
+      Sample_N,
+      Expanded_N,
+      Unique_PSUs
+    )
+  )
+```

@@ -1,11 +1,11 @@
 # ==============================================================================
-# Stage 02B — Population classification contract tests (synthetic input)
+# Stage B02 — Population classification contract tests (synthetic input)
 # Run from project root: Rscript tests/test_p2b_contract.R
 # ==============================================================================
 
 source("R/validation_errors.R")
-source("R/01B_validacion_exploracion_condactn.R")
-source("R/02B_clasificacion_poblacion.R")
+source("R/B01_validacion_exploracion_condactn.R")
+source("R/B02_clasificacion_poblacion.R")
 source("R/control_catalog.R")
 
 assert <- function(condition, message) {
@@ -21,13 +21,13 @@ expect_stage_error <- function(expr, check_id) {
   outcome <- tryCatch({ force(expr); NULL }, error = function(e) e)
   assert(inherits(outcome, "rap_validation_error"),
          paste("Expected structured validation error:", check_id))
-  assert(identical(outcome$stage_id, "02b_population_classification"),
+  assert(identical(outcome$stage_id, "B02_population_classification"),
          paste("Incorrect error stage:", check_id))
   assert(identical(outcome$check_id, check_id),
          paste("Incorrect check ID:", check_id))
 }
 
-stage_id <- "02b_population_classification"
+stage_id <- "B02_population_classification"
 check_id <- "population_classification_consistency"
 stage_controls <- control_catalog[
   control_catalog$stage_id == stage_id, , drop = FALSE
@@ -35,10 +35,10 @@ stage_controls <- control_catalog[
 stage_diagnostics <- audit_diagnostic_catalog[
   audit_diagnostic_catalog$stage_id == stage_id, , drop = FALSE
 ]
-assert(nrow(stage_controls) == 1L, "02B must define exactly one atomic check")
-assert(nrow(stage_diagnostics) == 1L, "02B must define one audit diagnosis")
+assert(nrow(stage_controls) == 1L, "B02 must define exactly one atomic check")
+assert(nrow(stage_diagnostics) == 1L, "B02 must define one audit diagnosis")
 assert(identical(stage_controls$check_id, check_id),
-       "02B control catalogue has a different check ID")
+       "B02 control catalogue has a different check ID")
 
 # Include every official code and an NA record with a large expansion factor.
 # Use fractional weights to detect inadvertent rounding or missing-value leakage.
@@ -59,7 +59,7 @@ hierarchy <- result$population_classification_table_num
 comparison <- result$population_validation
 evidence <- result$validation_evidence
 
-# Explicit expected membership by source code; independent of 02B implementation.
+# Explicit expected membership by source code; independent of B02 implementation.
 expected_codes <- list(
   poblacion_total = 0:9,
   menor_15 = 0L,
@@ -88,27 +88,27 @@ expected_parents <- c(
 )
 
 assert(identical(as.character(hierarchy$Variable), expected_variables),
-       "02B hierarchy order or indicator names have changed")
+       "B02 hierarchy order or indicator names have changed")
 assert(identical(as.integer(hierarchy$Order), 1:16),
-       "02B hierarchy order numbers differ")
+       "B02 hierarchy order numbers differ")
 assert(identical(as.numeric(hierarchy$Level), as.numeric(expected_levels)),
-       "02B hierarchy levels differ")
+       "B02 hierarchy levels differ")
 assert(identical(as.character(hierarchy$Parent), expected_parents),
-       "02B parent-child relationships differ")
-assert(nrow(comparison) == 16L, "02B comparison must have 16 rows")
+       "B02 parent-child relationships differ")
+assert(nrow(comparison) == 16L, "B02 comparison must have 16 rows")
 assert(identical(as.character(comparison$Indicator), expected_variables),
-       "02B comparison indicator order differs")
+       "B02 comparison indicator order differs")
 
 expected_frequencies <- vapply(expected_codes, function(group_codes) {
   sum(weights[!is.na(codes) & codes %in% group_codes])
 }, numeric(1))
 assert(isTRUE(all.equal(as.numeric(hierarchy$Expanded_Frequency),
                         unname(expected_frequencies), tolerance = 1e-12)),
-       "02B expanded frequencies differ from independent synthetic totals")
+       "B02 expanded frequencies differ from independent synthetic totals")
 assert(isTRUE(all.equal(as.numeric(hierarchy$Population_Proportion),
                         unname(expected_frequencies / expected_frequencies[["poblacion_total"]]),
                         tolerance = 1e-12)),
-       "02B total-population proportions differ")
+       "B02 total-population proportions differ")
 
 expected_parent_proportions <- vapply(seq_along(expected_variables), function(i) {
   parent <- expected_parents[[i]]
@@ -117,7 +117,7 @@ expected_parent_proportions <- vapply(seq_along(expected_variables), function(i)
 }, numeric(1))
 assert(isTRUE(all.equal(as.numeric(hierarchy$Parent_Proportion),
                         expected_parent_proportions, tolerance = 1e-12)),
-       "02B parent-category proportions differ")
+       "B02 parent-category proportions differ")
 
 # Each labelled indicator must preserve 0/1 membership and missingness.
 for (variable in expected_variables) {
@@ -145,20 +145,20 @@ assert(isTRUE(all.equal(as.numeric(comparison$Observed),
        "Observed comparison values differ")
 assert(all(is.finite(comparison$Difference)) &&
          all(abs(comparison$Difference) <= 1e-8),
-       "02B expected zero-tolerance reconciliation failed")
+       "B02 expected zero-tolerance reconciliation failed")
 assert(nrow(evidence) == 1L &&
          identical(evidence$stage_id, stage_id) &&
          identical(evidence$check_id, check_id) &&
          isTRUE(evidence$passed),
-       "02B check evidence has a different contract")
+       "B02 check evidence has a different contract")
 
 accepted <- build_stage_audit_diagnostics(
   evidence, control_catalog, audit_diagnostic_catalog, stage_id
 )
-assert(isTRUE(accepted$stage_passed), "02B valid evidence was not approved")
+assert(isTRUE(accepted$stage_passed), "B02 valid evidence was not approved")
 assert(nrow(accepted$diagnostics) == 1L &&
          identical(accepted$diagnostics$Resultado, "OK"),
-       "02B valid audit diagnosis differs")
+       "B02 valid audit diagnosis differs")
 cat("PASS: 16 independent population reconciliations and audit OK\n")
 
 # A changed reference must be rejected by the production control, not reported OK.
@@ -174,22 +174,22 @@ failed_evidence$passed <- FALSE
 rejected <- build_stage_audit_diagnostics(
   failed_evidence, control_catalog, audit_diagnostic_catalog, stage_id
 )
-assert(!isTRUE(rejected$stage_passed), "Failed 02B evidence was approved")
+assert(!isTRUE(rejected$stage_passed), "Failed B02 evidence was approved")
 assert(any(rejected$diagnostics$Resultado == "NO SUPERADO"),
-       "02B failed audit diagnosis was not shown")
+       "B02 failed audit diagnosis was not shown")
 expect_error(
   build_stage_audit_diagnostics(
     evidence[0, , drop = FALSE], control_catalog,
     audit_diagnostic_catalog, stage_id
   ),
-  "missing 02B evidence"
+  "missing B02 evidence"
 )
 expect_error(
   build_stage_audit_diagnostics(
     rbind(evidence, evidence), control_catalog,
     audit_diagnostic_catalog, stage_id
   ),
-  "duplicate 02B evidence"
+  "duplicate B02 evidence"
 )
 cat("PASS: altered reference and invalid/missing/duplicated evidence rejected\n")
 cat("P2B CONTRACT TESTS: ALL PASSED\n")

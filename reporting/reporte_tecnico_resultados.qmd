@@ -7,14 +7,14 @@ params:
 
 {{< include includes/report_setup.qmd >}}
 
-{{< include technical/etapa_01A_RT.qmd >}}
-{{< include technical/etapa_02A_RT.qmd >}}
-{{< include technical/etapa_03A_RT.qmd >}}
-{{< include technical/etapa_04A_RT.qmd >}}
-{{< include technical/etapa_06A_RT.qmd >}}
-{{< include technical/etapa_01B_RT.qmd >}}
-{{< include technical/etapa_02B_RT.qmd >}}
-{{< include technical/etapa_04C_RT.qmd >}}
+{{< include technical/etapa_A01_RT.qmd >}}
+{{< include technical/etapa_A02_RT.qmd >}}
+{{< include technical/etapa_A03_RT.qmd >}}
+{{< include technical/etapa_A04_RT.qmd >}}
+{{< include technical/etapa_A06_RT.qmd >}}
+{{< include technical/etapa_B01_RT.qmd >}}
+{{< include technical/etapa_B02_RT.qmd >}}
+{{< include technical/etapa_C04_RT.qmd >}}
 
 <!--
 Common report navigation:

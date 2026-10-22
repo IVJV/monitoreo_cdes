@@ -15,7 +15,7 @@ make_diagnostics <- function() {
 }
 
 original <- make_diagnostics()
-stages <- c("01a_ingestion", "02a_identifiers", "03a_ingpc_treatment")
+stages <- c("A01_ingestion", "A02_identifiers", "A03_ingpc_treatment")
 html_tables <- vapply(stages, function(stage_id) {
   rendered <- render_audit_diagnostics(original, stage_id)
   as.character(gt::as_raw_html(rendered))
@@ -39,4 +39,4 @@ bad <- tryCatch(
 )
 stopifnot(inherits(bad, "error"))
 
-cat("PASS: unique GT audit header IDs (01A, 02A, 03A)\n")
+cat("PASS: unique GT audit header IDs (A01, A02, A03)\n")

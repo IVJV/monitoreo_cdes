@@ -1,0 +1,37 @@
+# Etapa A01 — Ingesta ENEMDU `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A01")` {#etapa-A01 .rap-return-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P1A — Load database, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-A01-audit-context
+
+stage_A01 <- report_context$stage_A01
+```
+
+## Controles de integridad {#etapa-A01-controles-integridad}
+
+::: {.output-intro}
+La Etapa A01 verifica que las variables requeridas estén presentes y tengan tipos de datos compatibles. También comprueba que el factor de expansión (`fexp`) no contenga valores perdidos y que todos sus valores sean finitos y estrictamente positivos. La tabla presenta los controles realizados y sus resultados.
+:::
+
+```{r}
+#| label: stage-A01-integrity-controls
+
+render_audit_diagnostics(
+  stage_A01$audit_diagnostics,
+  stage_id = "A01_ingestion"
+)
+```
+
+### Estado de la etapa {#etapa-A01-estado}
+
+```{r}
+#| label: stage-A01-status
+#| results: asis
+
+render_stage_status(
+  stage_A01$stage_passed
+)
+```

@@ -1,0 +1,37 @@
+# Etapa A02 — Identificadores ENEMDU `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A02")` {#etapa-A02 .rap-return-heading}
+
+::: {.method-reference}
+**Referencia metodológica:** P2A — Create identifiers: Province, natural region, PSU, and study domains, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+:::
+
+```{r}
+#| label: stage-A02-audit-context
+
+stage_A02 <- report_context$stage_A02
+```
+
+## Controles de validación de identificadores {#etapa-A02-controles-identificadores}
+
+::: {.output-intro}
+La Etapa A02 comprueba que los identificadores de provincia y región natural coincidan con los datos originales, que el identificador de la unidad primaria de muestreo (UPM) tenga una estructura válida y que cada registro esté asignado correctamente a un dominio de estudio. La tabla presenta los controles realizados y sus resultados.
+:::
+
+```{r}
+#| label: stage-A02-identifier-controls
+
+render_audit_diagnostics(
+  stage_A02$audit_diagnostics,
+  stage_id = "A02_identifiers"
+)
+```
+
+### Estado de la etapa {#etapa-A02-estado}
+
+```{r}
+#| label: stage-A02-status
+#| results: asis
+
+render_stage_status(
+  stage_A02$stage_passed
+)
+```

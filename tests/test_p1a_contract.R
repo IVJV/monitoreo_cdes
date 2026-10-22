@@ -3,7 +3,7 @@
 # All input data are synthetic; no ENEMDU microdata are read or modified.
 
 source("R/validation_errors.R")
-source("R/01A_ingesta_enemdu.R")
+source("R/A01_ingesta_enemdu.R")
 source("R/control_catalog.R")
 
 assert <- function(condition, message) {
@@ -30,7 +30,7 @@ expect_stage_error <- function(expr, check_id, expected_message) {
   )
 
   assert(
-    identical(result$stage_id, "01a_ingestion"),
+    identical(result$stage_id, "A01_ingestion"),
     paste("Unexpected stage_id:", check_id)
   )
 
@@ -45,7 +45,7 @@ expect_stage_error <- function(expr, check_id, expected_message) {
   )
 }
 
-stage_id <- "01a_ingestion"
+stage_id <- "A01_ingestion"
 expected_checks <- c(
   "required_variables_present",
   "required_numeric_types_valid",
@@ -153,12 +153,12 @@ expect_stage_error(
 
 # Test the finiteness control directly, without SAV serialization.
 assert(
-  isTRUE(validate_stage_01a_fexp_finite(c(1.1, 2.2))),
+  isTRUE(validate_stage_A01_fexp_finite(c(1.1, 2.2))),
   "Finite expansion factors should pass validation"
 )
 
 expect_stage_error(
-  validate_stage_01a_fexp_finite(c(1.1, Inf)),
+  validate_stage_A01_fexp_finite(c(1.1, Inf)),
   check_id = "fexp_finite",
   expected_message = "El factor de expansión fexp contiene valores no finitos."
 )

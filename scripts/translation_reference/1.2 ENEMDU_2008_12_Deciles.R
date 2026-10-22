@@ -8,12 +8,12 @@ library(srvyr)       #dplyr-style interface for analyzing complex survey data
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###                            1A. Load database                             ###
+###                            A01. Load database                             ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
 ###--------------------------------------------------------------------------###
-###                   1A.1. Database import and validation                   ###
+###                   A01.1. Database import and validation                   ###
 ###--------------------------------------------------------------------------###
 #...............................................................................
 # a. Define source file and recover period
@@ -93,7 +93,7 @@ input_ingpc_missing_expanded <- unname(missing_expanded["ingpc"])
 
 
 ###--------------------------------------------------------------------------###
-###                     1A.2. Initial exploration                            ###
+###                     A01.2. Initial exploration                            ###
 ###--------------------------------------------------------------------------###
 # a. General database overview
 database_overview <- data.frame(
@@ -149,13 +149,13 @@ rm(
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###                         2A. Create identifiers:                          ###
+###                         A02. Create identifiers:                          ###
 ###               Province, natural region, PSU, and study domains           ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
 ###--------------------------------------------------------------------------###
-###                    2A.1. Province reconstruction                         ###
+###                    A02.1. Province reconstruction                         ###
 ###--------------------------------------------------------------------------###
 # a. Reconstruct province from ciudad following the original SPSS methodology
 ENEMDU_base$provin <- as.integer(substr(sprintf("%06d", as.integer(ENEMDU_base$ciudad)), 1, 2))
@@ -176,7 +176,7 @@ if (any(province_difference)) stop(paste(sum(province_difference), "records diff
 
 
 ###--------------------------------------------------------------------------###
-###                 2A.2. Natural region reconstruction                      ###
+###                 A02.2. Natural region reconstruction                      ###
 ###--------------------------------------------------------------------------###
 # a. Reconstruct natural region using the province grouping defined in SPSS
 provin_num <- as.integer(ENEMDU_base$provin)
@@ -205,7 +205,7 @@ if (any(region_difference)) stop(paste(sum(region_difference), "records differ b
 
 
 ###--------------------------------------------------------------------------###
-###                           2A.3. PSU identifier                           ###
+###                           A02.3. PSU identifier                           ###
 ###--------------------------------------------------------------------------###
 # a. Reproduce the PSU/UPM identifier defined in the original methodology
 ENEMDU_base$identif <- paste0(
@@ -223,7 +223,7 @@ if (any(invalid_identif)) stop(paste(sum(invalid_identif), "records have an inva
 
 
 ###--------------------------------------------------------------------------###
-###                       2A.4. Study domain identifier                      ###
+###                       A02.4. Study domain identifier                      ###
 ###--------------------------------------------------------------------------###
 # a. Reproduce study-domain classification defined in the original SPSS
 rnatura_num <- as.integer(ENEMDU_base$rnatura)
@@ -264,7 +264,7 @@ if (any(domain_area_mismatch)) stop(paste(sum(domain_area_mismatch), "records ha
 
 
 ###--------------------------------------------------------------------------###
-###                     2A.5. Technical summaries                            ###
+###                     A02.5. Technical summaries                            ###
 ###--------------------------------------------------------------------------###
 # Technical summary of constructed identifiers
 identifier_variables <- c("provin", "rnatura", "identif", "dominio")
@@ -317,7 +317,7 @@ rm(
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###                        3A. ingpc treatment                               ###
+###                        A03. ingpc treatment                               ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
@@ -391,7 +391,7 @@ rm(
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###            4A. Per capita income decile calculation                      ###
+###            A04. Per capita income decile calculation                      ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
@@ -428,7 +428,7 @@ if (length(invalid_deciles) > 0) stop(paste("Invalid decile values were generate
 
 
 ###--------------------------------------------------------------------------###
-###                    4A.1 Decile frequency table                           ###
+###                    A04.1 Decile frequency table                           ###
 ###--------------------------------------------------------------------------###
 # a. Total expanded population in the valid ingpc analytical universe
 total_expanded_valid <- sum(ENEMDU_decile$fexp)
@@ -447,7 +447,7 @@ if (!isTRUE(all.equal(total_expanded_valid, input_ingpc_valid_expanded, toleranc
 
 
 ###--------------------------------------------------------------------------###
-###                      4A.2 Decile report table                            ###
+###                      A04.2 Decile report table                            ###
 ###--------------------------------------------------------------------------###
 # a. Weighted SPSS-style report by decile
 decile_report_table <- do.call(
@@ -520,7 +520,7 @@ rm(
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###                       5A. Sample Design for ENEMDU Survey                ###           
+###                       A05. Sample Design for ENEMDU Survey               ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
@@ -541,7 +541,7 @@ d1 <- ENEMDU_decile %>%
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###                6A. Survey-adjusted mean of ingpc by decile               ###
+###                A06. Survey-adjusted mean of ingpc by decile               ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###

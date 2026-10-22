@@ -1,13 +1,13 @@
 
 # ==============================================================================
-# Stage 02A contract tests
+# Stage A02 contract tests
 # Run from the repository root:
 #   Rscript tests/test_p2a_contract.R
 # Synthetic data only. No ENEMDU microdata are read or modified.
 # ==============================================================================
 
 source("R/validation_errors.R")
-source("R/02A_identificadores_enemdu.R")
+source("R/A02_identificadores_enemdu.R")
 source("R/control_catalog.R")
 
 assert <- function(condition, message) {
@@ -26,7 +26,7 @@ expect_stage_error <- function(expr, check_id, expected_message) {
   )
 
   assert(
-    identical(result$stage_id, "02a_identifiers"),
+    identical(result$stage_id, "A02_identifiers"),
     paste("Unexpected stage_id:", check_id)
   )
 
@@ -45,7 +45,7 @@ expect_stage_error <- function(expr, check_id, expected_message) {
 # 1. Verify the canonical catalogue
 # ==============================================================================
 
-stage_id <- "02a_identifiers"
+stage_id <- "A02_identifiers"
 
 expected_checks <- c(
   "province_no_missing",
@@ -68,10 +68,10 @@ stage_groups <- audit_diagnostic_catalog[
   audit_diagnostic_catalog$stage_id == stage_id, , drop = FALSE
 ]
 
-assert(nrow(stage_controls) == 10L, "02A must catalogue ten checks")
-assert(nrow(stage_groups) == 4L, "02A must catalogue four diagnostics")
-assert(setequal(stage_controls$check_id, expected_checks), "02A check IDs differ")
-assert(!anyDuplicated(stage_controls$check_id), "Duplicate 02A check IDs")
+assert(nrow(stage_controls) == 10L, "A02 must catalogue ten checks")
+assert(nrow(stage_groups) == 4L, "A02 must catalogue four diagnostics")
+assert(setequal(stage_controls$check_id, expected_checks), "A02 check IDs differ")
+assert(!anyDuplicated(stage_controls$check_id), "Duplicate A02 check IDs")
 
 cat("PASS: ten canonical checks and four audit diagnostics\n")
 
@@ -185,7 +185,7 @@ audit <- build_stage_audit_diagnostics(
   stage_id
 )
 
-assert(audit$stage_passed, "Valid 02A stage was not approved")
+assert(audit$stage_passed, "Valid A02 stage was not approved")
 assert(nrow(audit$diagnostics) == 4L, "Expected four diagnostics")
 assert(all(audit$diagnostics$Resultado == "OK"), "Unexpected audit status")
 
@@ -261,5 +261,5 @@ expect_stage_error(
   "1 registros difieren entre la variable original prov y la variable reconstruida provin."
 )
 
-cat("PASS: invalid input interrupts the complete 02A stage\n")
+cat("PASS: invalid input interrupts the complete A02 stage\n")
 cat("P2A CONTRACT TESTS: ALL PASSED\n")
