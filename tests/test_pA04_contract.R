@@ -1,6 +1,6 @@
 # ==============================================================================
 # Stage A04 contract tests
-# Run from the repository root: Rscript tests/test_p4a_contract.R
+# Run from the repository root: Rscript tests/test_pA04_contract.R
 # Synthetic data only. No ENEMDU microdata are read or modified.
 # ==============================================================================
 
@@ -193,4 +193,4 @@ expect_stage_error(
   )
 )
 cat("PASS: four structured validation failures\n")
-cat("P4A CONTRACT TESTS: ALL PASSED\n")
+cat("PA04 CONTRACT TESTS: ALL PASSED\n")

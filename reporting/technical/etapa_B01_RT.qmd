@@ -1,7 +1,7 @@
 # Etapa B01 — Validación y exploración de la condición de actividad `r render_stage_assurance(report_context$stage_B01, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-B01-validacion-condactn")` {#etapa-B01 .rap-assurance-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P1B — CONDACTN validation and exploration, script `2.1 ENEMDU_2008_12_Indicadores_Mercado_Laboral.R` validado.
+**Referencia metodológica:** PB01 — CONDACTN validation and exploration, script `2.1 ENEMDU_2008_12_Indicadores_Mercado_Laboral.R` validado.
 :::
 
 ```{r}

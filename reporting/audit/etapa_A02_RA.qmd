@@ -1,7 +1,7 @@
 # Etapa A02 — Identificadores ENEMDU `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A02")` {#etapa-A02 .rap-return-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P2A — Create identifiers: Province, natural region, PSU, and study domains, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+**Referencia metodológica:** PA02 — Create identifiers: Province, natural region, PSU, and study domains, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}

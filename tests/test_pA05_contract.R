@@ -1,6 +1,6 @@
 # ==============================================================================
 # Stage A05 contract test — ENEMDU complex survey design
-# Run from the repository root: Rscript tests/test_p5a_contract.R
+# Run from the repository root: Rscript tests/test_pA05_contract.R
 # Synthetic data only; no ENEMDU microdata are used.
 # ==============================================================================
 
@@ -44,4 +44,4 @@ expected_mean <- stats::weighted.mean(synthetic_base$ingpc, synthetic_base$fexp)
 assert(isTRUE(all.equal(observed_mean, expected_mean, tolerance = 1e-8)),
        "A05 weighted mean differs from the input-weighted mean")
 
-cat("P5A CONTRACT TESTS: ALL PASSED\n")
+cat("PA05 CONTRACT TESTS: ALL PASSED\n")

@@ -1,6 +1,6 @@
 # ==============================================================================
 # Stage A06 contract tests — survey-adjusted INGPC means by decile
-# Run from the repository root: Rscript tests/test_p6a_contract.R
+# Run from the repository root: Rscript tests/test_pA06_contract.R
 # Synthetic data only. No ENEMDU microdata are read or modified.
 # ==============================================================================
 
@@ -82,4 +82,4 @@ nonfinite_estimate$Mean[1] <- Inf
 expect_error(validate_ingpc_decile_means(nonfinite_estimate, reference),
              "A06 accepted a non-finite survey mean")
 
-cat("P6A CONTRACT TESTS: ALL PASSED\n")
+cat("PA06 CONTRACT TESTS: ALL PASSED\n")

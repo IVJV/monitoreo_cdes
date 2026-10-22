@@ -1,7 +1,7 @@
 # Etapa A04 — Deciles de ingreso per cápita `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A04")` {#etapa-A04 .rap-return-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P4A — Per capita income decile calculation, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+**Referencia metodológica:** PA04 — Per capita income decile calculation, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}

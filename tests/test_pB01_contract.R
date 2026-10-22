@@ -1,6 +1,6 @@
 # ==============================================================================
 # Stage B01 — CONDACTN contract tests (synthetic data; no ENEMDU file required)
-# Run from the project root: Rscript tests/test_p1b_contract.R
+# Run from the project root: Rscript tests/test_pB01_contract.R
 # ==============================================================================
 
 source("R/validation_errors.R")
@@ -48,10 +48,10 @@ stage_groups <- audit_diagnostic_catalog[
   audit_diagnostic_catalog$stage_id == stage_id, , drop = FALSE
 ]
 
-assert(nrow(stage_controls) == 3L, "P1B must catalogue three atomic checks")
-assert(nrow(stage_groups) == 1L, "P1B must catalogue one audit diagnosis")
-assert(setequal(stage_controls$check_id, expected_checks), "P1B check IDs differ")
-assert(!anyDuplicated(stage_controls$check_id), "Duplicate P1B check IDs")
+assert(nrow(stage_controls) == 3L, "PB01 must catalogue three atomic checks")
+assert(nrow(stage_groups) == 1L, "PB01 must catalogue one audit diagnosis")
+assert(setequal(stage_controls$check_id, expected_checks), "PB01 check IDs differ")
+assert(!anyDuplicated(stage_controls$check_id), "Duplicate PB01 check IDs")
 
 # Realistic labelled input with fractional expansion factors.
 # The missing CONDACTN record has a large weight and MUST be excluded.
@@ -108,7 +108,7 @@ assert(is.na(display$Cumulative_Percentage[4]),
 assert(identical(evidence$check_id, expected_checks),
        "Production evidence does not match catalogue checks")
 assert(all(evidence$stage_id == stage_id) && all(evidence$passed),
-       "A valid synthetic source failed the P1B controls")
+       "A valid synthetic source failed the PB01 controls")
 
 successful <- build_stage_audit_diagnostics(
   validation_evidence = evidence,
@@ -116,11 +116,11 @@ successful <- build_stage_audit_diagnostics(
   audit_diagnostic_catalog = audit_diagnostic_catalog,
   stage_id = stage_id
 )
-assert(isTRUE(successful$stage_passed), "Valid P1B stage was not approved")
+assert(isTRUE(successful$stage_passed), "Valid PB01 stage was not approved")
 assert(nrow(successful$diagnostics) == 1L,
-       "Expected a single P1B audit diagnosis")
+       "Expected a single PB01 audit diagnosis")
 assert(all(successful$diagnostics$Resultado == "OK"),
-       "Passing P1B diagnosis was not marked OK")
+       "Passing PB01 diagnosis was not marked OK")
 cat("PASS: labelled input -> exact weighted reference -> display -> audit OK\n")
 
 # Every critical production check must reject the corresponding invalid input.
@@ -150,7 +150,7 @@ expect_stage_error(
   "condactn_observed_codes_labelled",
   "Existe al menos un código CONDACTN observado sin etiqueta de valor."
 )
-cat("PASS: three invalid P1B inputs stop at their respective atomic checks\n")
+cat("PASS: three invalid PB01 inputs stop at their respective atomic checks\n")
 
 # The audit engine must not approve failed, absent, or duplicated evidence.
 failed_evidence <- evidence
@@ -158,23 +158,23 @@ failed_evidence$passed[2] <- FALSE
 failed <- build_stage_audit_diagnostics(
   failed_evidence, control_catalog, audit_diagnostic_catalog, stage_id
 )
-assert(!isTRUE(failed$stage_passed), "Failed P1B check approved the stage")
+assert(!isTRUE(failed$stage_passed), "Failed PB01 check approved the stage")
 assert(any(failed$diagnostics$Resultado == "NO SUPERADO"),
-       "Failed P1B check was hidden by the diagnosis")
+       "Failed PB01 check was hidden by the diagnosis")
 
 expect_error(
   build_stage_audit_diagnostics(
     evidence[-1, , drop = FALSE],
     control_catalog, audit_diagnostic_catalog, stage_id
   ),
-  "missing P1B evidence"
+  "missing PB01 evidence"
 )
 expect_error(
   build_stage_audit_diagnostics(
     rbind(evidence, evidence[1, , drop = FALSE]),
     control_catalog, audit_diagnostic_catalog, stage_id
   ),
-  "duplicate P1B evidence"
+  "duplicate PB01 evidence"
 )
-cat("PASS: failed, missing and duplicate P1B evidence rejected\n")
-cat("P1B CONTRACT TESTS: ALL PASSED\n")
+cat("PASS: failed, missing and duplicate PB01 evidence rejected\n")
+cat("PB01 CONTRACT TESTS: ALL PASSED\n")

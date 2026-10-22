@@ -1,7 +1,7 @@
 # Etapa C04 — Verificación independiente y publicación de resultados `r render_stage_assurance(report_context$stage_C04, "../../audit/reporting/reporte_controles_internos.html#etapa-C04-consistencia-tablas")` {#etapa-C04 .rap-assurance-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P2C — Table 1. Population Distribution by Income Per Capita Decile; P3C — Table 2. Income Per Capita Concentration by Income Decile; P4C — Independent verification and release, script `3.1 ENEMDU_2008_12_Distribución_Concentración_ingpc.R` validado.
+**Referencia metodológica:** PC02 — Table 1. Population Distribution by Income Per Capita Decile; PC03 — Table 2. Income Per Capita Concentration by Income Decile; PC04 — Independent verification and release, script `3.1 ENEMDU_2008_12_Distribución_Concentración_ingpc.R` validado.
 :::
 
 Las tablas de distribución de la población y concentración del ingreso se publican una vez superada su verificación independiente frente a la condición de actividad original (`CONDACTN`).

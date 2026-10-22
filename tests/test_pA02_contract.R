@@ -2,7 +2,7 @@
 # ==============================================================================
 # Stage A02 contract tests
 # Run from the repository root:
-#   Rscript tests/test_p2a_contract.R
+#   Rscript tests/test_pA02_contract.R
 # Synthetic data only. No ENEMDU microdata are read or modified.
 # ==============================================================================
 
@@ -262,4 +262,4 @@ expect_stage_error(
 )
 
 cat("PASS: invalid input interrupts the complete A02 stage\n")
-cat("P2A CONTRACT TESTS: ALL PASSED\n")
+cat("PA02 CONTRACT TESTS: ALL PASSED\n")

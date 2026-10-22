@@ -1,7 +1,7 @@
 # Etapa A03 — Tratamiento de la variable de ingreso per cápita `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A03")` {#etapa-A03 .rap-return-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P3A — `ingpc` treatment, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+**Referencia metodológica:** PA03 — `ingpc` treatment, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}

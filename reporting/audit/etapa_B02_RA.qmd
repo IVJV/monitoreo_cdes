@@ -1,7 +1,7 @@
 # Etapa B02 — Clasificación de la población `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-B02")` {#etapa-B02 .rap-return-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P2B — Population classification, script `2.1 ENEMDU_2008_12_Indicadores_Mercado_Laboral.R` validado.
+**Referencia metodológica:** PB02 — Population classification, script `2.1 ENEMDU_2008_12_Indicadores_Mercado_Laboral.R` validado.
 :::
 
 ```{r}

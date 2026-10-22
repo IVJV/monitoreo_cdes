@@ -1,5 +1,5 @@
-# P1A contract smoke tests. Run from the repository root:
-# Rscript test_p1a_contract.R
+# PA01 contract smoke tests. Run from the repository root:
+# Rscript test_pA01_contract.R
 # All input data are synthetic; no ENEMDU microdata are read or modified.
 
 source("R/validation_errors.R")
@@ -61,10 +61,10 @@ stage_groups <- audit_diagnostic_catalog[
   audit_diagnostic_catalog$stage_id == stage_id, , drop = FALSE
 ]
 
-assert(nrow(stage_controls) == 5L, "P1A must catalogue five atomic checks")
-assert(nrow(stage_groups) == 2L, "P1A must catalogue two audit diagnostics")
-assert(setequal(stage_controls$check_id, expected_checks), "P1A check IDs differ")
-assert(!anyDuplicated(stage_controls$check_id), "Duplicate P1A check IDs")
+assert(nrow(stage_controls) == 5L, "PA01 must catalogue five atomic checks")
+assert(nrow(stage_groups) == 2L, "PA01 must catalogue two audit diagnostics")
+assert(setequal(stage_controls$check_id, expected_checks), "PA01 check IDs differ")
+assert(!anyDuplicated(stage_controls$check_id), "Duplicate PA01 check IDs")
 
 # Exercise the actual production import and validation on a synthetic SAV file.
 synthetic <- data.frame(
@@ -82,7 +82,7 @@ synthetic <- data.frame(
   stringsAsFactors = FALSE
 )
 
-scratch <- tempfile(pattern = "p1a_smoke_")
+scratch <- tempfile(pattern = "pA01_smoke_")
 dir.create(scratch)
 input_file <- file.path(scratch, "ENEMDU_2008_12.sav")
 write_input <- function(data) haven::write_sav(data, input_file)
@@ -96,7 +96,7 @@ assert(metadata$period_code == "2008_12", "Period code was not recovered")
 assert(identical(names(result$data), names(synthetic)), "Imported schema changed")
 assert(nrow(result$data) == 3L, "Unexpected sample size")
 assert(setequal(result$validation_evidence$check_id, expected_checks), "Evidence does not match catalogue")
-assert(all(result$validation_evidence$passed), "Valid input failed a P1A control")
+assert(all(result$validation_evidence$passed), "Valid input failed a PA01 control")
 assert(profile$references$input_sample_n == 3L, "Sample reference mismatch")
 assert(isTRUE(all.equal(profile$references$input_expanded_n, 6.6)), "Expanded reference mismatch")
 assert(profile$references$input_ingpc_valid_n == 2L, "INGPC valid count mismatch")
@@ -198,4 +198,4 @@ expect_error(
 cat("PASS: failed check and missing/duplicate evidence handled correctly\n")
 
 unlink(scratch, recursive = TRUE)
-cat("P1A CONTRACT TESTS: ALL PASSED\n")
+cat("PA01 CONTRACT TESTS: ALL PASSED\n")

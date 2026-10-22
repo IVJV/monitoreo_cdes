@@ -1,6 +1,6 @@
 # ==============================================================================
 # Stage B02 — Population classification contract tests (synthetic input)
-# Run from project root: Rscript tests/test_p2b_contract.R
+# Run from project root: Rscript tests/test_pB02_contract.R
 # ==============================================================================
 
 source("R/validation_errors.R")
@@ -192,4 +192,4 @@ expect_error(
   "duplicate B02 evidence"
 )
 cat("PASS: altered reference and invalid/missing/duplicated evidence rejected\n")
-cat("P2B CONTRACT TESTS: ALL PASSED\n")
+cat("PB02 CONTRACT TESTS: ALL PASSED\n")

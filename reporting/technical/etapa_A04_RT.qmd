@@ -1,7 +1,7 @@
 # Etapa A04 — Deciles de ingreso per cápita `r render_stage_assurance(report_context$stage_A04, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A04-controles-deciles")` {#etapa-A04 .rap-assurance-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P4A — Per capita income decile calculation, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+**Referencia metodológica:** PA04 — Per capita income decile calculation, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}

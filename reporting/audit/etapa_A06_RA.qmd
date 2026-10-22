@@ -1,7 +1,7 @@
 # Etapa A06 — Media del ingreso per cápita por decil ajustada por diseño muestral `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A06")` {#etapa-A06 .rap-return-heading}
 
 ::: {.method-reference}
-**Referencia metodológica:** P6A — Survey-adjusted mean of ingpc by decile, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
+**Referencia metodológica:** PA06 — Survey-adjusted mean of ingpc by decile, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
 :::
 
 ```{r}

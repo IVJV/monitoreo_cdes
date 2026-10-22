@@ -1,7 +1,7 @@
 # ==============================================================================
 # Stage A03 contract tests
 # Run from the repository root:
-#   Rscript tests/test_p3a_contract.R
+#   Rscript tests/test_pA03_contract.R
 # Synthetic data only. No ENEMDU microdata are read or modified.
 # ==============================================================================
 
@@ -194,4 +194,4 @@ expect_stage_error(
 # negative case cannot be reached through ordinary inputs: the function
 # itself selects exactly the records where ingpc is not missing.
 cat("PASS: two reachable structured validation failures\n")
-cat("P3A CONTRACT TESTS: ALL PASSED\n")
+cat("PA03 CONTRACT TESTS: ALL PASSED\n")
