@@ -178,12 +178,26 @@ for (selected_set in selected_reports) {
       )
     )
 
-  # Verify the technical HTML links directly to approved Excel publications.
-  # No second downloads directory or workbook copies are created.
+  # The technical report no longer embeds the final published tables or download
+  # links. Verify the four approved publication files on disk instead.
   if (identical(selected_set, "technical")) {
-    verify_stage_c_publication_links(stage_c_publication)
+    expected_keys <- c("table1_html", "table1_xlsx", "table2_html", "table2_xlsx")
+    published_files <- stage_c_publication$files[expected_keys]
+    file_names <- unlist(published_files, use.names = FALSE)
+
+    if (length(file_names) != 4L ||
+        !is.character(file_names) || anyNA(file_names) ||
+        any(!nzchar(file_names)) || anyDuplicated(file_names))
+      stop("La publicación C04 no identifica los cuatro productos esperados.")
+
+    published_paths <- file.path(stage_c_publication$directory, file_names)
+    if (!dir.exists(stage_c_publication$directory) ||
+        !all(file.exists(published_paths)) ||
+        any(file.info(published_paths)$size <= 0))
+      stop("Falta uno o más archivos de la publicación aprobada del Bloque C.")
+
     cat("PUBLICACIÓN BLOQUE C:", stage_c_publication$directory, "\n")
-    cat("ENLACES EXCEL: comprobados contra publicación única", "\n")
+    cat("ARCHIVOS PUBLICADOS: dos HTML y dos XLSX comprobados", "\n")
   }
 }
 

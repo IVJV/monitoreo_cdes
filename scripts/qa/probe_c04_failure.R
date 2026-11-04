@@ -1,7 +1,8 @@
 # Prueba controlada de rechazo de C04 y generación de RA.
 # Ejecutar desde la raíz del RAP:
 #   Rscript scripts/qa/probe_c04_failure.R
-# No modifica R/, reporting/, RT ni output/publications/ del proyecto original.
+# No modifica R/, reporting/, RT, output/publications/ ni output/qa/ del proyecto original.
+# El RA de la prueba se examina en un directorio temporal, eliminado al finalizar.
 
 run_probe <- function() {
   required <- c(
@@ -24,7 +25,11 @@ run_probe <- function() {
   original <- getwd()
   sandbox <- tempfile("rap_c04_fallo_", tmpdir = tempdir())
   dir.create(sandbox, recursive = TRUE)
-  on.exit(unlink(sandbox, recursive = TRUE, force = TRUE), add = TRUE)
+  on.exit({
+    # Volver a la raíz antes de borrar la copia temporal (también en Windows).
+    setwd(original)
+    unlink(sandbox, recursive = TRUE, force = TRUE)
+  }, add = TRUE)
 
   # Clonar únicamente código, fuentes Quarto, configuraciones y datos de entrada.
   # No copiar ni modificar los resultados ya aprobados del RAP.
@@ -70,7 +75,6 @@ run_probe <- function() {
   Sys.setenv(R_LIBS = paste(.libPaths(), collapse = .Platform$path.sep),
              R_LIBS_USER = .libPaths()[1L])
   setwd(sandbox)
-  on.exit(setwd(original), add = TRUE)
 
   shell <- if (.Platform$OS.type == "windows") "cmd" else "sh"
   process_output <- suppressWarnings(system2(
@@ -116,15 +120,10 @@ run_probe <- function() {
     stop("La prueba de fallo controlado NO fue satisfactoria.")
   }
 
-  # Guardar solo un HTML diagnóstico, separado de la publicación del RAP.
-  setwd(original)
-  destination <- file.path("output", "qa", "c04_failure_test")
-  dir.create(destination, recursive = TRUE, showWarnings = FALSE)
-  saved_ra <- file.path(destination, "RA_C04_NO_APROBADO.html")
-  if (!isTRUE(file.copy(ra_path, saved_ra, overwrite = TRUE)))
-    stop("La prueba pasó, pero no se pudo guardar la evidencia del RA.")
+  # El RA fue comprobado en la copia temporal; no se guarda en output/qa/.
+  # La copia completa se elimina al salir de esta función.
   cat("\nPASS: todos los controles de fallo superados.\n")
-  cat("Evidencia HTML: ", normalizePath(saved_ra, winslash = "/"), "\n", sep = "")
+  cat("El RA de prueba se comprobó y sus archivos temporales serán eliminados.\n")
   invisible(TRUE)
 }
 

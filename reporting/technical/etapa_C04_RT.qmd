@@ -4,63 +4,7 @@
 **Referencia metodológica:** PC02 — Table 1. Population Distribution by Income Per Capita Decile; PC03 — Table 2. Income Per Capita Concentration by Income Decile; PC04 — Independent verification and release, script `3.1 ENEMDU_2008_12_Distribución_Concentración_ingpc.R` validado.
 :::
 
-Las tablas de distribución de la población y concentración del ingreso se publican una vez superada su verificación independiente frente a la condición de actividad original (`CONDACTN`).
-
-## Publicación de resultados {#etapa-C04-publicacion-resultados}
-
-### Tabla 1 — Distribución de la población por deciles de ingreso per cápita — `r report_context$stage_C01$period_title` {#etapa-C04-tabla-1}
-
-*Población y porcentaje de la población*
-
-:::: {.table-attached-download}
-
-::: {.overflow-auto}
-
-```{r}
-#| label: stage-C04-published-population-table
-
-render_stage_c_decile_matrix(
-  data = report_context$stage_C02$population_distribution_table_num,
-  value_column = "Population",
-  percentage_column = "Percentage",
-  value_digits = 0L,
-  stage_prefix = "s02c",
-  stage_C04 = report_context$stage_C04
-)
-```
-
-:::
-
-`r render_stage_c_excel_download(report_context$stage_C04$publication$table1_xlsx)`
-
-::::
-
-### Tabla 2 — Concentración del ingreso per cápita por deciles — `r report_context$stage_C01$period_title` {#etapa-C04-tabla-2}
-
-*Ingreso per cápita (millones de USD) y participación (%)*
-
-:::: {.table-attached-download}
-
-::: {.overflow-auto}
-
-```{r}
-#| label: stage-C04-published-income-table
-
-render_stage_c_decile_matrix(
-  data = report_context$stage_C03$income_concentration_table_num,
-  value_column = "Income_Millions",
-  percentage_column = "Participation",
-  value_digits = 2L,
-  stage_prefix = "s03c",
-  stage_C04 = report_context$stage_C04
-)
-```
-
-:::
-
-`r render_stage_c_excel_download(report_context$stage_C04$publication$table2_xlsx)`
-
-::::
+C04 contrasta los resultados de distribución poblacional y concentración del ingreso con referencias independientes construidas a partir de la condición de actividad original (`CONDACTN`). La publicación de resultados solo se autoriza después de superar estos controles. Las tablas finales se conservan fuera del reporte técnico.
 
 ## Referencia de verificación {#etapa-C04-referencia-verificacion}
 
