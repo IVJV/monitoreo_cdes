@@ -3,12 +3,13 @@
 # ==============================================================================
 # Transitional development runner used until pipeline orchestration is migrated
 # to targets. It builds one reporting context and passes it to the requested
-# report without moving processing logic into the QMD files.
+# report(s) without moving processing logic into the QMD files.
 
 
 # ==============================================================================
 # 1. Read command-line arguments
 # ==============================================================================
+reporting_main <- function() {
 args <- commandArgs(trailingOnly = TRUE)
 
 if (length(args) < 1L || length(args) > 2L)
@@ -16,7 +17,7 @@ if (length(args) < 1L || length(args) > 2L)
     paste(
       "Uso:",
       "Rscript scripts/reporting/render_reports.R",
-      "data/raw/ENEMDU_YYYY_MM.sav [technical|audit]"
+      "data/raw/ENEMDU_YYYY_MM.sav [technical|audit|both]"
     )
   )
 
@@ -34,16 +35,17 @@ report_config <- list(
   )
 )
 
-if (!(report_set %in% names(report_config)))
+if (!(report_set %in% c(names(report_config), "both")))
   stop(
     paste(
       "Tipo de reporte no disponible:",
       report_set,
-      "— use technical o audit."
+      "— use technical, audit o both."
     )
   )
 
-selected_report <- report_config[[report_set]]
+selected_reports <- if (identical(report_set, "both"))
+  c("technical", "audit") else report_set
 
 
 # ==============================================================================
@@ -71,9 +73,10 @@ source("R/report_context.R")
 # ==============================================================================
 report_context <- build_report_context(input_file)
 
-# Publication is separate from Quarto and only runs for the technical report.
+# Publication is separate from Quarto and only runs when the technical
+# report is requested (alone or together with the audit report).
 # Release occurs after C04 approval; the QMD merely displays and links outputs.
-if (identical(report_set, "technical")) {
+if ("technical" %in% selected_reports) {
   source("R/reporting_helpers.R")
   source("R/reporting_publication_format.R")
   source("R/C04_publicacion_resultados.R")
@@ -142,30 +145,37 @@ quarto_bin <- Sys.which("quarto")
 if (!nzchar(quarto_bin))
   stop("No se encontró Quarto en PATH.")
 
-render_status <- system2(
-  quarto_bin,
-  args = c(
-    "render",
-    selected_report$input,
-    "--profile",
-    selected_report$profile,
-    "--execute-params",
-    params_file
-  )
-)
+for (selected_set in selected_reports) {
+  selected_report <- report_config[[selected_set]]
 
-if (!identical(render_status, 0L))
-  stop(
-    paste(
-      "Quarto finalizó con código de salida:",
-      render_status
+  render_status <- system2(
+    quarto_bin,
+    args = c(
+      "render",
+      selected_report$input,
+      "--profile",
+      selected_report$profile,
+      "--execute-params",
+      params_file
     )
   )
 
-# Verify the technical HTML links directly to approved Excel publications.
-# No second downloads directory or workbook copies are created.
-if (identical(report_set, "technical")) {
-  verify_stage_c_publication_links(stage_c_publication)
-  cat("PUBLICACIÓN BLOQUE C:", stage_c_publication$directory, "\n")
-  cat("ENLACES EXCEL: comprobados contra publicación única", "\n")
+  if (!identical(render_status, 0L))
+    stop(
+      paste(
+        "Quarto finalizó con código de salida para",
+        selected_set, ":", render_status
+      )
+    )
+
+  # Verify the technical HTML links directly to approved Excel publications.
+  # No second downloads directory or workbook copies are created.
+  if (identical(selected_set, "technical")) {
+    verify_stage_c_publication_links(stage_c_publication)
+    cat("PUBLICACIÓN BLOQUE C:", stage_c_publication$directory, "\n")
+    cat("ENLACES EXCEL: comprobados contra publicación única", "\n")
+  }
 }
+}
+
+reporting_main()

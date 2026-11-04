@@ -121,13 +121,13 @@ qa_main <- function() {
   for (test in unit_tests)
     run_rscript(paste("Contract test:", test), test)
 
-  # Both reports must be regenerated successfully BEFORE any HTML test runs.
-  for (report_set in c("technical", "audit"))
-    run_rscript(
-      paste("Render:", report_set),
-      "scripts/reporting/render_reports.R",
-      c(input_file, report_set)
-    )
+  # A single runner builds A01-C04 once and renders both reports from
+  # the same context before any HTML integration tests are executed.
+  run_rscript(
+    "Render: technical + audit (shared context)",
+    "scripts/reporting/render_reports.R",
+    c(input_file, "both")
+  )
 
   for (test in integration_tests)
     run_rscript(paste("Rendered HTML test:", test), test)
