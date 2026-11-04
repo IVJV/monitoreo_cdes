@@ -64,11 +64,5 @@ website:
       - section: "Etapa C04 — Verificación independiente y publicación de resultados"
         contents:
 
-          - text: "Tabla 1 — Distribución de la población"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-C04-tabla-1
-
-          - text: "Tabla 2 — Concentración del ingreso"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-C04-tabla-2
-
           - text: "Referencia de verificación"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-C04-referencia-verificacion
