@@ -261,19 +261,10 @@ build_table_output_verification_stage <- function(
     stringsAsFactors = FALSE
   )
 
-  if (!verification_approved)
-    abort_stage_validation(
-      stage_id = stage_id,
-      check_id = verification_check_ids[
-        which(verification_summary$Discrepancias > 0L)[1L]
-      ],
-      message = paste(
-        "Las tablas 1 y 2 no superaron la verificación independiente de CONDACTN.",
-        "Discrepancias:", total_discrepancies
-      )
-    )
-
-  list(
+  # Preserve the computed evidence when a statistical mismatch blocks release.
+  # Validation still raises the same structured error by default; the runner
+  # can now use its details to document the rejection in the audit report.
+  verification_result <- list(
     stage_id = stage_id,
     verification_table_num = verification_table_num,
     verification_reference_totals = verification_reference_totals,
@@ -286,4 +277,19 @@ build_table_output_verification_stage <- function(
     verification_approved = verification_approved,
     validation_evidence = validation_evidence
   )
+
+  if (!verification_approved)
+    abort_stage_validation(
+      stage_id = stage_id,
+      check_id = verification_check_ids[
+        which(verification_summary$Discrepancias > 0L)[1L]
+      ],
+      message = paste(
+        "Las tablas 1 y 2 no superaron la verificación independiente de CONDACTN.",
+        "Discrepancias:", total_discrepancies
+      ),
+      details = verification_result
+    )
+
+  verification_result
 }

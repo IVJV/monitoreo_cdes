@@ -171,18 +171,58 @@ build_report_context <- function(input_file) {
   # ---------------------------------------------------------------------------
   # Stage C04 — Independent verification of Tables 1 and 2
   # ---------------------------------------------------------------------------
-  table_verification_result <- build_table_output_verification_stage(
-    input_reception_result$data,
-    population_distribution_result$population_distribution_table_num,
-    income_concentration_result$income_concentration_table_num
+  # A rejected C04 stage must remain unpublishable but audit-reportable.
+  # Only expected structured C04 validation failures are captured here.
+  # Unexpected programming errors continue to stop the entire execution.
+  c04_failure <- NULL
+  table_verification_result <- tryCatch(
+    build_table_output_verification_stage(
+      input_reception_result$data,
+      population_distribution_result$population_distribution_table_num,
+      income_concentration_result$income_concentration_table_num
+    ),
+    rap_validation_error = function(err) {
+      if (!identical(err$stage_id, "C04_table_output_verification"))
+        stop(err)
+      c04_failure <<- list(check_id = err$check_id,
+                           message = conditionMessage(err))
+      if (is.list(err$details))
+        return(err$details)
+      # Structural failures may precede the four statistical comparisons.
+      # Never fabricate evidence that those comparisons were executed.
+      list(
+        stage_id = "C04_table_output_verification",
+        verification_table_num = NULL,
+        total_verification = NULL,
+        decile_verification = NULL,
+        verification_summary = NULL,
+        verification_tolerance = NA_real_,
+        total_discrepancies = NA_integer_,
+        verification_approved = FALSE,
+        validation_evidence = NULL
+      )
+    }
   )
 
-  stage_C04_audit <- build_stage_audit_diagnostics(
-    validation_evidence = table_verification_result$validation_evidence,
-    control_catalog = control_catalog,
-    audit_diagnostic_catalog = audit_diagnostic_catalog,
-    stage_id = "C04_table_output_verification"
-  )
+  if (is.data.frame(table_verification_result$validation_evidence)) {
+    stage_C04_audit <- build_stage_audit_diagnostics(
+      validation_evidence = table_verification_result$validation_evidence,
+      control_catalog = control_catalog,
+      audit_diagnostic_catalog = audit_diagnostic_catalog,
+      stage_id = "C04_table_output_verification"
+    )
+  } else {
+    stage_C04_audit <- list(
+      diagnostics = data.frame(
+        Control = "Validación estructural de C04",
+        "Verificaciones incluidas" = c04_failure$message,
+        Resultado = "INTERRUMPIDA",
+        check.names = FALSE,
+        stringsAsFactors = FALSE
+      ),
+      stage_passed = FALSE
+    )
+  }
 
 
   # ---------------------------------------------------------------------------
@@ -310,6 +350,8 @@ build_report_context <- function(input_file) {
       total_discrepancies = table_verification_result$total_discrepancies,
       verification_approved = table_verification_result$verification_approved,
       validation_evidence = table_verification_result$validation_evidence,
+      failure_check_id = if (is.null(c04_failure)) NULL else c04_failure$check_id,
+      failure_message = if (is.null(c04_failure)) NULL else c04_failure$message,
       audit_diagnostics = stage_C04_audit$diagnostics,
       stage_passed = stage_C04_audit$stage_passed
     )

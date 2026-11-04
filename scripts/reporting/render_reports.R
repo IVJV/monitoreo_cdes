@@ -73,10 +73,20 @@ source("R/report_context.R")
 # ==============================================================================
 report_context <- build_report_context(input_file)
 
+c04_rejected <- !isTRUE(report_context$stage_C04$stage_passed) ||
+  !isTRUE(report_context$stage_C04$verification_approved)
+
+if (c04_rejected) {
+  # Render the rejection in RA, but never refresh RT or approved outputs.
+  # A non-zero final exit status prevents the QA gate from reporting success.
+  cat("C04 NO APROBADO: no se generan publicaciones ni RT.\n")
+  selected_reports <- "audit"
+}
+
 # Publication is separate from Quarto and only runs when the technical
 # report is requested (alone or together with the audit report).
 # Release occurs after C04 approval; the QMD merely displays and links outputs.
-if ("technical" %in% selected_reports) {
+if (!c04_rejected && "technical" %in% selected_reports) {
   source("R/reporting_helpers.R")
   source("R/reporting_publication_format.R")
   source("R/C04_publicacion_resultados.R")
@@ -176,6 +186,9 @@ for (selected_set in selected_reports) {
     cat("ENLACES EXCEL: comprobados contra publicación única", "\n")
   }
 }
+
+if (c04_rejected)
+  stop("C04 no aprobado. Se generó el RA con el diagnóstico; publicación bloqueada.")
 }
 
 reporting_main()
