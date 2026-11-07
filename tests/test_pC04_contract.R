@@ -214,4 +214,24 @@ bad_context <- context
 bad_context$stage_C04$validation_evidence$passed[1] <- FALSE
 expect_publication_blocked(bad_context, tempfile("c04_rejected_"))
 cat("PASS: publication is blocked without valid C04 approval\n")
+# Verify XLSX package integrity on a workbook produced by openxlsx.
+# The package check must repair phantom drawing relations, if emitted,
+# without changing the numeric contents or the visible worksheet.
+source("R/reporting_publication_format.R")
+test_wb <- openxlsx::createWorkbook()
+openxlsx::addWorksheet(test_wb, "Prueba")
+openxlsx::writeData(test_wb, "Prueba", data.frame(
+  Codigo = c("A", "B"), Valor = c(1.25, 2.50)
+))
+test_xlsx <- tempfile("c04_package_test_", fileext = ".xlsx")
+openxlsx::saveWorkbook(test_wb, test_xlsx, overwrite = TRUE)
+stage_c_xlsx_package_check(test_xlsx, repair = TRUE)
+stage_c_xlsx_package_check(test_xlsx, repair = FALSE)
+roundtrip <- openxlsx::read.xlsx(test_xlsx)
+assert(identical(as.character(roundtrip$Codigo), c("A", "B")) &&
+         isTRUE(all.equal(as.numeric(roundtrip$Valor), c(1.25, 2.50))),
+       "The XLSX package repair changed the worksheet values")
+unlink(test_xlsx)
+cat("PASS: XLSX package has no dangling drawings and retains its values\n")
+
 cat("PC04 CONTRACT TESTS: ALL PASSED\n")

@@ -4,6 +4,24 @@
 # Display-only transformations and workbook styling. Analytical calculations,
 # independent verification and the publication gate are defined elsewhere.
 
+# Single source of presentation labels used by standalone HTML and XLSX.
+stage_c_publication_labels <- function(table_number) {
+  if (!(table_number %in% c(1L, 2L)))
+    stop("Número de tabla no disponible.")
+
+  if (table_number == 1L) {
+    list(
+      title = "DISTRIBUCIÓN DE LA POBLACIÓN POR DECILES DE INGRESO PER CÁPITA",
+      subtitle = "Población y porcentaje de la población"
+    )
+  } else {
+    list(
+      title = "CONCENTRACIÓN DEL INGRESO PER CÁPITA POR DECILES",
+      subtitle = "Ingreso per cápita (millones de USD) y participación (%)"
+    )
+  }
+}
+
 build_stage_c_publication_html <- function(data, stage_C04, table_number,
                                            period_title) {
   if (!(table_number %in% c(1L, 2L)))
@@ -21,21 +39,12 @@ build_stage_c_publication_html <- function(data, stage_C04, table_number,
     )
   }
 
-  title <- if (table_number == 1L) {
-    "DISTRIBUCIÓN DE LA POBLACIÓN POR DECILES DE INGRESO PER CÁPITA"
-  } else {
-    "CONCENTRACIÓN DEL INGRESO PER CÁPITA POR DECILES"
-  }
-  subtitle <- if (table_number == 1L) {
-    "Población y porcentaje de la población"
-  } else {
-    "Ingreso per cápita (millones de USD) y participación (%)"
-  }
+  labels <- stage_c_publication_labels(table_number)
 
   table_gt |>
     gt::tab_header(
-      title = gt::md(paste0("**", title, " — ", period_title, "**")),
-      subtitle = gt::md(paste0("*", subtitle, "*"))
+      title = gt::md(paste0("**", labels$title, " — ", period_title, "**")),
+      subtitle = gt::md(paste0("*", labels$subtitle, "*"))
     ) |>
     gt::tab_style(
       style = gt::cell_text(weight = "bold"),
@@ -96,19 +105,10 @@ build_stage_c_publication_excel <- function(data, table_number) {
   sheet <- paste("Tabla", table_number)
   openxlsx::addWorksheet(wb, sheet)
 
-  title <- if (table_number == 1L) {
-    "DISTRIBUCIÓN DE LA POBLACIÓN POR DECILES DE INGRESO PER CÁPITA"
-  } else {
-    "CONCENTRACIÓN DEL INGRESO PER CÁPITA POR DECILES"
-  }
-  subtitle <- if (table_number == 1L) {
-    "Población y porcentaje de la población"
-  } else {
-    "Ingreso per cápita (millones de USD) y participación (%)"
-  }
+  labels <- stage_c_publication_labels(table_number)
 
-  openxlsx::writeData(wb, sheet, title, startRow = 1L, startCol = 1L)
-  openxlsx::writeData(wb, sheet, subtitle, startRow = 2L, startCol = 1L)
+  openxlsx::writeData(wb, sheet, labels$title, startRow = 1L, startCol = 1L)
+  openxlsx::writeData(wb, sheet, labels$subtitle, startRow = 2L, startCol = 1L)
   openxlsx::mergeCells(wb, sheet, cols = 1:13, rows = 1L)
   openxlsx::mergeCells(wb, sheet, cols = 1:13, rows = 2L)
   openxlsx::writeData(wb, sheet, excel_data, startRow = 4L, startCol = 1L)
@@ -182,4 +182,114 @@ merge_stage_c_published_html <- function(path) {
   }
   xml2::write_html(html_doc, path)
   invisible(path)
+}
+
+
+# ==============================================================================
+# Stage C04 — Repair and verify the OOXML package of generated XLSX workbooks
+# ==============================================================================
+# Some versions of openxlsx emit worksheet relationships to drawing1.xml and
+# vmlDrawing1.vml even when no drawings exist. Such relationship targets are
+# missing from the archive, and an orphan drawing Override may remain in
+# [Content_Types].xml. Excel can report that the workbook needs repair.
+# This routine removes ONLY unused references to missing drawing parts.
+# Referenced or unrelated missing parts cause an error (fail closed).
+# It never modifies worksheet values, formatting, formulas or merges.
+
+stage_c_xlsx_package_check <- function(path, repair = FALSE) {
+  if (!is.character(path) || length(path) != 1L || is.na(path) ||
+      !file.exists(path) || file.info(path)$size <= 0L)
+    stop("No existe un libro XLSX válido para verificar.")
+
+  if (!requireNamespace("xml2", quietly = TRUE))
+    stop("Falta la dependencia xml2 para verificar el paquete XLSX.")
+  if (repair && !requireNamespace("zip", quietly = TRUE))
+    stop("Falta la dependencia zip para reparar el paquete XLSX.")
+
+  temp_dir <- tempfile("c04_xlsx_package_")
+  dir.create(temp_dir)
+  on.exit(unlink(temp_dir, recursive = TRUE), add = TRUE)
+  utils::unzip(path, exdir = temp_dir)
+  content_types <- file.path(temp_dir, "[Content_Types].xml")
+  if (!file.exists(content_types))
+    stop("XLSX incompleto: no contiene [Content_Types].xml.")
+
+  changed <- FALSE
+  rel_dir <- file.path(temp_dir, "xl", "worksheets", "_rels")
+  rel_files <- if (dir.exists(rel_dir))
+    list.files(rel_dir, pattern = "[.]xml[.]rels$", full.names = TRUE) else
+    character()
+
+  for (rel_path in rel_files) {
+    sheet_path <- file.path(dirname(dirname(rel_path)),
+                            sub("[.]rels$", "", basename(rel_path)))
+    if (!file.exists(sheet_path))
+      stop("XLSX incompleto: falta la hoja que declara relaciones.")
+    sheet_xml <- paste(readLines(sheet_path, warn = FALSE), collapse = "")
+    relationships <- xml2::read_xml(rel_path)
+    elements <- xml2::xml_find_all(
+      relationships, "//*[local-name()='Relationship']"
+    )
+    for (element in elements) {
+      target <- xml2::xml_attr(element, "Target")
+      kind <- xml2::xml_attr(element, "Type")
+      rel_id <- xml2::xml_attr(element, "Id")
+      target_mode <- xml2::xml_attr(element, "TargetMode")
+      if (anyNA(c(target, kind, rel_id)) || !nzchar(target))
+        stop("XLSX inválido: relación incompleta.")
+      if (!is.na(target_mode) && identical(target_mode, "External"))
+        next
+      resolved <- if (startsWith(target, "/")) {
+        file.path(temp_dir, substring(target, 2L))
+      } else {
+        file.path(dirname(sheet_path), target)
+      }
+      if (file.exists(resolved)) next
+
+      referenced <- grepl(paste0('r:id="', rel_id, '"'),
+                          sheet_xml, fixed = TRUE)
+      unused_drawing <- grepl("/(drawing|vmlDrawing)$", kind) && !referenced
+      if (!unused_drawing)
+        stop(paste("XLSX inválido: componente ausente o en uso:", target))
+      if (!repair)
+        stop(paste("XLSX contiene una relación de dibujo inexistente:", target))
+      xml2::xml_remove(element)
+      changed <- TRUE
+    }
+    if (repair && changed)
+      xml2::write_xml(relationships, rel_path)
+  }
+
+  types_xml <- xml2::read_xml(content_types)
+  overrides <- xml2::xml_find_all(
+    types_xml, "//*[local-name()='Override']"
+  )
+  for (entry in overrides) {
+    part <- xml2::xml_attr(entry, "PartName")
+    if (is.na(part) || !startsWith(part, "/"))
+      stop("XLSX inválido: Override sin ruta absoluta.")
+    if (file.exists(file.path(temp_dir, substring(part, 2L)))) next
+    unused_drawing <- grepl("^/xl/drawings/drawing[0-9]+[.]xml$", part)
+    if (!unused_drawing)
+      stop(paste("XLSX inválido: parte declarada e inexistente:", part))
+    if (!repair)
+      stop(paste("XLSX declara un dibujo inexistente:", part))
+    xml2::xml_remove(entry)
+    changed <- TRUE
+  }
+  if (repair && changed) {
+    xml2::write_xml(types_xml, content_types)
+    entries <- list.files(temp_dir, recursive = TRUE, all.files = TRUE,
+                          include.dirs = FALSE, no.. = TRUE)
+    rebuilt <- tempfile("c04_xlsx_fixed_", fileext = ".xlsx")
+    on.exit(if (file.exists(rebuilt)) unlink(rebuilt), add = TRUE)
+    zip::zipr(rebuilt, files = entries, root = temp_dir,
+              mode = "mirror", recurse = FALSE,
+              include_directories = FALSE)
+    # Verify the rebuilt OOXML package before replacing the staged workbook.
+    stage_c_xlsx_package_check(rebuilt, repair = FALSE)
+    if (!file.copy(rebuilt, path, overwrite = TRUE))
+      stop("No se pudo guardar el XLSX reparado.")
+  }
+  invisible(TRUE)
 }

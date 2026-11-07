@@ -66,6 +66,8 @@ publish_stage_c_results <- function(context,
     workbook <- build_stage_c_publication_excel(data, table_number)
     excel_path <- file.path(staging, publication_files[[paste0("table", table_number, "_xlsx")]])
     openxlsx::saveWorkbook(workbook, excel_path, overwrite = TRUE)
+    stage_c_xlsx_package_check(excel_path, repair = TRUE)
+    stage_c_xlsx_package_check(excel_path, repair = FALSE)
   }
 
   staged_paths <- file.path(staging, unlist(publication_files, use.names = FALSE))

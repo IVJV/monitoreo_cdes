@@ -61,7 +61,7 @@ website:
             href: reporting/reporte_tecnico_resultados.qmd#etapa-B02-clasificacion-poblacion
 
 
-      - section: "Etapa C04 — Verificación independiente y publicación de resultados"
+      - section: "Etapa C04 — Verificación independiente de las tablas 1 y 2"
         contents:
 
           - text: "Referencia de verificación"

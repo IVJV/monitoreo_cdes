@@ -1,4 +1,4 @@
-# Etapa C04 — Verificación independiente y publicación de resultados `r if (isTRUE(report_context$stage_C04$stage_passed)) render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-C04") else ""` {#etapa-C04 .rap-return-heading}
+# Etapa C04 — Verificación independiente de las tablas 1 y 2 `r if (isTRUE(report_context$stage_C04$stage_passed)) render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-C04") else ""` {#etapa-C04 .rap-return-heading}
 
 ::: {.method-reference}
 **Referencia metodológica:** PC04 — Independent verification of Tables 1 and 2 against original CONDACTN, script `3.1 ENEMDU_2008_12_Distribución_Concentración_ingpc.R` validado.
