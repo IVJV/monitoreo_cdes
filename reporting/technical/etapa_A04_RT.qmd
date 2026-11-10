@@ -1,8 +1,5 @@
 # Etapa A04 — Deciles de ingreso per cápita `r render_stage_assurance(report_context$stage_A04, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A04-controles-deciles")` {#etapa-A04 .rap-assurance-heading}
 
-::: {.method-reference}
-**Referencia metodológica:** PA04 — Per capita income decile calculation, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
-:::
 
 ```{r}
 #| label: stage-A04-context
@@ -10,11 +7,10 @@
 stage_A04 <- report_context$stage_A04
 ```
 
+
 ## Distribución de la población por decil de ingreso per cápita {#etapa-A04-tabla-frecuencias-deciles}
 
-::: {.output-intro}
-Los deciles agrupan el universo analítico en diez grupos según el ingreso per cápita, considerando el factor de expansión y el tratamiento de empates. La tabla muestra la población y su porcentaje por decil. Debido a los empates, las participaciones pueden variar entre grupos; además, el redondeo puede hacer que su suma difiera ligeramente del 100 %.
-:::
+::: {.table-attached-note}
 
 ```{r}
 #| label: stage-A04-decile-frequency-table
@@ -57,11 +53,14 @@ decile_frequency_view |>
   )
 ```
 
-## Estadísticos del ingreso per cápita por decil {#etapa-A04-estadisticas-ingpc-deciles}
-
-::: {.output-intro}
-La tabla presenta la población y los estadísticos del ingreso per cápita por decil: suma, media, mínimo y máximo. La fila «Total» corresponde al universo analítico completo. Las medias se muestran con dos decimales, aunque se conservan sin redondear para su validación en la Etapa A06.
+::: {.table-note}
+**Nota.** El tratamiento de empates puede producir participaciones diferentes del 10 % entre deciles.
 :::
+
+:::
+
+
+## Estadísticos del ingreso per cápita por decil {#etapa-A04-estadisticas-ingpc-deciles}
 
 ```{r}
 #| label: stage-A04-decile-report-table

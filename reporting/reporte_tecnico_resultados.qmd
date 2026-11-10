@@ -7,6 +7,16 @@ params:
 
 {{< include includes/report_setup.qmd >}}
 
+
+# Convenciones metodológicas {#convenciones-metodologicas}
+
+- **Muestra y población.** Las frecuencias muestrales corresponden a registros observados, mientras que las cifras poblacionales son estimaciones obtenidas mediante el factor de expansión (`fexp`).
+
+- **Universo analítico.** Las etapas A01 y A02 consideran la base ENEMDU importada. A partir de A03, el análisis utiliza los registros con ingreso per cápita (`ingpc`) no perdido.
+
+- **Construcción de deciles.** Los deciles de ingreso per cápita se construyen mediante rangos ponderados por el factor de expansión (`fexp`), asignando el rango promedio a los valores empatados. Se adopta este procedimiento tomando como referencia la metodología histórica del [INEC (2008, p. 20)](https://www.ecuadorencifras.gob.ec/documentos/web-inec/Bibliotecas/ENEMDU/Medida_de_Pobreza_Extrema_Pobreza-Resumen_Ejecutivo.pdf), con el propósito de mantener la consistencia metodológica con los resultados institucionales.
+
+
 {{< include technical/etapa_A01_RT.qmd >}}
 {{< include technical/etapa_A02_RT.qmd >}}
 {{< include technical/etapa_A03_RT.qmd >}}
@@ -15,6 +25,22 @@ params:
 {{< include technical/etapa_B01_RT.qmd >}}
 {{< include technical/etapa_B02_RT.qmd >}}
 {{< include technical/etapa_C04_RT.qmd >}}
+
+
+# Trazabilidad metodológica {#trazabilidad-metodologica}
+
+<style>
+#trazabilidad-metodologica > table.table {
+  border-top: none;
+}
+</style>
+
+| Etapas | Script metodológico de referencia |
+|---|---|
+| A01–A06 | `1.2 ENEMDU_2008_12_Deciles.R` |
+| B01–B02 | `2.1 ENEMDU_2008_12_Indicadores_Mercado_Laboral.R` |
+| C01–C04 | `3.1 ENEMDU_2008_12_Distribución_Concentración_ingpc.R` |
+
 
 <!--
 Common report navigation:

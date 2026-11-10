@@ -60,6 +60,6 @@ if (
 <div class="metadata-label">Período</div>
 <div>`r period_metadata$period_code`</div>
 
-<div class="metadata-label">Fecha de revisión</div>
+<div class="metadata-label">Fecha de generación</div>
 <div>`r review_date`</div>
 :::

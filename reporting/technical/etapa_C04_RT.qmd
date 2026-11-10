@@ -1,14 +1,10 @@
-# Etapa C04 — Verificación independiente de las tablas 1 y 2 `r render_stage_assurance(report_context$stage_C04, "../../audit/reporting/reporte_controles_internos.html#etapa-C04-consistencia-tablas")` {#etapa-C04 .rap-assurance-heading}
+# Etapa C04 — Verificación independiente de la distribución poblacional y la concentración del ingreso per cápita `r render_stage_assurance(report_context$stage_C04, "../../audit/reporting/reporte_controles_internos.html#etapa-C04-consistencia-tablas")` {#etapa-C04 .rap-assurance-heading}
 
-::: {.method-reference}
-**Referencia metodológica:** PC02 — Table 1. Population Distribution by Income Per Capita Decile; PC03 — Table 2. Income Per Capita Concentration by Income Decile; PC04 — Independent verification and release, script `3.1 ENEMDU_2008_12_Distribución_Concentración_ingpc.R` validado.
-:::
 
-C04 contrasta los resultados de distribución poblacional y concentración del ingreso con referencias independientes construidas a partir de la condición de actividad original (`CONDACTN`). La publicación de resultados solo se autoriza después de superar estos controles. Las tablas finales se conservan fuera del reporte técnico.
+Las referencias se reconstruyen directamente a partir de `CONDACTN`, sin reutilizar las agregaciones de las tablas finales.
 
-## Referencia de verificación {#etapa-C04-referencia-verificacion}
 
-### Población e ingreso per cápita por condición de actividad — `r report_context$stage_C01$period_title` {#etapa-C04-poblacion-ingreso-condactn}
+## Población e ingreso per cápita por condición de actividad {#etapa-C04-poblacion-ingreso-condactn}
 
 ```{r}
 #| label: stage-C04-reference-support-table

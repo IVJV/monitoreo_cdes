@@ -9,13 +9,16 @@ website:
   sidebar:
     contents:
 
+      - text: "Convenciones metodológicas"
+        href: reporting/reporte_tecnico_resultados.qmd#convenciones-metodologicas
+
       - section: "Etapa A01 — Ingesta ENEMDU"
         contents:
 
-          - text: "Resumen de la base importada"
+          - text: "Características generales de la base importada"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-A01-resumen-base
 
-          - text: "Variables requeridas para el procesamiento"
+          - text: "Estructura de las variables requeridas para el procesamiento"
             href: reporting/reporte_tecnico_resultados.qmd#etapa-A01-variables-requeridas
 
       - section: "Etapa A02 — Identificadores ENEMDU"
@@ -61,8 +64,11 @@ website:
             href: reporting/reporte_tecnico_resultados.qmd#etapa-B02-clasificacion-poblacion
 
 
-      - section: "Etapa C04 — Verificación independiente de las tablas 1 y 2"
+      - section: "Etapa C04 — Verificación independiente de la distribución poblacional y la concentración del ingreso per cápita"
         contents:
 
-          - text: "Referencia de verificación"
-            href: reporting/reporte_tecnico_resultados.qmd#etapa-C04-referencia-verificacion
+          - text: "Población e ingreso per cápita por condición de actividad"
+            href: reporting/reporte_tecnico_resultados.qmd#etapa-C04-poblacion-ingreso-condactn
+
+      - text: "Trazabilidad metodológica"
+        href: reporting/reporte_tecnico_resultados.qmd#trazabilidad-metodologica

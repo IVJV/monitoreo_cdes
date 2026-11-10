@@ -1,8 +1,5 @@
 # Etapa A02 — Identificadores ENEMDU `r render_stage_assurance(report_context$stage_A02, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A02-controles-identificadores")` {#etapa-A02 .rap-assurance-heading}
 
-::: {.method-reference}
-**Referencia metodológica:** PA02 — Create identifiers: Province, natural region, PSU, and study domains, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
-:::
 
 ```{r}
 #| label: stage-A02-context
@@ -10,11 +7,8 @@
 stage_A02 <- report_context$stage_A02
 ```
 
-## Resumen de identificadores construidos {#etapa-A02-resumen-identificadores}
 
-::: {.output-intro}
-Síntesis de los identificadores generados, su cobertura en muestra y población y el número de valores distintos obtenidos.
-:::
+## Resumen de identificadores construidos {#etapa-A02-resumen-identificadores}
 
 ```{r}
 #| label: stage-A02-identifier-summary
@@ -51,11 +45,8 @@ identifier_summary_report |>
   )
 ```
 
-## Distribución por dominio de estudio {#etapa-A02-distribucion-dominios}
 
-::: {.output-intro}
-Distribución de la muestra y de la población por dominio y área, junto con el número de UPM identificadas.
-:::
+## Distribución por dominio de estudio {#etapa-A02-distribucion-dominios}
 
 ```{r}
 #| label: stage-A02-domain-distribution

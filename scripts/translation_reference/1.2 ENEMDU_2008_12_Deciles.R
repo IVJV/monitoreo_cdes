@@ -123,10 +123,10 @@ technical_output_point1 <- paste0(
   "\n============================================================\n",
   "REPORTE TÉCNICO (RT)\n",
   "============================================================\n",
-  "RESUMEN DE LA BASE IMPORTADA\n\n",
+  "CARACTERÍSTICAS GENERALES DE LA BASE IMPORTADA\n\n",
   paste(capture.output(print(database_overview, row.names = FALSE)), collapse = "\n"),
   "\n\n------------------------------------------------------------\n",
-  "REVISIÓN DE VARIABLES REQUERIDAS PARA EL PROCESAMIENTO — EXPLORACIÓN INICIAL DE ENTRADA\n\n",
+  "ESTRUCTURA DE LAS VARIABLES REQUERIDAS PARA EL PROCESAMIENTO — EXPLORACIÓN INICIAL DE ENTRADA\n\n",
   paste(capture.output(print(required_variables_overview, row.names = FALSE)), collapse = "\n"),
   "\n\n============================================================\n",
   "REPORTE DE AUDITORÍA (RA)\n",
@@ -541,7 +541,7 @@ d1 <- ENEMDU_decile %>%
 ###==========================================================================###
 ###                                                                          ###
 ###                                                                          ###
-###                A06. Survey-adjusted mean of ingpc by decile               ###
+###       A06. Survey design-adjusted mean per capita income by decile       ###
 ###                                                                          ###
 ###                                                                          ###
 ###==========================================================================###
