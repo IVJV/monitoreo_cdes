@@ -1,8 +1,5 @@
-# Etapa A06 — Media del ingreso per cápita por decil ajustada por diseño muestral `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A06")` {#etapa-A06 .rap-return-heading}
+# Etapa A06 — Media del ingreso per cápita por decil ajustada por diseño muestral`r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A06")` {#etapa-A06 .rap-return-heading}
 
-::: {.method-reference}
-**Referencia metodológica:** PA06 — Survey-adjusted mean of ingpc by decile, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
-:::
 
 ```{r}
 #| label: stage-A06-audit-context
@@ -10,11 +7,11 @@
 stage_A06 <- report_context$stage_A06
 ```
 
+
 ## Consistencia del ingreso medio per cápita por decil {#etapa-A06-consistencia-medias}
 
 ::: {.output-intro}
-La tabla compara las medias del ingreso per cápita por decil calculadas en la Etapa A04 con las estimadas en la Etapa A06 considerando el diseño muestral complejo de la ENEMDU. La validación utiliza los valores sin redondear y una tolerancia de `1e-8` (0,00000001). Las medias se presentan con seis decimales.
-
+Se contrastan las medias del ingreso per cápita por decil obtenidas en A04 con las estimaciones de A06 ajustadas por el diseño muestral complejo de la ENEMDU. La comparación utiliza valores sin redondear y una tolerancia absoluta de `1e-8` (0,00000001), por lo que las diferencias presentadas como 0 no implican necesariamente igualdad exacta.
 :::
 
 ### Evidencia comparativa
@@ -86,10 +83,6 @@ mean_validation_view |>
   )
 ```
 
-::: {.table-note}
-**Nota.** El 0 indica una diferencia dentro de la tolerancia de 0,00000001, no una igualdad exacta.
-:::
-
 :::
 
 ### Diagnóstico de auditoría
@@ -101,13 +94,4 @@ render_audit_diagnostics(
   stage_A06$audit_diagnostics,
   stage_id = "A06_media_ingpc_por_decil"
 )
-```
-
-### Estado de la etapa {#etapa-A06-estado}
-
-```{r}
-#| label: stage-A06-status
-#| results: asis
-
-render_stage_status(stage_A06$stage_passed)
 ```

@@ -89,3 +89,67 @@ nav .rap-stage-return-link {
     margin-left: 0;
   }
 }
+
+/* Audit: inline navigation icon, attached to the last word of the stage title.
+   Technical report headings retain their existing flex layout. */
+main.content h1.rap-return-heading {
+  display: block;
+}
+
+main.content h1.rap-return-heading .rap-stage-return-link {
+  margin-left: 0;
+  display: inline-flex;
+  position: relative;
+  width: 0.85em;
+  height: 0.85em;
+  vertical-align: 0;
+  white-space: nowrap;
+  text-decoration: none;
+  color: #496c7d;
+}
+
+main.content h1.rap-return-heading .rap-stage-return-link svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+main.content h1.rap-return-heading .rap-stage-return-link:hover,
+main.content h1.rap-return-heading .rap-stage-return-link:focus-visible {
+  color: #304f5e;
+}
+
+/* Light tooltip: avoids the browser's unstyleable native title tooltip. */
+main.content h1.rap-return-heading .rap-stage-return-link::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  z-index: 1000;
+  padding: 0.32rem 0.55rem;
+  border: none;
+  border-radius: 0;
+  background: #ffffff;
+  color: #496c7d;
+  box-shadow: none;
+  font-size: 0.73rem;
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 120ms ease, visibility 120ms ease;
+}
+
+main.content h1.rap-return-heading .rap-stage-return-link:hover::after,
+main.content h1.rap-return-heading .rap-stage-return-link:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.content h1.rap-return-heading .rap-stage-return-link::after {
+    transition: none;
+  }
+}

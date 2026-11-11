@@ -68,7 +68,12 @@ return_link <- render_stage_return_link(technical_href)
 stopifnot(
   grepl('class="rap-stage-return-link"', return_link, fixed = TRUE),
   grepl(paste0('href="', technical_href, '"'), return_link, fixed = TRUE),
-  grepl("← Ver resultados técnicos", return_link, fixed = TRUE),
+  grepl('aria-label="Ver resultados técnicos"', return_link, fixed = TRUE),
+  grepl('data-tooltip="Ver resultados técnicos"', return_link, fixed = TRUE),
+  !grepl('title="Ver resultados técnicos"', return_link, fixed = TRUE),
+  grepl('<svg ', return_link, fixed = TRUE),
+  grepl('&nbsp;<a ', return_link, fixed = TRUE),
+  !grepl("← Ver resultados técnicos", return_link, fixed = TRUE),
   !grepl("Controles superados", return_link, fixed = TRUE)
 )
 

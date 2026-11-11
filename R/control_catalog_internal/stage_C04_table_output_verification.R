@@ -34,39 +34,27 @@ build_stage_C04_control_definitions <- function() {
     diagnostics = list(
       audit_diagnostic(
         audit_group = "table1_total_consistency",
-        audit_label = "Tabla 1 — Totales de población",
-        audit_description = paste(
-          "Las poblaciones expandidas totales de los 16 indicadores",
-          "coinciden con la referencia reconstruida desde CONDACTN,",
-          "con una tolerancia absoluta de 1e-6."
-        )
+        audit_label = "Distribución poblacional — Totales de población",
+        audit_description =
+          "Comparación de los totales de población de los 16 indicadores."
       ),
       audit_diagnostic(
         audit_group = "table2_total_consistency",
-        audit_label = "Tabla 2 — Totales de ingreso",
-        audit_description = paste(
-          "Los ingresos totales de los 16 indicadores, expresados en",
-          "millones de USD, coinciden con la referencia reconstruida",
-          "desde CONDACTN, con una tolerancia absoluta de 1e-6."
-        )
+        audit_label = "Concentración del ingreso per cápita — Totales",
+        audit_description =
+          "Comparación de los totales derivados del ingreso per cápita de los 16 indicadores, expresados en millones de USD."
       ),
       audit_diagnostic(
         audit_group = "table1_decile_consistency",
-        audit_label = "Tabla 1 — Población y porcentajes por decil",
-        audit_description = paste(
-          "Las poblaciones expandidas y sus porcentajes en los 160",
-          "cruces de indicador y decil coinciden con la referencia",
-          "reconstruida desde CONDACTN, con tolerancia absoluta de 1e-6."
-        )
+        audit_label = "Distribución poblacional — Población y porcentajes por decil",
+        audit_description =
+          "Comparación de la población y los porcentajes en los 160 cruces de indicador y decil."
       ),
       audit_diagnostic(
         audit_group = "table2_decile_consistency",
-        audit_label = "Tabla 2 — Ingreso y participación por decil",
-        audit_description = paste(
-          "Los ingresos en millones de USD y las participaciones en los",
-          "160 cruces de indicador y decil coinciden con la referencia",
-          "reconstruida desde CONDACTN, con tolerancia absoluta de 1e-6."
-        )
+        audit_label = "Concentración del ingreso per cápita — Valores y participación por decil",
+        audit_description =
+          "Comparación del ingreso per cápita y su participación porcentual en los 160 cruces de indicador y decil."
       )
     )
   )

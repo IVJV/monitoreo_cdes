@@ -1,8 +1,5 @@
-# Etapa A03 — Tratamiento de la variable de ingreso per cápita `r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A03")` {#etapa-A03 .rap-return-heading}
+# Etapa A03 — Tratamiento de la variable de ingreso per cápita`r render_stage_return_link("../../technical/reporting/reporte_tecnico_resultados.html#etapa-A03")` {#etapa-A03 .rap-return-heading}
 
-::: {.method-reference}
-**Referencia metodológica:** PA03 — `ingpc` treatment, script `1.2 ENEMDU_2008_12_Deciles.R` validado.
-:::
 
 ```{r}
 #| label: stage-A03-audit-context
@@ -10,11 +7,8 @@
 stage_A03 <- report_context$stage_A03
 ```
 
-## Construcción y consistencia del universo analítico de ingreso per cápita {#etapa-A03-construccion-consistencia-universo-analitico-ingpc}
 
-::: {.output-intro}
-La Etapa A03 verifica que el universo analítico incluya únicamente registros con `ingpc` válido. La tabla compara los conteos de muestra y población registrados en la Etapa A01 con los obtenidos tras el tratamiento, tanto para los registros con `ingpc` perdido como para el universo analítico. El diagnóstico de auditoría resume el resultado de las verificaciones.
-:::
+## Construcción y consistencia del universo analítico de ingreso per cápita {#etapa-A03-construccion-consistencia-universo-analitico-ingpc}
 
 ### Evidencia comparativa
 
@@ -97,6 +91,7 @@ ingpc_consistency_comparison_report |>
 
 :::
 
+
 ### Diagnóstico de auditoría
 
 ```{r}
@@ -105,16 +100,5 @@ ingpc_consistency_comparison_report |>
 render_audit_diagnostics(
   stage_A03$audit_diagnostics,
   stage_id = "A03_ingpc_treatment"
-)
-```
-
-### Estado de la etapa {#etapa-A03-estado}
-
-```{r}
-#| label: stage-A03-status
-#| results: asis
-
-render_stage_status(
-  stage_A03$stage_passed
 )
 ```

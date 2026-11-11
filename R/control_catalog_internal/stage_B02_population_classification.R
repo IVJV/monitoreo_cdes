@@ -20,11 +20,8 @@ build_stage_B02_control_definitions <- function() {
       audit_diagnostic(
         audit_group = "population_classification_consistency",
         audit_label = "Consistencia de la clasificación de la población",
-        audit_description = paste(
-          "Las frecuencias expandidas de los 16 indicadores de población",
-          "coinciden con la referencia de condición de actividad de la Etapa B01,",
-          "con una tolerancia absoluta de 1e-8."
-        )
+        audit_description =
+          "Comparación de las cifras de población de los 16 indicadores con las obtenidas a partir de CONDACTN en la etapa B01."
       )
     )
   )

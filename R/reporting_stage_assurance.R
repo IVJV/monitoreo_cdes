@@ -96,9 +96,17 @@ render_stage_return_link <- function(technical_href) {
 
   safe_href <- escape_stage_href(technical_href)
 
+  # A nonbreaking space keeps the icon attached to the final title word.
+  # The heading's inline R expression has no preceding ordinary space.
   paste0(
-    '<a class="rap-stage-return-link" href="', safe_href,
-    '" aria-label="Volver a los resultados técnicos de la etapa">',
-    '← Ver resultados técnicos</a>'
+    '&nbsp;<a class="rap-stage-return-link" href="', safe_href,
+    '" aria-label="Ver resultados técnicos" data-tooltip="Ver resultados técnicos">',
+    '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" ',
+    'fill="none" stroke="currentColor" stroke-width="1.8" ',
+    'stroke-linecap="round" stroke-linejoin="round">',
+    '<path d="M15 3h6v6"/>',
+    '<path d="M10 14 21 3"/>',
+    '<path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/>',
+    '</svg></a>'
   )
 }

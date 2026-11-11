@@ -51,7 +51,7 @@ website:
           - text: "Consistencia de la clasificación de la población"
             href: reporting/reporte_controles_internos.qmd#etapa-B02-consistencia-clasificacion-poblacion
 
-      - section: "Etapa C04 — Verificación independiente de las tablas 1 y 2"
+      - section: "Etapa C04 — Verificación independiente de la distribución poblacional y la concentración del ingreso per cápita"
         contents:
 
           - text: "Diagnóstico de auditoría"
