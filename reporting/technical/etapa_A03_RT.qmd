@@ -1,4 +1,4 @@
-# Etapa A03 — Tratamiento de la variable de ingreso per cápita `r render_stage_assurance(report_context$stage_A03, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A03-construccion-consistencia-universo-analitico-ingpc")` {#etapa-A03 .rap-assurance-heading}
+# Etapa A03 — Tratamiento de la variable de ingreso per cápita`r render_stage_assurance(report_context$stage_A03, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A03-construccion-consistencia-universo-analitico-ingpc")` {#etapa-A03 .rap-assurance-heading}
 
 
 ```{r}

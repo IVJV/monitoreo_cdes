@@ -1,4 +1,4 @@
-# Etapa A06 — Media del ingreso per cápita por decil ajustada por diseño muestral `r render_stage_assurance(report_context$stage_A06, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A06-consistencia-medias")` {#etapa-A06 .rap-assurance-heading}
+# Etapa A06 — Media del ingreso per cápita por decil ajustada por diseño muestral`r render_stage_assurance(report_context$stage_A06, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A06-consistencia-medias")` {#etapa-A06 .rap-assurance-heading}
 
 
 ```{r}

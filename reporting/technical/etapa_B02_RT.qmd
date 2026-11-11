@@ -1,4 +1,4 @@
-# Etapa B02 — Clasificación de la población `r render_stage_assurance(report_context$stage_B02, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-B02-consistencia-clasificacion-poblacion")` {#etapa-B02 .rap-assurance-heading}
+# Etapa B02 — Clasificación de la población`r render_stage_assurance(report_context$stage_B02, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-B02-consistencia-clasificacion-poblacion")` {#etapa-B02 .rap-assurance-heading}
 
 
 ```{r}

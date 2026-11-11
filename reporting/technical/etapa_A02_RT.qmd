@@ -1,4 +1,4 @@
-# Etapa A02 — Identificadores ENEMDU `r render_stage_assurance(report_context$stage_A02, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A02-controles-identificadores")` {#etapa-A02 .rap-assurance-heading}
+# Etapa A02 — Identificadores ENEMDU`r render_stage_assurance(report_context$stage_A02, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A02-controles-identificadores")` {#etapa-A02 .rap-assurance-heading}
 
 
 ```{r}

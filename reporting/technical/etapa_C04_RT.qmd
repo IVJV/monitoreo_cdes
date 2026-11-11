@@ -1,4 +1,4 @@
-# Etapa C04 — Verificación independiente de la distribución poblacional y la concentración del ingreso per cápita `r render_stage_assurance(report_context$stage_C04, "../../audit/reporting/reporte_controles_internos.html#etapa-C04-consistencia-tablas")` {#etapa-C04 .rap-assurance-heading}
+# Etapa C04 — Verificación independiente de la distribución poblacional y la concentración del ingreso per cápita`r render_stage_assurance(report_context$stage_C04, "../../audit/reporting/reporte_controles_internos.html#etapa-C04-consistencia-tablas")` {#etapa-C04 .rap-assurance-heading}
 
 
 Las referencias se reconstruyen directamente a partir de `CONDACTN`, sin reutilizar las agregaciones de las tablas finales.

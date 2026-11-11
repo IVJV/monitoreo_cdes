@@ -64,22 +64,41 @@ render_stage_assurance <- function(stage, audit_href = NULL) {
   passed <- isTRUE(stage$stage_passed)
   state_class <- if (passed) "passed" else "failed"
   state_label <- if (passed) "Controles superados" else "Controles no superados"
+  link_label <- if (passed) "Ver controles superados" else "Ver controles no superados"
 
-  # Only escape the URL attribute. The state label and classes are fixed text.
+  # The icon displays the stage status; the optional link opens its audit evidence.
+  # Accessible labels retain both meanings without repeating text in the heading.
+  state_symbol <- if (passed) {
+    '<path d="M8 12.2l2.7 2.7L16.4 9"/>'
+  } else {
+    '<path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/>'
+  }
+
+  icon_svg <- paste0(
+    '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" ',
+    'fill="none" stroke="currentColor" stroke-width="1.8" ',
+    'stroke-linecap="round" stroke-linejoin="round">',
+    '<circle cx="12" cy="12" r="9"/>', state_symbol, '</svg>'
+  )
+
   if (!is.null(audit_href)) {
     safe_href <- escape_stage_href(audit_href)
 
+    # Match the RA return icon: the nonbreaking space keeps the link attached
+    # to the last title word, even when the heading wraps over multiple lines.
     return(paste0(
-      '<a class="rap-stage-link" href="', safe_href,
-      '" aria-label="', state_label, '. Ver auditoría de la etapa">',
-      '<span class="rap-stage-assurance ', state_class, '">',
-      state_label, ' ↗</span></a>'
+      '&nbsp;<a class="rap-stage-link" href="', safe_href,
+      '" aria-label="', link_label, ' de la etapa"',
+      ' data-tooltip="', link_label, '">',
+      '<span class="rap-stage-assurance ', state_class, '" aria-hidden="true">',
+      icon_svg, '</span></a>'
     ))
   }
 
   paste0(
-    '<span class="rap-stage-assurance ', state_class, '">',
-    state_label, '</span>'
+    '&nbsp;<span class="rap-stage-assurance ', state_class,
+    '" role="img" aria-label="', state_label,
+    '" data-tooltip="', state_label, '">', icon_svg, '</span>'
   )
 }
 

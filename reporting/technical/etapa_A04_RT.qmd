@@ -1,4 +1,4 @@
-# Etapa A04 — Deciles de ingreso per cápita `r render_stage_assurance(report_context$stage_A04, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A04-controles-deciles")` {#etapa-A04 .rap-assurance-heading}
+# Etapa A04 — Deciles de ingreso per cápita`r render_stage_assurance(report_context$stage_A04, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A04-controles-deciles")` {#etapa-A04 .rap-assurance-heading}
 
 
 ```{r}

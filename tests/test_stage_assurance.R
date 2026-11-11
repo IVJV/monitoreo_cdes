@@ -19,29 +19,48 @@ make_stage <- function(passed) {
 
 href <- "../../audit/reporting/reporte_controles_internos.html#etapa-A01-controles-integridad"
 
-# Passing controls: green state with the exact stage-specific audit destination.
+# Passing controls: green inline icon, accessible state and precise audit link.
 ok <- render_stage_assurance(make_stage(TRUE), href)
 stopifnot(
-  grepl('class="rap-stage-link"', ok, fixed = TRUE),
+  grepl('&nbsp;<a class="rap-stage-link"', ok, fixed = TRUE),
   grepl('class="rap-stage-assurance passed"', ok, fixed = TRUE),
-  grepl("Controles superados", ok, fixed = TRUE),
-  grepl(paste0('href="', href, '"'), ok, fixed = TRUE)
+  grepl(paste0('href="', href, '"'), ok, fixed = TRUE),
+  grepl('aria-label="Ver controles superados de la etapa"', ok, fixed = TRUE),
+  grepl('data-tooltip="Ver controles superados"', ok, fixed = TRUE),
+  grepl('<svg ', ok, fixed = TRUE),
+  !grepl('Controles superados ↗', ok, fixed = TRUE),
+  !grepl('title="Controles superados"', ok, fixed = TRUE)
 )
 
-# Failed controls: unsuccessful state is never rendered as a success.
+# Failed controls: red icon and failure wording, never a success label.
 failed <- render_stage_assurance(make_stage(FALSE), href)
 stopifnot(
   grepl('class="rap-stage-assurance failed"', failed, fixed = TRUE),
-  grepl("Controles no superados", failed, fixed = TRUE),
+  grepl('data-tooltip="Ver controles no superados"', failed, fixed = TRUE),
+  grepl('aria-label="Ver controles no superados de la etapa"', failed, fixed = TRUE),
   !grepl('class="rap-stage-assurance passed"', failed, fixed = TRUE)
 )
 
-# Controls without a dedicated audit section: status but no artificial link.
+# Controls without a dedicated audit section: status icon, no artificial link.
 unlinked <- render_stage_assurance(make_stage(TRUE))
 stopifnot(
-  grepl("Controles superados", unlinked, fixed = TRUE),
-  !grepl("<a ", unlinked, fixed = TRUE)
+  grepl('&nbsp;<span class="rap-stage-assurance passed"', unlinked, fixed = TRUE),
+  grepl('role="img" aria-label="Controles superados"', unlinked, fixed = TRUE),
+  grepl('data-tooltip="Controles superados"', unlinked, fixed = TRUE),
+  grepl('<svg ', unlinked, fixed = TRUE),
+  !grepl('<a ', unlinked, fixed = TRUE)
 )
+
+# All RT headings omit a preceding breakable space; the generated &nbsp;
+# is the only separator between the final title word and its status icon.
+for (stage_code in c("A01", "A02", "A03", "A04", "A06", "B01", "B02", "C04")) {
+  qmd_path <- paste0("reporting/technical/etapa_", stage_code, "_RT.qmd")
+  stage_heading <- readLines(qmd_path, warn = FALSE, n = 1L)
+  stopifnot(
+    grepl('`r render_stage_assurance(', stage_heading, fixed = TRUE),
+    !grepl(' `r render_stage_assurance(', stage_heading, fixed = TRUE)
+  )
+}
 
 # Functional stages with no executed controls must not display a badge.
 functional_stage <- list(

@@ -1,4 +1,4 @@
-# Etapa A01 — Ingesta ENEMDU `r render_stage_assurance(report_context$stage_A01, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A01-controles-integridad")` {#etapa-A01 .rap-assurance-heading}
+# Etapa A01 — Ingesta ENEMDU`r render_stage_assurance(report_context$stage_A01, audit_href = "../../audit/reporting/reporte_controles_internos.html#etapa-A01-controles-integridad")` {#etapa-A01 .rap-assurance-heading}
 
 
 ```{r}
